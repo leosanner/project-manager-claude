@@ -1,9 +1,9 @@
-import type { Config } from "jest";
-import nextJest from "next/jest.js";
+const nextJest = require("next/jest.js");
 
 const createJestConfig = nextJest({ dir: "./" });
 
-const config: Config = {
+/** @type {import('jest').Config} */
+const config = {
   testEnvironment: "jest-environment-jsdom",
   globalSetup: "<rootDir>/jest.global-setup.ts",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
@@ -13,4 +13,4 @@ const config: Config = {
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/*.test.[jt]s?(x)"],
 };
 
-export default createJestConfig(config);
+module.exports = createJestConfig(config);
