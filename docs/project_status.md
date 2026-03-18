@@ -17,10 +17,16 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] DB connectivity check (`waitForDb`) wired into Jest `globalSetup`
 - [x] `.env.example` documenting all environment variables
 
-## In Progress
+## Completed (continued)
 
-- [ ] Prisma schema + client setup
-- [ ] Better Auth with Google OAuth
+- [x] Prisma 7 schema with Better Auth tables + app models (project, feature, feature_document, calendar_event)
+- [x] Prisma singleton client (`src/lib/db/prisma.ts`) using `@prisma/adapter-pg`
+- [x] Better Auth configured with Prisma adapter and Google OAuth (`src/lib/auth/auth.ts`)
+- [x] Auth catch-all API route (`src/app/api/auth/[...all]/route.ts`)
+- [x] `dev` script resets DB on each start (fresh state guaranteed)
+- [x] `scripts/wait-for-db.ts` runner for the dev flow
+
+## In Progress
 
 ## Pending
 
@@ -41,7 +47,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 | Level of GitHub Markdown compatibility required | Undecided |
 | Calendar sync strategy (push vs pull) | Undecided |
 | Feature-to-event mapping rules | Undecided |
-| Status enum definitions (projects + features) | Undecided |
+| Status enum definitions (projects + features) | Defined in schema: `ProjectStatus`, `FeatureStatus`, `FeaturePriority`, `CalendarSyncStatus` |
 | Dashboard design | Undecided |
 | Navigation structure | Undecided |
 

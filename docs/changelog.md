@@ -17,3 +17,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Jest configured with `next/jest` SWC transformer, `@testing-library/react`, and `@testing-library/jest-dom`
 - `waitForDb` utility that checks TCP connectivity to the DB before the test suite runs (Jest `globalSetup`)
 - `test` and `test:watch` npm scripts
+- Prisma 7 schema (`prisma/schema.prisma`) with Better Auth tables and app models; client generated to `src/generated/prisma`
+- Prisma singleton client (`src/lib/db/prisma.ts`) using `@prisma/adapter-pg`
+- Better Auth with Google OAuth and Prisma adapter (`src/lib/auth/auth.ts`)
+- Auth catch-all API route for Next.js App Router (`src/app/api/auth/[...all]/route.ts`)
+- `dev` script now resets volumes and starts a fresh DB on every run (`docker compose down -v && up -d && wait-for-db && next dev`)
+- `scripts/wait-for-db.ts` runner used in the dev flow
+- `.env.example` updated with `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
