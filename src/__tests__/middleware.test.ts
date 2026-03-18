@@ -3,10 +3,20 @@
  */
 import { NextRequest } from "next/server";
 
-// Mock better-auth/cookies
-const mockGetSessionCookie = jest.fn();
-jest.mock("better-auth/cookies", () => ({
-  getSessionCookie: (...args: unknown[]) => mockGetSessionCookie(...args),
+// Mock next/headers
+const mockHeaders = jest.fn();
+jest.mock("next/headers", () => ({
+  headers: () => mockHeaders(),
+}));
+
+// Mock auth
+const mockGetSession = jest.fn();
+jest.mock("@/lib/auth/auth", () => ({
+  auth: {
+    api: {
+      getSession: (...args: unknown[]) => mockGetSession(...args),
+    },
+  },
 }));
 
 // Import after mocks
@@ -18,7 +28,8 @@ function createRequest(path: string): NextRequest {
 
 describe("auth middleware", () => {
   beforeEach(() => {
-    mockGetSessionCookie.mockReset();
+    mockGetSession.mockReset();
+    mockHeaders.mockReturnValue(new Headers());
   });
 
   describe("route matcher", () => {
@@ -33,7 +44,7 @@ describe("auth middleware", () => {
 
   describe("unauthenticated user", () => {
     beforeEach(() => {
-      mockGetSessionCookie.mockReturnValue(null);
+      mockGetSession.mockResolvedValue(null);
     });
 
     it("redirects to /signin when accessing /dashboard", async () => {
@@ -67,7 +78,7 @@ describe("auth middleware", () => {
 
   describe("authenticated user", () => {
     beforeEach(() => {
-      mockGetSessionCookie.mockReturnValue("session-token-value");
+      mockGetSession.mockResolvedValue({ user: { id: "1", name: "Test" } });
     });
 
     it("allows access to /dashboard", async () => {

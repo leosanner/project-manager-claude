@@ -33,6 +33,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Tests for auth client, sign-in page component, and middleware (17 tests)
 - `@testing-library/user-event` dev dependency for simulating user interactions in tests
 
+### Changed
+- Upgraded auth middleware to validate sessions server-side via `auth.api.getSession()` instead of cookie-only check
+- Updated middleware tests to mock `auth.api.getSession` and `next/headers`
+
+### Security
+- Added security headers to `next.config.ts`: `X-Frame-Options`, `X-Content-Type-Options`, `Strict-Transport-Security`, `Referrer-Policy`, `Permissions-Policy`
+
 ### Fixed
 - Added Postgres service container with `pg_isready` health check to CI test workflow
 - Converted `jest.config.js` from CommonJS to ESM to fix lint error
