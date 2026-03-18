@@ -38,6 +38,15 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Middleware upgraded to server-side session validation via `auth.api.getSession()` (replaces cookie-only check)
 - [x] Security headers added to `next.config.ts` (X-Frame-Options, HSTS, nosniff, Referrer-Policy, Permissions-Policy)
 
+## Completed (design system foundation)
+
+- [x] GitHub-inspired design token system in CSS custom properties (light + dark mode)
+- [x] Fonts: Inter (sans) + JetBrains Mono (mono) via `next/font/google`
+- [x] Dark mode infrastructure with `next-themes` (class-based toggle, system preference, persisted state)
+- [x] `ThemeProvider` component wrapping app layout
+- [x] `ThemeToggle` component (light/dark/system) with Lucide icons
+- [x] Tailwind v4 `@theme inline` registration for all design tokens
+
 ## In Progress
 
 ## Pending

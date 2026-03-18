@@ -9,6 +9,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- GitHub-inspired design token system with full light/dark color palettes in CSS custom properties
+- Dark mode infrastructure via `next-themes` with class-based toggling, system preference detection, and persisted state
+- `ThemeProvider` component (`src/components/theme-provider.tsx`)
+- `ThemeToggle` component (`src/components/theme-toggle.tsx`) with light/dark/system modes using Lucide icons
+- Branding brainstorm document (`branding-brainstorm.md`) defining visual direction, color system, typography, and component specs
+- Tailwind v4 `@theme inline` registration for all design tokens (backgrounds, text, borders, accent, semantic colors, radius)
+- `lucide-react` and `next-themes` dependencies
+
+### Changed
+- Replaced Geist/Geist Mono fonts with Inter (sans) and JetBrains Mono (mono)
+- Rewrote `globals.css` from minimal boilerplate to full design token system
+- Wrapped app layout with `ThemeProvider` for dark mode support
+
+### Added (previous)
 - Initial project scaffold with Next.js 16, React 19, Tailwind CSS v4, TypeScript
 - Project brainstorm and documentation structure (`brainstorm.md`, `project_spec.md`, `docs/`)
 - Docker Compose with Postgres 16 for local development; configurable via `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT` env vars

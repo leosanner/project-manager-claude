@@ -7,7 +7,7 @@ Full-stack Next.js application with server-side API routes, a PostgreSQL databas
 ```
 ┌─────────────────────────────────────────────────────┐
 │                    Browser (Next.js)                 │
-│  React 19 + App Router + Tailwind CSS v4            │
+│  React 19 + App Router + Tailwind CSS v4 + next-themes│
 └────────────────────┬────────────────────────────────┘
                      │ HTTP / Server Actions
 ┌────────────────────▼────────────────────────────────┐
