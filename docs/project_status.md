@@ -25,7 +25,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Auth catch-all API route (`src/app/api/auth/[...all]/route.ts`)
 - [x] `dev` script resets DB on each start (fresh state guaranteed)
 - [x] `scripts/wait-for-db.ts` runner for the dev flow
-- [x] GitHub Actions CI: test workflow (`npm test` on push/PR to main)
+- [x] GitHub Actions CI: test workflow (`npm test` on push/PR to main) with Postgres service container and `pg_isready` health check
 - [x] GitHub Actions CI: lint workflow (`npm run lint` on push/PR to main)
 
 ## In Progress

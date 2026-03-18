@@ -1,4 +1,4 @@
-const nextJest = require("next/jest.js");
+import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({ dir: "./" });
 
@@ -13,4 +13,4 @@ const config = {
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/*.test.[jt]s?(x)"],
 };
 
-module.exports = createJestConfig(config);
+export default createJestConfig(config);
