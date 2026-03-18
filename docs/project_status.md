@@ -67,11 +67,22 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Design system docs split into `docs/design-system/` (principles, colors, typography, spacing-layout, components)
 - [x] Removed `brainstorm.md` and `branding-brainstorm.md` (content preserved in `project_spec.md` and `docs/design-system/`)
 
+## Completed (dashboard & project CRUD)
+
+- [x] Server-side session helper (`src/lib/auth/session.ts`)
+- [x] Project data access layer with CRUD operations (`src/lib/db/projects.ts`)
+- [x] Dashboard layout with header, user info, theme toggle, sign-out (`src/app/(dashboard)/layout.tsx`)
+- [x] Dashboard page with project grid and empty state (`src/app/(dashboard)/dashboard/page.tsx`)
+- [x] Server Actions for create, rename, and delete projects (`src/app/(dashboard)/dashboard/actions.ts`)
+- [x] Create project dialog (`create-project-button.tsx`)
+- [x] Project card with inline rename and delete confirmation (`project-card.tsx`)
+- [x] Tests for data access, server actions, and UI components (11 new tests, 49 total)
+- [x] `/commit` command updated to include CLAUDE.md in documentation checks
+
 ## In Progress
 
 ## Pending
 
-- [ ] Project CRUD
 - [ ] Feature CRUD
 - [ ] Markdown editor integration
 - [ ] Audio recording + Whisper transcription
@@ -89,7 +100,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 | Calendar sync strategy (push vs pull) | Undecided |
 | Feature-to-event mapping rules | Undecided |
 | Status enum definitions (projects + features) | Defined in schema: `ProjectStatus`, `FeatureStatus`, `FeaturePriority`, `CalendarSyncStatus` |
-| Dashboard design | Undecided |
+| Dashboard design | Implemented (project grid with cards) |
 | Navigation structure | Undecided |
 
 ## Known Risks

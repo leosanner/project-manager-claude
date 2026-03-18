@@ -89,12 +89,17 @@ prisma/
 ### Key files
 
 - `src/app/layout.tsx` — root layout, sets fonts and global metadata
-- `src/app/page.tsx` — home page (currently boilerplate)
+- `src/app/(dashboard)/layout.tsx` — dashboard layout with header, user info, sign-out
+- `src/app/(dashboard)/dashboard/page.tsx` — dashboard page (project list)
+- `src/app/(dashboard)/dashboard/actions.ts` — server actions for project CRUD
+- `src/lib/auth/session.ts` — server-side session helper (`getSessionOrThrow`)
+- `src/lib/db/projects.ts` — project data access layer (CRUD queries)
 - `src/app/globals.css` — global styles
 - `next.config.ts` — Next.js config
 
 ## Development Approach
 
 - **TDD** with Jest
-- API routes under `src/app/api/`
+- Server Actions for mutations (project CRUD uses `src/app/(dashboard)/dashboard/actions.ts`)
+- API routes under `src/app/api/` for external integrations
 - Business logic in `src/lib/` (db, auth, ai, calendar)
