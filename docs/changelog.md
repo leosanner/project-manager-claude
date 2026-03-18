@@ -24,3 +24,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `dev` script now resets volumes and starts a fresh DB on every run (`docker compose down -v && up -d && wait-for-db && next dev`)
 - `scripts/wait-for-db.ts` runner used in the dev flow
 - `.env.example` updated with `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
+- GitHub Actions workflow to run Jest tests on push and pull requests to `main`
+- GitHub Actions workflow to run ESLint on push and pull requests to `main`
+
+### Fixed
+- Added Postgres service container with `pg_isready` health check to CI test workflow
+- Converted `jest.config.js` from CommonJS to ESM to fix lint error
