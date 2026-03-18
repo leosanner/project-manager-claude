@@ -60,6 +60,11 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Sign-in page migrated to design tokens and shadcn `Button` component
 - [x] Home page replaced with branded placeholder using `ThemeToggle`
 
+## Completed (documentation)
+
+- [x] Design system docs split into `docs/design-system/` (principles, colors, typography, spacing-layout, components)
+- [x] Removed `brainstorm.md` and `branding-brainstorm.md` (content preserved in `project_spec.md` and `docs/design-system/`)
+
 ## In Progress
 
 ## Pending

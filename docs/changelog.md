@@ -19,6 +19,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Initialized shadcn/ui with Tailwind v4 CSS variables support (`components.json`)
 - `cn()` utility function (`src/lib/utils.ts`) using `clsx` and `tailwind-merge`
 - Core shadcn components: Button, Input, Card, Table, Tabs, Dialog, Badge (`src/components/ui/`)
+- Design system documentation split into `docs/design-system/`: principles, colors, typography, spacing-layout, components
+
+### Removed
+- Deleted `brainstorm.md` (content preserved in `project_spec.md`)
+- Deleted `branding-brainstorm.md` (content split into `docs/design-system/`)
 
 ### Changed
 - Migrated sign-in page to use design tokens and shadcn `Button` component
