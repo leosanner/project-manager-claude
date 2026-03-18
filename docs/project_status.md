@@ -47,6 +47,14 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] `ThemeToggle` component (light/dark/system) with Lucide icons
 - [x] Tailwind v4 `@theme inline` registration for all design tokens
 
+## Completed (component library)
+
+- [x] shadcn/ui initialized with Tailwind v4 and CSS variables (`components.json`)
+- [x] `cn()` utility (`src/lib/utils.ts`) with `clsx` + `tailwind-merge`
+- [x] Core shadcn components: Button, Input, Card, Table, Tabs, Dialog, Badge
+- [x] Brand tokens mapped into shadcn variable names (e.g. `--primary` → `--accent-primary`)
+- [x] Custom brand utilities renamed to avoid shadcn collisions (`--color-brand-*`)
+
 ## In Progress
 
 ## Pending

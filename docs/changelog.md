@@ -16,8 +16,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Branding brainstorm document (`branding-brainstorm.md`) defining visual direction, color system, typography, and component specs
 - Tailwind v4 `@theme inline` registration for all design tokens (backgrounds, text, borders, accent, semantic colors, radius)
 - `lucide-react` and `next-themes` dependencies
+- Initialized shadcn/ui with Tailwind v4 CSS variables support (`components.json`)
+- `cn()` utility function (`src/lib/utils.ts`) using `clsx` and `tailwind-merge`
+- Core shadcn components: Button, Input, Card, Table, Tabs, Dialog, Badge (`src/components/ui/`)
 
 ### Changed
+- Mapped brand design tokens into shadcn variable names for component compatibility
+- Renamed custom accent utilities to `--color-brand-*` to avoid shadcn naming collisions
 - Replaced Geist/Geist Mono fonts with Inter (sans) and JetBrains Mono (mono)
 - Rewrote `globals.css` from minimal boilerplate to full design token system
 - Wrapped app layout with `ThemeProvider` for dark mode support
