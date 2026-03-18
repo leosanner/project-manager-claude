@@ -38,6 +38,33 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Middleware upgraded to server-side session validation via `auth.api.getSession()` (replaces cookie-only check)
 - [x] Security headers added to `next.config.ts` (X-Frame-Options, HSTS, nosniff, Referrer-Policy, Permissions-Policy)
 
+## Completed (design system foundation)
+
+- [x] GitHub-inspired design token system in CSS custom properties (light + dark mode)
+- [x] Fonts: Inter (sans) + JetBrains Mono (mono) via `next/font/google`
+- [x] Dark mode infrastructure with `next-themes` (class-based toggle, system preference, persisted state)
+- [x] `ThemeProvider` component wrapping app layout
+- [x] `ThemeToggle` component (light/dark/system) with Lucide icons
+- [x] Tailwind v4 `@theme inline` registration for all design tokens
+
+## Completed (component library)
+
+- [x] shadcn/ui initialized with Tailwind v4 and CSS variables (`components.json`)
+- [x] `cn()` utility (`src/lib/utils.ts`) with `clsx` + `tailwind-merge`
+- [x] Core shadcn components: Button, Input, Card, Table, Tabs, Dialog, Badge
+- [x] Brand tokens mapped into shadcn variable names (e.g. `--primary` → `--accent-primary`)
+- [x] Custom brand utilities renamed to avoid shadcn collisions (`--color-brand-*`)
+
+## Completed (page migration)
+
+- [x] Sign-in page migrated to design tokens and shadcn `Button` component
+- [x] Home page replaced with branded placeholder using `ThemeToggle`
+
+## Completed (documentation)
+
+- [x] Design system docs split into `docs/design-system/` (principles, colors, typography, spacing-layout, components)
+- [x] Removed `brainstorm.md` and `branding-brainstorm.md` (content preserved in `project_spec.md` and `docs/design-system/`)
+
 ## In Progress
 
 ## Pending
