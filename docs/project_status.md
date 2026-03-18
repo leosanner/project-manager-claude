@@ -55,6 +55,11 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Brand tokens mapped into shadcn variable names (e.g. `--primary` → `--accent-primary`)
 - [x] Custom brand utilities renamed to avoid shadcn collisions (`--color-brand-*`)
 
+## Completed (page migration)
+
+- [x] Sign-in page migrated to design tokens and shadcn `Button` component
+- [x] Home page replaced with branded placeholder using `ThemeToggle`
+
 ## In Progress
 
 ## Pending

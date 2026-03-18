@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth/auth-client";
+import { Button } from "@/components/ui/button";
 
 export default function SignInPage() {
   const handleSignIn = () => {
@@ -11,16 +12,20 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-canvas">
       <div className="w-full max-w-sm space-y-6 text-center">
-        <h1 className="text-2xl font-bold">Project Manager</h1>
-        <h2 className="text-xl">Sign in</h2>
-        <button
+        <h1 className="text-2xl font-semibold text-fg-primary">
+          Project Manager
+        </h1>
+        <h2 className="text-xl text-fg-secondary">Sign in</h2>
+        <Button
+          variant="outline"
+          size="lg"
+          className="w-full"
           onClick={handleSignIn}
-          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 font-medium text-gray-700 shadow-sm hover:bg-gray-50"
         >
           Sign in with Google
-        </button>
+        </Button>
       </div>
     </div>
   );

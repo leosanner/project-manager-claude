@@ -21,6 +21,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Core shadcn components: Button, Input, Card, Table, Tabs, Dialog, Badge (`src/components/ui/`)
 
 ### Changed
+- Migrated sign-in page to use design tokens and shadcn `Button` component
+- Replaced boilerplate home page with branded placeholder including `ThemeToggle`
 - Mapped brand design tokens into shadcn variable names for component compatibility
 - Renamed custom accent utilities to `--color-brand-*` to avoid shadcn naming collisions
 - Replaced Geist/Geist Mono fonts with Inter (sans) and JetBrains Mono (mono)
