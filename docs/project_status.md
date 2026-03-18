@@ -28,6 +28,16 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] GitHub Actions CI: test workflow (`npm test` on push/PR to main) with Postgres service container and `pg_isready` health check
 - [x] GitHub Actions CI: lint workflow (`npm run lint` on push/PR to main)
 
+## Completed (auth UI)
+
+- [x] Better Auth client-side instance (`src/lib/auth/auth-client.ts`) using `better-auth/react`
+- [x] Sign-in page with Google OAuth button (`src/app/(auth)/signin/page.tsx`)
+- [x] Auth middleware for route protection (`src/middleware.ts`) — redirects unauthenticated users to `/signin`, authenticated users away from `/signin`
+- [x] Tests for auth client, sign-in page, and middleware (17 tests passing)
+- [x] Jest config updated to transform Better Auth ESM dependencies
+- [x] Middleware upgraded to server-side session validation via `auth.api.getSession()` (replaces cookie-only check)
+- [x] Security headers added to `next.config.ts` (X-Frame-Options, HSTS, nosniff, Referrer-Policy, Permissions-Policy)
+
 ## In Progress
 
 ## Pending
