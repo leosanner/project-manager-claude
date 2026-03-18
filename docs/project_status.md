@@ -2,9 +2,9 @@
 
 ## Current Phase
 
-**Phase 0 — Planning & Setup**
+**Phase 1 — Infrastructure Setup**
 
-The project is in the initial planning stage. The Next.js scaffold is in place. No application features have been implemented yet.
+Core infrastructure is being established: local DB, testing, and auth/ORM configuration.
 
 ## Completed
 
@@ -12,11 +12,21 @@ The project is in the initial planning stage. The Next.js scaffold is in place. 
 - [x] Project spec (`project_spec.md`)
 - [x] Architecture doc (`docs/architecture.md`)
 - [x] Next.js 16 scaffold with React 19, Tailwind CSS v4, TypeScript
+- [x] Docker Compose for local PostgreSQL (configurable via env vars)
+- [x] Jest configured with Next.js SWC transformer + `@testing-library/react`
+- [x] DB connectivity check (`waitForDb`) wired into Jest `globalSetup`
+- [x] `.env.example` documenting all environment variables
+
+## Completed (continued)
+
+- [x] Prisma 7 schema with Better Auth tables + app models (project, feature, feature_document, calendar_event)
+- [x] Prisma singleton client (`src/lib/db/prisma.ts`) using `@prisma/adapter-pg`
+- [x] Better Auth configured with Prisma adapter and Google OAuth (`src/lib/auth/auth.ts`)
+- [x] Auth catch-all API route (`src/app/api/auth/[...all]/route.ts`)
+- [x] `dev` script resets DB on each start (fresh state guaranteed)
+- [x] `scripts/wait-for-db.ts` runner for the dev flow
 
 ## In Progress
-
-- [ ] Database setup (Neon + Prisma schema)
-- [ ] Google OAuth (NextAuth.js)
 
 ## Pending
 
@@ -37,7 +47,7 @@ The project is in the initial planning stage. The Next.js scaffold is in place. 
 | Level of GitHub Markdown compatibility required | Undecided |
 | Calendar sync strategy (push vs pull) | Undecided |
 | Feature-to-event mapping rules | Undecided |
-| Status enum definitions (projects + features) | Undecided |
+| Status enum definitions (projects + features) | Defined in schema: `ProjectStatus`, `FeatureStatus`, `FeaturePriority`, `CalendarSyncStatus` |
 | Dashboard design | Undecided |
 | Navigation structure | Undecided |
 
