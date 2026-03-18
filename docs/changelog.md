@@ -8,6 +8,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Dashboard layout with header, user greeting, theme toggle, and sign-out button (`src/app/(dashboard)/layout.tsx`)
+- Dashboard page displaying project grid with empty state (`src/app/(dashboard)/dashboard/page.tsx`)
+- Server Actions for project CRUD: create, rename, delete (`src/app/(dashboard)/dashboard/actions.ts`)
+- Create project dialog component (`create-project-button.tsx`)
+- Project card component with inline rename and delete confirmation dialog (`project-card.tsx`)
+- Server-side session helper (`src/lib/auth/session.ts`)
+- Project data access layer with authorization-scoped queries (`src/lib/db/projects.ts`)
+- `ProjectSummary` type for serialized project data (`src/types/project.ts`)
+- Sign-out button component (`src/app/(dashboard)/components/sign-out-button.tsx`)
+- Tests for data access, server actions, dashboard page, and UI components (11 new tests)
+
+### Fixed
+- Added post-TCP settling delay in `wait-for-db.ts` to prevent Prisma migration failures when Postgres is still initializing
+
+### Changed
+- Updated `/commit` command to also check and update `CLAUDE.md` during documentation step
+- Updated `CLAUDE.md` with new key files and Server Actions development approach
+
 ### Fixed
 - Fixed stale cookie redirect loop: middleware now validates sessions via `fetch()` to `/api/auth/get-session` instead of only checking cookie presence; stale cookies are deleted automatically
 - Fixed "Failed to get session" crash on `/signin` by replacing DB-dependent `auth.api.getSession()` with Edge-compatible cookie check in middleware

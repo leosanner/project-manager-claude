@@ -36,6 +36,9 @@ export async function waitForDb(options: WaitForDbOptions = {}): Promise<void> {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       await checkTcpConnection(host, port);
+      // TCP port is open, but Postgres may still be initializing.
+      // Wait briefly for it to become ready for queries.
+      await new Promise((r) => setTimeout(r, 1000));
       console.log(`Database is up at ${host}:${port}`);
       return;
     } catch {

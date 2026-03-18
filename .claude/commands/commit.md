@@ -18,6 +18,7 @@ Follow these steps in order:
 
 Run `git diff HEAD` to understand all pending changes, then update documentation files as needed:
 
+- `CLAUDE.md` — update key files, architecture diagram, directory structure, or commands if the changes affect them
 - `docs/project_status.md` — move completed items, update In Progress/Pending
 - `docs/changelog.md` — add entries under `[Unreleased]` (Keep a Changelog format, past tense)
 - `docs/architecture.md` — only if the architecture actually changed
