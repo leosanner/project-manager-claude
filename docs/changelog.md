@@ -8,6 +8,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- Fixed "Failed to get session" crash on `/signin` by replacing DB-dependent `auth.api.getSession()` with Edge-compatible cookie check in middleware
+- Removed invalid `runtime: "nodejs"` from middleware config (not a valid Next.js middleware option)
+- Added explicit `baseURL` to auth client to prevent API discovery issues
+
+### Changed
+- Simplified middleware tests to use cookie-based auth simulation instead of mocking `next/headers` and `auth` internals
+
 ### Added
 - GitHub-inspired design token system with full light/dark color palettes in CSS custom properties
 - Dark mode infrastructure via `next-themes` with class-based toggling, system preference detection, and persisted state

@@ -35,7 +35,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Auth middleware for route protection (`src/middleware.ts`) — redirects unauthenticated users to `/signin`, authenticated users away from `/signin`
 - [x] Tests for auth client, sign-in page, and middleware (17 tests passing)
 - [x] Jest config updated to transform Better Auth ESM dependencies
-- [x] Middleware upgraded to server-side session validation via `auth.api.getSession()` (replaces cookie-only check)
+- [x] Middleware switched to Edge-compatible cookie-based session check (fixes Edge Runtime crash with `pg` driver)
 - [x] Security headers added to `next.config.ts` (X-Frame-Options, HSTS, nosniff, Referrer-Policy, Permissions-Policy)
 
 ## Completed (design system foundation)
