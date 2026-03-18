@@ -13,4 +13,15 @@ const config = {
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/*.test.[jt]s?(x)"],
 };
 
-export default createJestConfig(config);
+// next/jest adds its own transformIgnorePatterns that block ESM packages.
+// We override the resolved config to also allow better-auth through the transform.
+const baseConfig = createJestConfig(config);
+
+export default async () => {
+  const resolved = await baseConfig();
+  resolved.transformIgnorePatterns = [
+    "/node_modules/(?!(better-auth|@better-auth|nanostores|nanoevents)/)",
+    "^.+\\.module\\.(css|sass|scss)$",
+  ];
+  return resolved;
+};

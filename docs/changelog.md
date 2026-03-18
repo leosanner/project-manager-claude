@@ -27,6 +27,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - GitHub Actions workflow to run Jest tests on push and pull requests to `main`
 - GitHub Actions workflow to run ESLint on push and pull requests to `main`
 
+- Better Auth client-side instance (`src/lib/auth/auth-client.ts`) with `createAuthClient` from `better-auth/react`
+- Sign-in page (`src/app/(auth)/signin/page.tsx`) with "Sign in with Google" button using `signIn.social`
+- Auth middleware (`src/middleware.ts`) protecting `/dashboard` routes and redirecting authenticated users from `/signin`
+- Tests for auth client, sign-in page component, and middleware (17 tests)
+- `@testing-library/user-event` dev dependency for simulating user interactions in tests
+
 ### Fixed
 - Added Postgres service container with `pg_isready` health check to CI test workflow
 - Converted `jest.config.js` from CommonJS to ESM to fix lint error
+- Overrode `next/jest` `transformIgnorePatterns` to allow Better Auth and its ESM dependencies (`@better-auth`, `nanostores`, `nanoevents`) through the Jest transform
