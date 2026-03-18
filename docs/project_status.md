@@ -2,9 +2,9 @@
 
 ## Current Phase
 
-**Phase 0 — Planning & Setup**
+**Phase 1 — Infrastructure Setup**
 
-The project is in the initial planning stage. The Next.js scaffold is in place. No application features have been implemented yet.
+Core infrastructure is being established: local DB, testing, and auth/ORM configuration.
 
 ## Completed
 
@@ -12,11 +12,15 @@ The project is in the initial planning stage. The Next.js scaffold is in place. 
 - [x] Project spec (`project_spec.md`)
 - [x] Architecture doc (`docs/architecture.md`)
 - [x] Next.js 16 scaffold with React 19, Tailwind CSS v4, TypeScript
+- [x] Docker Compose for local PostgreSQL (configurable via env vars)
+- [x] Jest configured with Next.js SWC transformer + `@testing-library/react`
+- [x] DB connectivity check (`waitForDb`) wired into Jest `globalSetup`
+- [x] `.env.example` documenting all environment variables
 
 ## In Progress
 
-- [ ] Database setup (Neon + Prisma schema)
-- [ ] Google OAuth (NextAuth.js)
+- [ ] Prisma schema + client setup
+- [ ] Better Auth with Google OAuth
 
 ## Pending
 
