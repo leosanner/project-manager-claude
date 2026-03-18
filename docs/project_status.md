@@ -36,6 +36,8 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Tests for auth client, sign-in page, and middleware (17 tests passing)
 - [x] Jest config updated to transform Better Auth ESM dependencies
 - [x] Middleware switched to Edge-compatible cookie-based session check (fixes Edge Runtime crash with `pg` driver)
+- [x] Middleware validates sessions via fetch to `/api/auth/get-session`; stale cookies are auto-deleted
+- [x] Prisma migrations initialized and automated in `dev` and `build` scripts
 - [x] Security headers added to `next.config.ts` (X-Frame-Options, HSTS, nosniff, Referrer-Policy, Permissions-Policy)
 
 ## Completed (design system foundation)

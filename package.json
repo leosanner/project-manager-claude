@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "docker compose down -v && docker compose up -d && npx tsx scripts/wait-for-db.ts && next dev",
-    "build": "next build",
+    "dev": "docker compose down -v && docker compose up -d && npx tsx scripts/wait-for-db.ts && prisma migrate dev && next dev",
+    "build": "prisma migrate deploy && next build",
     "start": "next start",
     "lint": "eslint",
     "db:up": "docker compose up -d",
