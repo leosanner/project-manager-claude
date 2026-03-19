@@ -1,6 +1,12 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import Link from "next/link";
 import {
   Card,
@@ -23,7 +29,14 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { PencilIcon, Trash2Icon, CheckIcon, XIcon } from "lucide-react";
+import {
+  PencilIcon,
+  Trash2Icon,
+  CheckIcon,
+  XIcon,
+  ArrowRightIcon,
+  CalendarIcon,
+} from "lucide-react";
 import {
   updateFeatureTitleAction,
   deleteFeatureAction,
@@ -39,18 +52,18 @@ function useIsMounted() {
   return useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false
+    () => false,
   );
 }
 
-const statusVariant: Record<
+const statusConfig: Record<
   FeatureSummary["status"],
-  "default" | "secondary" | "outline"
+  { variant: "default" | "secondary" | "outline"; label: string; accent: string }
 > = {
-  PLANNED: "outline",
-  IN_PROGRESS: "default",
-  DONE: "secondary",
-  CANCELLED: "outline",
+  PLANNED: { variant: "outline", label: "Planned", accent: "bg-fg-muted" },
+  IN_PROGRESS: { variant: "default", label: "In Progress", accent: "bg-brand" },
+  DONE: { variant: "secondary", label: "Done", accent: "bg-success" },
+  CANCELLED: { variant: "outline", label: "Cancelled", accent: "bg-danger" },
 };
 
 const priorityVariant: Record<
@@ -74,6 +87,23 @@ function formatRelativeDate(iso: string) {
   return `${days}d ago`;
 }
 
+function formatDueDate(iso: string) {
+  const date = new Date(iso);
+  const now = new Date();
+  const diffMs = date.getTime() - now.getTime();
+  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  const formatted = date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+
+  if (diffDays < 0) return { text: `${formatted} (overdue)`, overdue: true };
+  if (diffDays === 0) return { text: `${formatted} (today)`, overdue: false };
+  if (diffDays <= 3) return { text: `${formatted} (${diffDays}d left)`, overdue: false };
+  return { text: formatted, overdue: false };
+}
+
 export function FeatureCard({
   feature,
   projectId,
@@ -94,7 +124,7 @@ export function FeatureCard({
       }
       return result;
     },
-    initialState
+    initialState,
   );
 
   const [deleteState, deleteAction, isDeleting] = useActionState(
@@ -105,7 +135,7 @@ export function FeatureCard({
       }
       return result;
     },
-    initialState
+    initialState,
   );
 
   useEffect(() => {
@@ -115,8 +145,12 @@ export function FeatureCard({
     }
   }, [isEditing]);
 
+  const { variant, label, accent } = statusConfig[feature.status];
+  const due = feature.dueDate && mounted ? formatDueDate(feature.dueDate) : null;
+
   return (
-    <Card>
+    <Card className="relative overflow-hidden">
+      <div className={`absolute left-0 top-0 h-full w-1 ${accent}`} />
       <CardHeader>
         {isEditing ? (
           <form action={updateAction} className="flex items-center gap-2">
@@ -151,9 +185,10 @@ export function FeatureCard({
             <CardTitle>
               <Link
                 href={`/projects/${projectId}/features/${feature.id}`}
-                className="hover:underline"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-brand"
               >
                 {feature.title}
+                <ArrowRightIcon className="h-3.5 w-3.5 opacity-0 transition-all group-hover/card:translate-x-0.5 group-hover/card:opacity-60" />
               </Link>
             </CardTitle>
             <CardAction>
@@ -162,6 +197,7 @@ export function FeatureCard({
                 size="icon-sm"
                 onClick={() => setIsEditing(true)}
                 aria-label="Edit feature title"
+                className="opacity-0 transition-opacity group-hover/card:opacity-100"
               >
                 <PencilIcon />
               </Button>
@@ -172,6 +208,7 @@ export function FeatureCard({
                       variant="ghost"
                       size="icon-sm"
                       aria-label="Delete feature"
+                      className="opacity-0 transition-opacity group-hover/card:opacity-100"
                     />
                   }
                 >
@@ -220,17 +257,23 @@ export function FeatureCard({
         )}
       </CardHeader>
       <CardContent>
-        <div className="flex items-center gap-3">
-          <Badge variant={statusVariant[feature.status]}>
-            {feature.status.toLowerCase().replace("_", " ")}
-          </Badge>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant={variant}>{label}</Badge>
           <Badge variant={priorityVariant[feature.priority]}>
             {feature.priority.toLowerCase()}
           </Badge>
+          {due && (
+            <span
+              className={`inline-flex items-center gap-1 text-xs ${due.overdue ? "font-medium text-danger" : "text-fg-muted"}`}
+            >
+              <CalendarIcon className="h-3 w-3" />
+              {due.text}
+            </span>
+          )}
         </div>
       </CardContent>
       <CardFooter>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-xs text-fg-muted">
           Updated {mounted ? formatRelativeDate(feature.updatedAt) : ""}
         </span>
         {updateState.error && (

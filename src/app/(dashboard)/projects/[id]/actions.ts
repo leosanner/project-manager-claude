@@ -21,6 +21,7 @@ export async function createFeatureAction(
 ): Promise<ActionState> {
   const title = (formData.get("title") as string)?.trim();
   const projectId = formData.get("projectId") as string;
+  const dueDateStr = formData.get("dueDate") as string | null;
 
   if (!title) {
     return { success: false, error: "Feature title is required" };
@@ -29,9 +30,11 @@ export async function createFeatureAction(
     return { success: false, error: "Project ID is required" };
   }
 
+  const dueDate = dueDateStr ? new Date(dueDateStr) : null;
+
   try {
     const { user } = await getSessionOrThrow();
-    await createFeature(projectId, user.id, { title });
+    await createFeature(projectId, user.id, { title, dueDate });
     revalidatePath(`/projects/${projectId}`);
     return { success: true };
   } catch {

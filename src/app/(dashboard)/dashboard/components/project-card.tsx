@@ -58,11 +58,11 @@ function useIsMounted() {
 
 const statusConfig: Record<
   ProjectSummary["status"],
-  { variant: "default" | "secondary" | "outline"; label: string }
+  { variant: "default" | "secondary" | "outline"; label: string; accent: string }
 > = {
-  ACTIVE: { variant: "default", label: "Active" },
-  COMPLETED: { variant: "secondary", label: "Completed" },
-  ARCHIVED: { variant: "outline", label: "Archived" },
+  ACTIVE: { variant: "default", label: "Active", accent: "bg-brand" },
+  COMPLETED: { variant: "secondary", label: "Completed", accent: "bg-success" },
+  ARCHIVED: { variant: "outline", label: "Archived", accent: "bg-fg-muted" },
 };
 
 function formatRelativeDate(iso: string) {
@@ -111,10 +111,11 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
     }
   }, [isEditing]);
 
-  const { variant, label } = statusConfig[project.status];
+  const { variant, label, accent } = statusConfig[project.status];
 
   return (
-    <Card>
+    <Card className="relative overflow-hidden">
+      <div className={`absolute left-0 top-0 h-full w-1 ${accent}`} />
       <CardHeader>
         {isEditing ? (
           <form action={updateAction} className="flex items-center gap-2">

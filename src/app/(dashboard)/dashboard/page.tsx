@@ -27,10 +27,10 @@ export default async function DashboardPage() {
       <div className="mb-10">
         <div className="mb-6 flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">
+            <h1 className="text-3xl font-bold tracking-tight">
               Welcome back, {firstName}
             </h1>
-            <p className="mt-1 text-sm text-fg-secondary">
+            <p className="mt-2 text-base text-fg-secondary">
               {serialized.length > 0
                 ? `You have ${serialized.length} project${serialized.length !== 1 ? "s" : ""}${activeCount > 0 ? ` — ${activeCount} active` : ""}`
                 : "Start by creating your first project"}
@@ -70,7 +70,7 @@ export default async function DashboardPage() {
 
       {/* Project grid */}
       {serialized.length > 0 ? (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {serialized.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}

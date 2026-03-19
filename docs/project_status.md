@@ -102,6 +102,11 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Added shadow token system with light/dark variants (`shadow-card`, `shadow-card-hover`, `shadow-header`)
 - [x] Switched fonts to Roboto/Roboto Mono, increased base font size
 - [x] Card component updated with border and hover transitions
+- [x] Deeper navy blue accent color, larger header/cards, colored status accent stripes
+- [x] Project detail page redesigned with same polish as dashboard
+- [x] Feature cards with hover effects, status accent stripes, reveal-on-hover actions
+- [x] Due date field added to feature creation (optional, uses existing `endDate` schema field)
+- [x] Feature cards display due date with smart formatting (overdue/today/countdown)
 
 ## In Progress
 

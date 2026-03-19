@@ -8,11 +8,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Due date field (optional) in create feature dialog, stored as `endDate` on the Feature model
+- Due date display on feature cards with smart formatting (overdue in red, countdown for upcoming)
+- Colored left accent stripe on project and feature cards based on status
+
 ### Changed
 - Redesigned dashboard layout with sticky header, backdrop blur, brand icon, and wider container
 - Redesigned dashboard page with personalized greeting, project stats bar, and improved empty state
 - Enhanced project cards with hover lift/shadow transitions, reveal-on-hover actions, and arrow indicator
 - Added `variant` prop to `CreateProjectButton` for inline usage in empty state
+- Applied dashboard design polish to project detail page (larger heading, improved empty state, wider grid)
+- Applied dashboard design polish to feature cards (hover effects, reveal-on-hover actions, arrow indicator)
+- Shifted accent color to deeper navy blue (`#1e3a5f` light / `#4a90d9` dark)
+- Increased header height, logo size, and card padding/title size across dashboard and project pages
 - Upgraded Card component with shadow tokens and hover transitions
 - Switched fonts from Inter/JetBrains Mono to Roboto/Roboto Mono
 - Increased base font size to 16.5px

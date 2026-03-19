@@ -13,12 +13,12 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen bg-canvas">
       <header className="sticky top-0 z-30 bg-background/80 shadow-header backdrop-blur-lg">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-white">
-              <LayoutGridIcon className="h-4 w-4" />
+        <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-white">
+              <LayoutGridIcon className="h-5 w-5" />
             </div>
-            <span className="text-base font-semibold tracking-tight">
+            <span className="text-lg font-bold tracking-tight">
               Project Manager
             </span>
           </div>
@@ -26,7 +26,7 @@ export default async function DashboardLayout({
             <span className="hidden text-sm font-medium text-fg-secondary sm:block">
               {user.name}
             </span>
-            <div className="h-4 w-px bg-border-muted" />
+            <div className="h-5 w-px bg-border-muted" />
             <ThemeToggle />
             <SignOutButton />
           </div>

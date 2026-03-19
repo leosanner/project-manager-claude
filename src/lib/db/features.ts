@@ -23,11 +23,12 @@ export async function getFeature(featureId: string, userId: string) {
 export async function createFeature(
   projectId: string,
   userId: string,
-  data: { title: string }
+  data: { title: string; dueDate?: Date | null }
 ) {
   return prisma.feature.create({
     data: {
       title: data.title,
+      endDate: data.dueDate ?? null,
       project: { connect: { id: projectId, userId } },
       document: { create: {} },
     },

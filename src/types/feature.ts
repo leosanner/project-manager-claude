@@ -3,6 +3,7 @@ export type FeatureSummary = {
   title: string;
   status: "PLANNED" | "IN_PROGRESS" | "DONE" | "CANCELLED";
   priority: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+  dueDate: string | null;
   createdAt: string;
   updatedAt: string;
 };
