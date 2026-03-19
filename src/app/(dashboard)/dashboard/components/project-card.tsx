@@ -1,6 +1,12 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import Link from "next/link";
 import {
   Card,
@@ -23,7 +29,14 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { PencilIcon, Trash2Icon, CheckIcon, XIcon } from "lucide-react";
+import {
+  PencilIcon,
+  Trash2Icon,
+  CheckIcon,
+  XIcon,
+  ArrowRightIcon,
+  LayersIcon,
+} from "lucide-react";
 import {
   updateProjectNameAction,
   deleteProjectAction,
@@ -39,17 +52,17 @@ function useIsMounted() {
   return useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false
+    () => false,
   );
 }
 
-const statusVariant: Record<
+const statusConfig: Record<
   ProjectSummary["status"],
-  "default" | "secondary" | "outline"
+  { variant: "default" | "secondary" | "outline"; label: string }
 > = {
-  ACTIVE: "default",
-  COMPLETED: "secondary",
-  ARCHIVED: "outline",
+  ACTIVE: { variant: "default", label: "Active" },
+  COMPLETED: { variant: "secondary", label: "Completed" },
+  ARCHIVED: { variant: "outline", label: "Archived" },
 };
 
 function formatRelativeDate(iso: string) {
@@ -77,7 +90,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
       }
       return result;
     },
-    initialState
+    initialState,
   );
 
   const [deleteState, deleteAction, isDeleting] = useActionState(
@@ -88,7 +101,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
       }
       return result;
     },
-    initialState
+    initialState,
   );
 
   useEffect(() => {
@@ -97,6 +110,8 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
       inputRef.current?.select();
     }
   }, [isEditing]);
+
+  const { variant, label } = statusConfig[project.status];
 
   return (
     <Card>
@@ -131,8 +146,12 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
         ) : (
           <>
             <CardTitle>
-              <Link href={`/projects/${project.id}`} className="hover:underline">
+              <Link
+                href={`/projects/${project.id}`}
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-brand"
+              >
                 {project.name}
+                <ArrowRightIcon className="h-3.5 w-3.5 opacity-0 transition-all group-hover/card:translate-x-0.5 group-hover/card:opacity-60" />
               </Link>
             </CardTitle>
             <CardAction>
@@ -141,6 +160,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
                 size="icon-sm"
                 onClick={() => setIsEditing(true)}
                 aria-label="Edit project name"
+                className="opacity-0 transition-opacity group-hover/card:opacity-100"
               >
                 <PencilIcon />
               </Button>
@@ -151,6 +171,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
                       variant="ghost"
                       size="icon-sm"
                       aria-label="Delete project"
+                      className="opacity-0 transition-opacity group-hover/card:opacity-100"
                     />
                   }
                 >
@@ -195,17 +216,16 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-3">
-          <Badge variant={statusVariant[project.status]}>
-            {project.status.toLowerCase()}
-          </Badge>
-          <span className="text-sm text-muted-foreground">
+          <Badge variant={variant}>{label}</Badge>
+          <span className="flex items-center gap-1.5 text-sm text-fg-secondary">
+            <LayersIcon className="h-3.5 w-3.5" />
             {project._count.features} feature
             {project._count.features !== 1 ? "s" : ""}
           </span>
         </div>
       </CardContent>
       <CardFooter>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-xs text-fg-muted">
           Updated {mounted ? formatRelativeDate(project.updatedAt) : ""}
         </span>
         {updateState.error && (

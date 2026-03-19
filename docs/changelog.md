@@ -8,6 +8,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+- Redesigned dashboard layout with sticky header, backdrop blur, brand icon, and wider container
+- Redesigned dashboard page with personalized greeting, project stats bar, and improved empty state
+- Enhanced project cards with hover lift/shadow transitions, reveal-on-hover actions, and arrow indicator
+- Added `variant` prop to `CreateProjectButton` for inline usage in empty state
+- Upgraded Card component with shadow tokens and hover transitions
+- Switched fonts from Inter/JetBrains Mono to Roboto/Roboto Mono
+- Increased base font size to 16.5px
+- Added card border using `border-border-default` instead of subtle ring
+- Added shadow token system (`shadow-card`, `shadow-card-hover`, `shadow-header`) with light/dark variants via CSS custom properties and Tailwind v4 `@utility`
+
 ### Added
 - Feature data access layer with ownership-scoped queries (`src/lib/db/features.ts`)
 - Feature types `FeatureSummary` and `FeatureDetail` (`src/types/feature.ts`)

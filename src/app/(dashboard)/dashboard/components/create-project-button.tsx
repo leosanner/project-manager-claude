@@ -17,7 +17,11 @@ import { createProjectAction, type ActionState } from "../actions";
 
 const initialState: ActionState = { success: false };
 
-export function CreateProjectButton() {
+export function CreateProjectButton({
+  variant = "default",
+}: {
+  variant?: "default" | "inline";
+}) {
   const [open, setOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -36,10 +40,16 @@ export function CreateProjectButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
-        render={<Button />}
+        render={
+          variant === "inline" ? (
+            <Button variant="outline" size="sm" />
+          ) : (
+            <Button />
+          )
+        }
       >
         <PlusIcon />
-        New Project
+        {variant === "inline" ? "Create a project" : "New Project"}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -50,12 +60,7 @@ export function CreateProjectButton() {
         </DialogHeader>
         <form ref={formRef} action={formAction}>
           <div className="grid gap-4">
-            <Input
-              name="name"
-              placeholder="Project name"
-              required
-              autoFocus
-            />
+            <Input name="name" placeholder="Project name" required autoFocus />
             {state.error && (
               <p className="text-sm text-danger">{state.error}</p>
             )}
