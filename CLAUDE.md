@@ -66,6 +66,7 @@ src/
   app/
     (auth)/
     (dashboard)/
+      calendar/             # Calendar page with monthly grid
       projects/[id]/features/[featureId]/
     api/
       auth/         # Better Auth handler
@@ -89,12 +90,14 @@ prisma/
 ### Key files
 
 - `src/app/layout.tsx` — root layout, sets fonts and global metadata
-- `src/app/(dashboard)/layout.tsx` — dashboard layout with header, user info, sign-out
+- `src/app/(dashboard)/layout.tsx` — dashboard layout with header, nav links, user info, sign-out
 - `src/app/(dashboard)/dashboard/page.tsx` — dashboard page (project list)
 - `src/app/(dashboard)/dashboard/actions.ts` — server actions for project CRUD
 - `src/lib/auth/session.ts` — server-side session helper (`getSessionOrThrow`)
 - `src/lib/db/projects.ts` — project data access layer (CRUD queries)
-- `src/lib/db/features.ts` — feature + document data access layer
+- `src/lib/db/features.ts` — feature + document data access layer (includes `getUserFeaturesWithDueDates`)
+- `src/app/(dashboard)/calendar/page.tsx` — calendar page (server component)
+- `src/app/(dashboard)/calendar/components/month-calendar.tsx` — month grid calendar (client component)
 - `src/app/(dashboard)/projects/[id]/page.tsx` — project detail page (feature list)
 - `src/app/(dashboard)/projects/[id]/actions.ts` — server actions for feature CRUD + document save
 - `src/app/(dashboard)/projects/[id]/features/[featureId]/page.tsx` — feature detail page with markdown editor

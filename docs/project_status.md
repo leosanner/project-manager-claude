@@ -43,7 +43,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 ## Completed (design system foundation)
 
 - [x] GitHub-inspired design token system in CSS custom properties (light + dark mode)
-- [x] Fonts: Inter (sans) + JetBrains Mono (mono) via `next/font/google`
+- [x] Fonts: Roboto (sans) + Roboto Mono (mono) via `next/font/google`
 - [x] Dark mode infrastructure with `next-themes` (class-based toggle, system preference, persisted state)
 - [x] `ThemeProvider` component wrapping app layout
 - [x] `ThemeToggle` component (light/dark/system) with Lucide icons
@@ -94,13 +94,34 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Not-found pages for project and feature routes
 - [x] `@uiw/react-md-editor` dependency added
 
+## Completed (dashboard design redesign)
+
+- [x] Redesigned dashboard layout: sticky header with backdrop blur, brand icon, wider container (`max-w-6xl`)
+- [x] Redesigned dashboard page: personalized greeting, project/active stats bar, improved empty state
+- [x] Enhanced project cards: hover lift/shadow, reveal-on-hover action buttons, arrow link indicator
+- [x] Added shadow token system with light/dark variants (`shadow-card`, `shadow-card-hover`, `shadow-header`)
+- [x] Switched fonts to Roboto/Roboto Mono, increased base font size
+- [x] Card component updated with border and hover transitions
+- [x] Deeper navy blue accent color, larger header/cards, colored status accent stripes
+- [x] Project detail page redesigned with same polish as dashboard
+- [x] Feature cards with hover effects, status accent stripes, reveal-on-hover actions
+- [x] Due date field added to feature creation (optional, uses existing `endDate` schema field)
+- [x] Feature cards display due date with smart formatting (overdue/today/countdown)
+
+## Completed (calendar view)
+
+- [x] Calendar page route (`/calendar`) with monthly grid showing features by due date
+- [x] `MonthCalendar` client component with month navigation, status-colored chips, overflow, and legend
+- [x] `getUserFeaturesWithDueDates` data access query (`src/lib/db/features.ts`)
+- [x] `CalendarFeature` type (`src/types/feature.ts`)
+- [x] Dashboard and Calendar nav links added to dashboard header
+
 ## In Progress
 
 ## Pending
 
 - [ ] Audio recording + Whisper transcription
 - [ ] LangGraph AI pipeline
-- [ ] Calendar view
 - [ ] Google Calendar sync
 
 ## Open Questions

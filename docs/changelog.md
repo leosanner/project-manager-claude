@@ -8,6 +8,36 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- Updated dashboard page tests to match redesigned UI (welcome heading, multiple New Project buttons, capitalized status labels)
+
+### Added
+- Calendar page (`/calendar`) with monthly grid view showing features on their due dates
+- `MonthCalendar` client component with prev/next/today navigation, status-colored feature chips, and overflow indicator
+- `CalendarFeature` type for serialized calendar data (`src/types/feature.ts`)
+- `getUserFeaturesWithDueDates` query fetching all features with due dates across projects (`src/lib/db/features.ts`)
+- Dashboard and Calendar nav links in the dashboard header
+
+### Added
+- Due date field (optional) in create feature dialog, stored as `endDate` on the Feature model
+- Due date display on feature cards with smart formatting (overdue in red, countdown for upcoming)
+- Colored left accent stripe on project and feature cards based on status
+
+### Changed
+- Redesigned dashboard layout with sticky header, backdrop blur, brand icon, and wider container
+- Redesigned dashboard page with personalized greeting, project stats bar, and improved empty state
+- Enhanced project cards with hover lift/shadow transitions, reveal-on-hover actions, and arrow indicator
+- Added `variant` prop to `CreateProjectButton` for inline usage in empty state
+- Applied dashboard design polish to project detail page (larger heading, improved empty state, wider grid)
+- Applied dashboard design polish to feature cards (hover effects, reveal-on-hover actions, arrow indicator)
+- Shifted accent color to deeper navy blue (`#1e3a5f` light / `#4a90d9` dark)
+- Increased header height, logo size, and card padding/title size across dashboard and project pages
+- Upgraded Card component with shadow tokens and hover transitions
+- Switched fonts from Inter/JetBrains Mono to Roboto/Roboto Mono
+- Increased base font size to 16.5px
+- Added card border using `border-border-default` instead of subtle ring
+- Added shadow token system (`shadow-card`, `shadow-card-hover`, `shadow-header`) with light/dark variants via CSS custom properties and Tailwind v4 `@utility`
+
 ### Added
 - Feature data access layer with ownership-scoped queries (`src/lib/db/features.ts`)
 - Feature types `FeatureSummary` and `FeatureDetail` (`src/types/feature.ts`)

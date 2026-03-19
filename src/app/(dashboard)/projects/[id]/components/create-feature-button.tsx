@@ -43,18 +43,37 @@ export function CreateFeatureButton({ projectId }: { projectId: string }) {
         <DialogHeader>
           <DialogTitle>Create Feature</DialogTitle>
           <DialogDescription>
-            Give your feature a title to get started.
+            Give your feature a title and optionally set a due date.
           </DialogDescription>
         </DialogHeader>
         <form ref={formRef} action={formAction}>
           <input type="hidden" name="projectId" value={projectId} />
           <div className="grid gap-4">
-            <Input
-              name="title"
-              placeholder="Feature title"
-              required
-              autoFocus
-            />
+            <div>
+              <label
+                htmlFor="feature-title"
+                className="mb-1.5 block text-sm font-medium"
+              >
+                Title
+              </label>
+              <Input
+                id="feature-title"
+                name="title"
+                placeholder="Feature title"
+                required
+                autoFocus
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="feature-due-date"
+                className="mb-1.5 block text-sm font-medium"
+              >
+                Due date{" "}
+                <span className="font-normal text-fg-muted">(optional)</span>
+              </label>
+              <Input id="feature-due-date" name="dueDate" type="date" />
+            </div>
             {state.error && (
               <p className="text-sm text-danger">{state.error}</p>
             )}

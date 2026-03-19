@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git commit:*), Bash(git log:*), Read, Edit
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git commit:*), Bash(git log:*), Bash(npm run lint:*), Bash(npm test:*), Read, Edit
 description: Update docs then create a git commit
 ---
 
@@ -28,7 +28,11 @@ Rules:
 - Only edit sections that are actually affected by the changes
 - Today's date: check `currentDate` in CLAUDE.md if needed
 
-### Step 2 — Commit
+### Step 2 — Run lint and tests
+
+Run `npm run lint` and `npm test`. If either fails, fix the issues and re-run until both pass. Do not proceed to committing until both pass cleanly.
+
+### Step 3 — Commit
 
 Stage all modified files (including the doc updates) and create a single commit.
 

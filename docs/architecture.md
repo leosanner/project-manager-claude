@@ -53,6 +53,7 @@ src/
   app/
     (auth)/
     (dashboard)/
+      calendar/           # Calendar page with monthly grid
       projects/
         [id]/
           features/

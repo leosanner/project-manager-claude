@@ -23,11 +23,12 @@ export async function getFeature(featureId: string, userId: string) {
 export async function createFeature(
   projectId: string,
   userId: string,
-  data: { title: string }
+  data: { title: string; dueDate?: Date | null }
 ) {
   return prisma.feature.create({
     data: {
       title: data.title,
+      endDate: data.dueDate ?? null,
       project: { connect: { id: projectId, userId } },
       document: { create: {} },
     },
@@ -66,5 +67,24 @@ export async function updateFeatureDocument(
 export async function deleteFeature(featureId: string, userId: string) {
   return prisma.feature.delete({
     where: { id: featureId, project: { userId } },
+  });
+}
+
+export async function getUserFeaturesWithDueDates(userId: string) {
+  return prisma.feature.findMany({
+    where: {
+      project: { userId },
+      endDate: { not: null },
+    },
+    select: {
+      id: true,
+      title: true,
+      status: true,
+      priority: true,
+      endDate: true,
+      projectId: true,
+      project: { select: { name: true } },
+    },
+    orderBy: { endDate: "asc" },
   });
 }

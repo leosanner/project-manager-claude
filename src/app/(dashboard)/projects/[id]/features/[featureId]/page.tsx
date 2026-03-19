@@ -26,6 +26,7 @@ export default async function FeaturePage({
     title: feature.title,
     status: feature.status,
     priority: feature.priority,
+    dueDate: feature.endDate?.toISOString() ?? null,
     createdAt: feature.createdAt.toISOString(),
     updatedAt: feature.updatedAt.toISOString(),
     document: feature.document

@@ -36,7 +36,7 @@ describe("DashboardPage", () => {
     const page = await DashboardPage();
     render(page);
     expect(
-      screen.getByRole("heading", { name: /your projects/i })
+      screen.getByRole("heading", { name: /welcome back/i })
     ).toBeInTheDocument();
   });
 
@@ -44,9 +44,8 @@ describe("DashboardPage", () => {
     mockGetUserProjects.mockResolvedValue([]);
     const page = await DashboardPage();
     render(page);
-    expect(
-      screen.getByRole("button", { name: /new project/i })
-    ).toBeInTheDocument();
+    const buttons = screen.getAllByRole("button", { name: /new project/i });
+    expect(buttons.length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders empty state when no projects", async () => {

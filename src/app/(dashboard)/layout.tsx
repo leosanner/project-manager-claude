@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { getSessionOrThrow } from "@/lib/auth/session";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SignOutButton } from "./components/sign-out-button";
+import { LayoutGridIcon, CalendarDaysIcon } from "lucide-react";
 
 export default async function DashboardLayout({
   children,
@@ -11,19 +13,43 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-canvas">
-      <header className="border-b bg-background">
-        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
-          <span className="text-lg font-semibold">Project Manager</span>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">
+      <header className="sticky top-0 z-30 bg-background/80 shadow-header backdrop-blur-lg">
+        <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-white">
+              <LayoutGridIcon className="h-5 w-5" />
+            </div>
+            <span className="text-lg font-bold tracking-tight">
+              Project Manager
+            </span>
+          </div>
+          <nav className="flex items-center gap-1">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
+            >
+              <LayoutGridIcon className="h-4 w-4" />
+              Dashboard
+            </Link>
+            <Link
+              href="/calendar"
+              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
+            >
+              <CalendarDaysIcon className="h-4 w-4" />
+              Calendar
+            </Link>
+          </nav>
+          <div className="flex items-center gap-3">
+            <span className="hidden text-sm font-medium text-fg-secondary sm:block">
               {user.name}
             </span>
+            <div className="h-5 w-px bg-border-muted" />
             <ThemeToggle />
             <SignOutButton />
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+      <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
     </div>
   );
 }
