@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 jest.mock("@/lib/auth/session", () => ({
   getSessionOrThrow: jest.fn().mockResolvedValue({
-    user: { id: "user-1", name: "Test User" },
+    user: { id: "user-1", name: "Test User", image: null },
     session: { id: "session-1" },
   }),
 }));
@@ -36,7 +36,7 @@ describe("DashboardPage", () => {
     const page = await DashboardPage();
     render(page);
     expect(
-      screen.getByRole("heading", { name: /welcome back/i })
+      screen.getByRole("heading", { name: /project dashboard/i })
     ).toBeInTheDocument();
   });
 
@@ -79,5 +79,30 @@ describe("DashboardPage", () => {
     expect(screen.getAllByTestId("project-card")).toHaveLength(2);
     expect(screen.getByText("Project Alpha")).toBeInTheDocument();
     expect(screen.getByText("Project Beta")).toBeInTheDocument();
+  });
+
+  it("renders the View Calendar link", async () => {
+    mockGetUserProjects.mockResolvedValue([]);
+    const page = await DashboardPage();
+    render(page);
+    expect(screen.getByText(/view calendar/i)).toBeInTheDocument();
+  });
+
+  it("shows active project count in subtitle", async () => {
+    mockGetUserProjects.mockResolvedValue([
+      {
+        id: "p1",
+        name: "Project Alpha",
+        status: "ACTIVE",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        _count: { features: 2 },
+      },
+    ]);
+    const page = await DashboardPage();
+    render(page);
+    expect(
+      screen.getByText(/managing 1 active project\./i)
+    ).toBeInTheDocument();
   });
 });

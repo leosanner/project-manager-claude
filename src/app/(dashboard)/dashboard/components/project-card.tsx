@@ -12,16 +12,12 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardAction,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -30,12 +26,20 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   PencilIcon,
   Trash2Icon,
   CheckIcon,
   XIcon,
-  ArrowRightIcon,
-  LayersIcon,
+  EllipsisVerticalIcon,
+  FolderIcon,
+  CircleCheckIcon,
+  ArchiveIcon,
 } from "lucide-react";
 import {
   updateProjectNameAction,
@@ -58,11 +62,35 @@ function useIsMounted() {
 
 const statusConfig: Record<
   ProjectSummary["status"],
-  { variant: "default" | "secondary" | "outline"; label: string; accent: string }
+  {
+    label: string;
+    accent: string;
+    iconBg: string;
+    progressWidth: string;
+    Icon: React.ComponentType<{ className?: string }>;
+  }
 > = {
-  ACTIVE: { variant: "default", label: "Active", accent: "bg-brand" },
-  COMPLETED: { variant: "secondary", label: "Completed", accent: "bg-success" },
-  ARCHIVED: { variant: "outline", label: "Archived", accent: "bg-fg-muted" },
+  ACTIVE: {
+    label: "Active",
+    accent: "bg-brand",
+    iconBg: "bg-brand/10 text-brand",
+    progressWidth: "60%",
+    Icon: FolderIcon,
+  },
+  COMPLETED: {
+    label: "Completed",
+    accent: "bg-success",
+    iconBg: "bg-success/10 text-success",
+    progressWidth: "100%",
+    Icon: CircleCheckIcon,
+  },
+  ARCHIVED: {
+    label: "Archived",
+    accent: "bg-fg-muted",
+    iconBg: "bg-muted text-fg-muted",
+    progressWidth: "0%",
+    Icon: ArchiveIcon,
+  },
 };
 
 function formatRelativeDate(iso: string) {
@@ -111,11 +139,12 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
     }
   }, [isEditing]);
 
-  const { variant, label, accent } = statusConfig[project.status];
+  const { label, accent, iconBg, progressWidth, Icon } =
+    statusConfig[project.status];
+  const featureCount = project._count.features;
 
   return (
     <Card className="relative overflow-hidden">
-      <div className={`absolute left-0 top-0 h-full w-1 ${accent}`} />
       <CardHeader>
         {isEditing ? (
           <form action={updateAction} className="flex items-center gap-2">
@@ -146,93 +175,105 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
           </form>
         ) : (
           <>
-            <CardTitle>
-              <Link
-                href={`/projects/${project.id}`}
-                className="inline-flex items-center gap-1.5 transition-colors hover:text-brand"
+            <div className="flex items-center gap-3">
+              <div
+                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${iconBg}`}
               >
-                {project.name}
-                <ArrowRightIcon className="h-3.5 w-3.5 opacity-0 transition-all group-hover/card:translate-x-0.5 group-hover/card:opacity-60" />
-              </Link>
-            </CardTitle>
-            <CardAction>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={() => setIsEditing(true)}
-                aria-label="Edit project name"
-                className="opacity-0 transition-opacity group-hover/card:opacity-100"
-              >
-                <PencilIcon />
-              </Button>
-              <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-                <DialogTrigger
-                  render={
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label="Delete project"
-                      className="opacity-0 transition-opacity group-hover/card:opacity-100"
-                    />
-                  }
-                >
-                  <Trash2Icon />
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Delete Project</DialogTitle>
-                    <DialogDescription>
-                      Are you sure you want to delete &ldquo;{project.name}
-                      &rdquo;? This will remove the project and all its
-                      features. This action cannot be undone.
-                    </DialogDescription>
-                  </DialogHeader>
-                  {deleteState.error && (
-                    <p className="text-sm text-danger">{deleteState.error}</p>
-                  )}
-                  <DialogFooter>
-                    <DialogClose render={<Button variant="outline" />}>
-                      Cancel
-                    </DialogClose>
-                    <form action={deleteAction}>
-                      <input
-                        type="hidden"
-                        name="projectId"
-                        value={project.id}
-                      />
+                <Icon className="h-5 w-5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <CardTitle>
+                  <Link
+                    href={`/projects/${project.id}`}
+                    className="transition-colors hover:text-brand"
+                  >
+                    {project.name}
+                  </Link>
+                </CardTitle>
+                <p className="mt-0.5 text-sm text-fg-secondary">
+                  {featureCount} feature{featureCount !== 1 ? "s" : ""} &middot;{" "}
+                  {label}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="text-xs text-fg-muted">
+                  {mounted ? formatRelativeDate(project.updatedAt) : ""}
+                </span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    render={
                       <Button
-                        type="submit"
-                        variant="destructive"
-                        disabled={isDeleting}
-                      >
-                        {isDeleting ? "Deleting..." : "Delete"}
-                      </Button>
-                    </form>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </CardAction>
+                        variant="ghost"
+                        size="icon-sm"
+                        aria-label="Project options"
+                        className="opacity-0 transition-opacity group-hover/card:opacity-100"
+                      />
+                    }
+                  >
+                    <EllipsisVerticalIcon className="h-4 w-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => setIsEditing(true)}>
+                      <PencilIcon className="mr-2 h-4 w-4" />
+                      Edit name
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setDeleteOpen(true)}
+                      className="text-danger focus:text-danger"
+                    >
+                      <Trash2Icon className="mr-2 h-4 w-4" />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
           </>
         )}
       </CardHeader>
       <CardContent>
-        <div className="flex items-center gap-3">
-          <Badge variant={variant}>{label}</Badge>
-          <span className="flex items-center gap-1.5 text-sm text-fg-secondary">
-            <LayersIcon className="h-3.5 w-3.5" />
-            {project._count.features} feature
-            {project._count.features !== 1 ? "s" : ""}
-          </span>
+        <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+          <div
+            className={`h-full rounded-full ${accent} transition-all`}
+            style={{ width: progressWidth }}
+          />
         </div>
-      </CardContent>
-      <CardFooter>
-        <span className="text-xs text-fg-muted">
-          Updated {mounted ? formatRelativeDate(project.updatedAt) : ""}
-        </span>
         {updateState.error && (
-          <span className="text-xs text-danger">{updateState.error}</span>
+          <p className="mt-2 text-xs text-danger">{updateState.error}</p>
         )}
-      </CardFooter>
+      </CardContent>
+
+      {/* Delete dialog */}
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Project</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete &ldquo;{project.name}
+              &rdquo;? This will remove the project and all its features. This
+              action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          {deleteState.error && (
+            <p className="text-sm text-danger">{deleteState.error}</p>
+          )}
+          <DialogFooter>
+            <DialogClose render={<Button variant="outline" />}>
+              Cancel
+            </DialogClose>
+            <form action={deleteAction}>
+              <input type="hidden" name="projectId" value={project.id} />
+              <Button
+                type="submit"
+                variant="destructive"
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </Button>
+            </form>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }

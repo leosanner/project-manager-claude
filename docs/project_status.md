@@ -116,6 +116,17 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] `CalendarFeature` type (`src/types/feature.ts`)
 - [x] Dashboard and Calendar nav links added to dashboard header
 
+## Completed (sidebar & dashboard redesign)
+
+- [x] Left sidebar navigation with user avatar, nav links (Dashboard, Calendar, Team/Settings disabled), Help placeholder, and Sign Out
+- [x] Mobile-responsive sidebar with hamburger toggle and slide-in overlay
+- [x] Simplified top header with search input, notification bell, user avatar, and theme toggle
+- [x] Dashboard heading changed to "Project Dashboard" with "View Calendar" button
+- [x] Project cards redesigned with status icon, subtitle line, progress bar, and 3-dot dropdown menu
+- [x] Dropdown menu shadcn component added
+- [x] Google profile image domain configured in `next.config.ts`
+- [x] Tests updated for new UI structure (51 tests passing)
+
 ## In Progress
 
 ## Pending

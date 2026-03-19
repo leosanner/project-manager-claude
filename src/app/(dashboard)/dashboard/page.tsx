@@ -1,9 +1,10 @@
+import Link from "next/link";
 import { getSessionOrThrow } from "@/lib/auth/session";
 import { getUserProjects } from "@/lib/db/projects";
 import { CreateProjectButton } from "./components/create-project-button";
 import { ProjectCard } from "./components/project-card";
 import type { ProjectSummary } from "@/types/project";
-import { FolderOpenIcon, LayersIcon } from "lucide-react";
+import { FolderOpenIcon, CalendarDaysIcon } from "lucide-react";
 
 export default async function DashboardPage() {
   const { user } = await getSessionOrThrow();
@@ -19,53 +20,33 @@ export default async function DashboardPage() {
   }));
 
   const activeCount = serialized.filter((p) => p.status === "ACTIVE").length;
-  const firstName = user.name?.split(" ")[0] ?? "there";
 
   return (
     <div>
       {/* Page header */}
       <div className="mb-10">
-        <div className="mb-6 flex items-start justify-between">
+        <div className="flex items-start justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              Welcome back, {firstName}
+              Project Dashboard
             </h1>
             <p className="mt-2 text-base text-fg-secondary">
               {serialized.length > 0
-                ? `You have ${serialized.length} project${serialized.length !== 1 ? "s" : ""}${activeCount > 0 ? ` — ${activeCount} active` : ""}`
+                ? `You are currently managing ${activeCount} active project${activeCount !== 1 ? "s" : ""}.`
                 : "Start by creating your first project"}
             </p>
           </div>
-          <CreateProjectButton />
-        </div>
-
-        {/* Stats bar */}
-        {serialized.length > 0 && (
-          <div className="flex gap-6 border-b border-border-subtle pb-6">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/10">
-                <LayersIcon className="h-4 w-4 text-brand" />
-              </div>
-              <div>
-                <p className="text-lg font-semibold leading-tight">
-                  {serialized.length}
-                </p>
-                <p className="text-xs text-fg-muted">Projects</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-success/10">
-                <div className="h-2 w-2 rounded-full bg-success" />
-              </div>
-              <div>
-                <p className="text-lg font-semibold leading-tight">
-                  {activeCount}
-                </p>
-                <p className="text-xs text-fg-muted">Active</p>
-              </div>
-            </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/calendar"
+              className="inline-flex items-center gap-2 rounded-lg border border-border-muted px-4 py-2 text-sm font-medium text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
+            >
+              <CalendarDaysIcon className="h-4 w-4" />
+              View Calendar
+            </Link>
+            <CreateProjectButton />
           </div>
-        )}
+        </div>
       </div>
 
       {/* Project grid */}

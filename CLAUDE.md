@@ -90,7 +90,8 @@ prisma/
 ### Key files
 
 - `src/app/layout.tsx` — root layout, sets fonts and global metadata
-- `src/app/(dashboard)/layout.tsx` — dashboard layout with header, nav links, user info, sign-out
+- `src/components/sidebar.tsx` — left sidebar navigation with user info, nav links, sign-out (client component)
+- `src/app/(dashboard)/layout.tsx` — dashboard layout with sidebar, simplified top header, search, notifications
 - `src/app/(dashboard)/dashboard/page.tsx` — dashboard page (project list)
 - `src/app/(dashboard)/dashboard/actions.ts` — server actions for project CRUD
 - `src/lib/auth/session.ts` — server-side session helper (`getSessionOrThrow`)

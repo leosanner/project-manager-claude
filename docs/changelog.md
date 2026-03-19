@@ -8,6 +8,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Left sidebar navigation component (`src/components/sidebar.tsx`) with user avatar, nav links, sign-out, and mobile slide-in toggle
+- Dropdown menu shadcn component (`src/components/ui/dropdown-menu.tsx`)
+- Search input and notification bell placeholders in top header
+- "View Calendar" button on dashboard page
+- Progress bar on project cards showing status-based completion
+- 3-dot dropdown menu on project cards (replaces hover-reveal edit/delete buttons)
+- Status icon circle on project cards (folder, checkmark, archive icons)
+- Allowed Google profile image domain (`lh3.googleusercontent.com`) in `next.config.ts`
+
+### Changed
+- Restructured dashboard layout from top-only header to sidebar + simplified top bar
+- Dashboard heading changed from "Welcome back, {name}" to "Project Dashboard"
+- Dashboard subtitle simplified to active project count
+- Removed stats bar section from dashboard page
+- Project cards redesigned: removed colored left border, merged badge + feature count into subtitle line
+- Content area offset by sidebar width on large screens, full-width on mobile
+- Moved sign-out from top header to sidebar bottom section
+
 ### Fixed
 - Updated dashboard page tests to match redesigned UI (welcome heading, multiple New Project buttons, capitalized status labels)
 
