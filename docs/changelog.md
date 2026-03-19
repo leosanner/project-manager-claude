@@ -9,6 +9,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Calendar page (`/calendar`) with monthly grid view showing features on their due dates
+- `MonthCalendar` client component with prev/next/today navigation, status-colored feature chips, and overflow indicator
+- `CalendarFeature` type for serialized calendar data (`src/types/feature.ts`)
+- `getUserFeaturesWithDueDates` query fetching all features with due dates across projects (`src/lib/db/features.ts`)
+- Dashboard and Calendar nav links in the dashboard header
+
+### Added
 - Due date field (optional) in create feature dialog, stored as `endDate` on the Feature model
 - Due date display on feature cards with smart formatting (overdue in red, countdown for upcoming)
 - Colored left accent stripe on project and feature cards based on status

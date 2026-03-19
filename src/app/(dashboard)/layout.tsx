@@ -1,7 +1,8 @@
+import Link from "next/link";
 import { getSessionOrThrow } from "@/lib/auth/session";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SignOutButton } from "./components/sign-out-button";
-import { LayoutGridIcon } from "lucide-react";
+import { LayoutGridIcon, CalendarDaysIcon } from "lucide-react";
 
 export default async function DashboardLayout({
   children,
@@ -22,6 +23,22 @@ export default async function DashboardLayout({
               Project Manager
             </span>
           </div>
+          <nav className="flex items-center gap-1">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
+            >
+              <LayoutGridIcon className="h-4 w-4" />
+              Dashboard
+            </Link>
+            <Link
+              href="/calendar"
+              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
+            >
+              <CalendarDaysIcon className="h-4 w-4" />
+              Calendar
+            </Link>
+          </nav>
           <div className="flex items-center gap-3">
             <span className="hidden text-sm font-medium text-fg-secondary sm:block">
               {user.name}

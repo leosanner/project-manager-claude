@@ -14,3 +14,13 @@ export type FeatureDetail = FeatureSummary & {
     markdownContent: string;
   } | null;
 };
+
+export type CalendarFeature = {
+  id: string;
+  title: string;
+  status: "PLANNED" | "IN_PROGRESS" | "DONE" | "CANCELLED";
+  priority: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+  dueDate: string;
+  projectId: string;
+  projectName: string;
+};

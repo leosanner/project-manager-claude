@@ -69,3 +69,22 @@ export async function deleteFeature(featureId: string, userId: string) {
     where: { id: featureId, project: { userId } },
   });
 }
+
+export async function getUserFeaturesWithDueDates(userId: string) {
+  return prisma.feature.findMany({
+    where: {
+      project: { userId },
+      endDate: { not: null },
+    },
+    select: {
+      id: true,
+      title: true,
+      status: true,
+      priority: true,
+      endDate: true,
+      projectId: true,
+      project: { select: { name: true } },
+    },
+    orderBy: { endDate: "asc" },
+  });
+}
