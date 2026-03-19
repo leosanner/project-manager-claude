@@ -1,0 +1,105 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { getSessionOrThrow } from "@/lib/auth/session";
+import {
+  createFeature,
+  updateFeatureTitle,
+  updateFeatureDocument,
+  deleteFeature,
+} from "@/lib/db/features";
+
+export type ActionState = {
+  success: boolean;
+  error?: string;
+};
+
+export async function createFeatureAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const title = (formData.get("title") as string)?.trim();
+  const projectId = formData.get("projectId") as string;
+
+  if (!title) {
+    return { success: false, error: "Feature title is required" };
+  }
+  if (!projectId) {
+    return { success: false, error: "Project ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await createFeature(projectId, user.id, { title });
+    revalidatePath(`/projects/${projectId}`);
+    return { success: true };
+  } catch {
+    return { success: false, error: "Failed to create feature" };
+  }
+}
+
+export async function updateFeatureTitleAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const featureId = formData.get("featureId") as string;
+  const title = (formData.get("title") as string)?.trim();
+  const projectId = formData.get("projectId") as string;
+
+  if (!featureId || !title) {
+    return { success: false, error: "Feature ID and title are required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await updateFeatureTitle(featureId, user.id, title);
+    revalidatePath(`/projects/${projectId}`);
+    return { success: true };
+  } catch {
+    return { success: false, error: "Failed to update feature" };
+  }
+}
+
+export async function deleteFeatureAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const featureId = formData.get("featureId") as string;
+  const projectId = formData.get("projectId") as string;
+
+  if (!featureId) {
+    return { success: false, error: "Feature ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await deleteFeature(featureId, user.id);
+  } catch {
+    return { success: false, error: "Failed to delete feature" };
+  }
+
+  redirect(`/projects/${projectId}`);
+}
+
+export async function saveDocumentAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const featureId = formData.get("featureId") as string;
+  const content = formData.get("content") as string;
+  const projectId = formData.get("projectId") as string;
+
+  if (!featureId) {
+    return { success: false, error: "Feature ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await updateFeatureDocument(featureId, user.id, content ?? "");
+    revalidatePath(`/projects/${projectId}/features/${featureId}`);
+    return { success: true };
+  } catch {
+    return { success: false, error: "Failed to save document" };
+  }
+}

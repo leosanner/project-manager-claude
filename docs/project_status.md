@@ -79,12 +79,25 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Tests for data access, server actions, and UI components (11 new tests, 49 total)
 - [x] `/commit` command updated to include CLAUDE.md in documentation checks
 
+## Completed (feature CRUD & markdown editor)
+
+- [x] Feature data access layer with ownership-scoped queries (`src/lib/db/features.ts`)
+- [x] Feature types (`FeatureSummary`, `FeatureDetail`) in `src/types/feature.ts`
+- [x] Server Actions for feature create, rename, delete, and document save (`src/app/(dashboard)/projects/[id]/actions.ts`)
+- [x] Project detail page with feature grid and empty state (`src/app/(dashboard)/projects/[id]/page.tsx`)
+- [x] Feature card component with inline rename, delete dialog, status/priority badges (`feature-card.tsx`)
+- [x] Create feature dialog (`create-feature-button.tsx`)
+- [x] Project card now links to project detail page
+- [x] Feature detail page with breadcrumb navigation (`src/app/(dashboard)/projects/[id]/features/[featureId]/page.tsx`)
+- [x] Feature header with inline title editing and delete with server-side redirect (`feature-header.tsx`)
+- [x] GitHub-style markdown editor using `@uiw/react-md-editor` with dirty tracking and save (`feature-editor.tsx`)
+- [x] Not-found pages for project and feature routes
+- [x] `@uiw/react-md-editor` dependency added
+
 ## In Progress
 
 ## Pending
 
-- [ ] Feature CRUD
-- [ ] Markdown editor integration
 - [ ] Audio recording + Whisper transcription
 - [ ] LangGraph AI pipeline
 - [ ] Calendar view
@@ -94,20 +107,20 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 
 | Question | Status |
 |---|---|
-| Markdown editor library choice | Undecided |
-| Real-time preview vs split view | Undecided |
-| Level of GitHub Markdown compatibility required | Undecided |
+| Markdown editor library choice | Decided: `@uiw/react-md-editor` (GitHub-style toolbar, write/preview toggle) |
+| Real-time preview vs split view | Decided: write/preview toggle (built into `@uiw/react-md-editor`) |
+| Level of GitHub Markdown compatibility required | Decided: GFM support via `remark-gfm` (bundled with editor) |
 | Calendar sync strategy (push vs pull) | Undecided |
 | Feature-to-event mapping rules | Undecided |
 | Status enum definitions (projects + features) | Defined in schema: `ProjectStatus`, `FeatureStatus`, `FeaturePriority`, `CalendarSyncStatus` |
 | Dashboard design | Implemented (project grid with cards) |
-| Navigation structure | Undecided |
+| Navigation structure | Implemented: Dashboard → Project → Feature (breadcrumb nav) |
 
 ## Known Risks
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| Markdown editor UX complexity | High | Evaluate existing libraries early |
+| Markdown editor UX complexity | High | Mitigated: using `@uiw/react-md-editor` with built-in toolbar |
 | Whisper + LangGraph output quality | Medium | Prototype pipeline before full integration |
 | Google Calendar sync reliability | Medium | Add sync status tracking + retry logic |
 | MVP scope creep | High | Strict prioritization against MVP checklist |

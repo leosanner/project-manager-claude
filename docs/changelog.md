@@ -9,6 +9,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Feature data access layer with ownership-scoped queries (`src/lib/db/features.ts`)
+- Feature types `FeatureSummary` and `FeatureDetail` (`src/types/feature.ts`)
+- Server Actions for feature create, rename, delete, and document save (`src/app/(dashboard)/projects/[id]/actions.ts`)
+- Project detail page with feature grid, back link, and empty state (`src/app/(dashboard)/projects/[id]/page.tsx`)
+- Feature card component with inline rename, delete dialog, and status/priority badges
+- Create feature dialog component
+- Feature detail page with breadcrumb navigation
+- Feature header with inline title editing and delete with server-side redirect
+- GitHub-style markdown editor using `@uiw/react-md-editor` with dirty tracking and save button
+- Not-found pages for project and feature routes
+- `@uiw/react-md-editor` dependency
+
+### Changed
+- Project card now links to project detail page (`/projects/:id`)
+- Feature delete uses server-side `redirect()` instead of client-side `router.push()` to avoid Next.js re-render race condition
+- Updated `CLAUDE.md` with new key files and updated development approach
+
+### Added (previous)
 - Dashboard layout with header, user greeting, theme toggle, and sign-out button (`src/app/(dashboard)/layout.tsx`)
 - Dashboard page displaying project grid with empty state (`src/app/(dashboard)/dashboard/page.tsx`)
 - Server Actions for project CRUD: create, rename, delete (`src/app/(dashboard)/dashboard/actions.ts`)
