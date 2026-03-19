@@ -8,6 +8,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- Updated dashboard page tests to match redesigned UI (welcome heading, multiple New Project buttons, capitalized status labels)
+
 ### Added
 - Calendar page (`/calendar`) with monthly grid view showing features on their due dates
 - `MonthCalendar` client component with prev/next/today navigation, status-colored feature chips, and overflow indicator

@@ -86,7 +86,7 @@ describe("ProjectCard", () => {
 
   it("renders the project status", () => {
     render(<ProjectCard project={mockProject} />);
-    expect(screen.getByText("active")).toBeInTheDocument();
+    expect(screen.getByText("Active")).toBeInTheDocument();
   });
 
   it("renders the feature count", () => {
