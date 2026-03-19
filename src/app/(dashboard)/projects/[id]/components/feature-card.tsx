@@ -25,11 +25,11 @@ import {
 } from "@/components/ui/dialog";
 import { PencilIcon, Trash2Icon, CheckIcon, XIcon } from "lucide-react";
 import {
-  updateProjectNameAction,
-  deleteProjectAction,
+  updateFeatureTitleAction,
+  deleteFeatureAction,
   type ActionState,
 } from "../actions";
-import type { ProjectSummary } from "@/types/project";
+import type { FeatureSummary } from "@/types/feature";
 
 const initialState: ActionState = { success: false };
 
@@ -44,12 +44,23 @@ function useIsMounted() {
 }
 
 const statusVariant: Record<
-  ProjectSummary["status"],
+  FeatureSummary["status"],
   "default" | "secondary" | "outline"
 > = {
-  ACTIVE: "default",
-  COMPLETED: "secondary",
-  ARCHIVED: "outline",
+  PLANNED: "outline",
+  IN_PROGRESS: "default",
+  DONE: "secondary",
+  CANCELLED: "outline",
+};
+
+const priorityVariant: Record<
+  FeatureSummary["priority"],
+  "default" | "secondary" | "outline"
+> = {
+  LOW: "outline",
+  MEDIUM: "secondary",
+  HIGH: "default",
+  CRITICAL: "default",
 };
 
 function formatRelativeDate(iso: string) {
@@ -63,7 +74,13 @@ function formatRelativeDate(iso: string) {
   return `${days}d ago`;
 }
 
-export function ProjectCard({ project }: { project: ProjectSummary }) {
+export function FeatureCard({
+  feature,
+  projectId,
+}: {
+  feature: FeatureSummary;
+  projectId: string;
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const mounted = useIsMounted();
@@ -71,7 +88,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
 
   const [updateState, updateAction, isUpdating] = useActionState(
     async (prevState: ActionState, formData: FormData) => {
-      const result = await updateProjectNameAction(prevState, formData);
+      const result = await updateFeatureTitleAction(prevState, formData);
       if (result.success) {
         setIsEditing(false);
       }
@@ -82,7 +99,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
 
   const [deleteState, deleteAction, isDeleting] = useActionState(
     async (prevState: ActionState, formData: FormData) => {
-      const result = await deleteProjectAction(prevState, formData);
+      const result = await deleteFeatureAction(prevState, formData);
       if (result.success) {
         setDeleteOpen(false);
       }
@@ -103,11 +120,12 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
       <CardHeader>
         {isEditing ? (
           <form action={updateAction} className="flex items-center gap-2">
-            <input type="hidden" name="projectId" value={project.id} />
+            <input type="hidden" name="featureId" value={feature.id} />
+            <input type="hidden" name="projectId" value={projectId} />
             <Input
               ref={inputRef}
-              name="name"
-              defaultValue={project.name}
+              name="title"
+              defaultValue={feature.title}
               required
               className="h-8"
             />
@@ -131,8 +149,11 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
         ) : (
           <>
             <CardTitle>
-              <Link href={`/projects/${project.id}`} className="hover:underline">
-                {project.name}
+              <Link
+                href={`/projects/${projectId}/features/${feature.id}`}
+                className="hover:underline"
+              >
+                {feature.title}
               </Link>
             </CardTitle>
             <CardAction>
@@ -140,7 +161,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
                 variant="ghost"
                 size="icon-sm"
                 onClick={() => setIsEditing(true)}
-                aria-label="Edit project name"
+                aria-label="Edit feature title"
               >
                 <PencilIcon />
               </Button>
@@ -150,7 +171,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      aria-label="Delete project"
+                      aria-label="Delete feature"
                     />
                   }
                 >
@@ -158,11 +179,11 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Delete Project</DialogTitle>
+                    <DialogTitle>Delete Feature</DialogTitle>
                     <DialogDescription>
-                      Are you sure you want to delete &ldquo;{project.name}
-                      &rdquo;? This will remove the project and all its
-                      features. This action cannot be undone.
+                      Are you sure you want to delete &ldquo;{feature.title}
+                      &rdquo;? This will remove the feature and its document.
+                      This action cannot be undone.
                     </DialogDescription>
                   </DialogHeader>
                   {deleteState.error && (
@@ -175,8 +196,13 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
                     <form action={deleteAction}>
                       <input
                         type="hidden"
+                        name="featureId"
+                        value={feature.id}
+                      />
+                      <input
+                        type="hidden"
                         name="projectId"
-                        value={project.id}
+                        value={projectId}
                       />
                       <Button
                         type="submit"
@@ -195,18 +221,17 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-3">
-          <Badge variant={statusVariant[project.status]}>
-            {project.status.toLowerCase()}
+          <Badge variant={statusVariant[feature.status]}>
+            {feature.status.toLowerCase().replace("_", " ")}
           </Badge>
-          <span className="text-sm text-muted-foreground">
-            {project._count.features} feature
-            {project._count.features !== 1 ? "s" : ""}
-          </span>
+          <Badge variant={priorityVariant[feature.priority]}>
+            {feature.priority.toLowerCase()}
+          </Badge>
         </div>
       </CardContent>
       <CardFooter>
         <span className="text-xs text-muted-foreground">
-          Updated {mounted ? formatRelativeDate(project.updatedAt) : ""}
+          Updated {mounted ? formatRelativeDate(feature.updatedAt) : ""}
         </span>
         {updateState.error && (
           <span className="text-xs text-danger">{updateState.error}</span>

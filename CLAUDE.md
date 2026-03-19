@@ -94,12 +94,16 @@ prisma/
 - `src/app/(dashboard)/dashboard/actions.ts` — server actions for project CRUD
 - `src/lib/auth/session.ts` — server-side session helper (`getSessionOrThrow`)
 - `src/lib/db/projects.ts` — project data access layer (CRUD queries)
+- `src/lib/db/features.ts` — feature + document data access layer
+- `src/app/(dashboard)/projects/[id]/page.tsx` — project detail page (feature list)
+- `src/app/(dashboard)/projects/[id]/actions.ts` — server actions for feature CRUD + document save
+- `src/app/(dashboard)/projects/[id]/features/[featureId]/page.tsx` — feature detail page with markdown editor
 - `src/app/globals.css` — global styles
 - `next.config.ts` — Next.js config
 
 ## Development Approach
 
 - **TDD** with Jest
-- Server Actions for mutations (project CRUD uses `src/app/(dashboard)/dashboard/actions.ts`)
+- Server Actions for mutations (project CRUD in `dashboard/actions.ts`, feature CRUD in `projects/[id]/actions.ts`)
 - API routes under `src/app/api/` for external integrations
 - Business logic in `src/lib/` (db, auth, ai, calendar)
