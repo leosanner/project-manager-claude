@@ -19,6 +19,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Allowed Google profile image domain (`lh3.googleusercontent.com`) in `next.config.ts`
 
 ### Changed
+- Reverted custom base font-size (16.5px) back to browser default in global styles
 - Restructured dashboard layout from top-only header to sidebar + simplified top bar
 - Dashboard heading changed from "Welcome back, {name}" to "Project Dashboard"
 - Dashboard subtitle simplified to active project count

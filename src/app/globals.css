@@ -213,7 +213,6 @@
   }
   html {
     @apply font-sans text-base;
-    font-size: 16.5px;
   }
 }
 
