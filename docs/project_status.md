@@ -121,6 +121,10 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 ## Completed (deployment)
 
 - [x] Added `postinstall` script (`prisma generate`) to ensure Prisma client exists on Vercel before build
+- [x] Enabled SSL on Prisma database adapter for production environments
+- [x] Fixed PrismaPg SSL config (moved to top-level `ssl` property)
+- [x] Extracted `db:wait` script; `test` script now auto-starts DB; `db:up` resets volumes
+- [x] Fixed CI test workflow: added `test:ci` script, `DATABASE_URL` env, and `prisma migrate deploy` step
 
 ## Pending
 
