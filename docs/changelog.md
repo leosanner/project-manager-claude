@@ -9,6 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Fixed
+- Added `postinstall` script to run `prisma generate` after `npm install`, fixing Vercel deployment where generated Prisma client was missing
 - Updated dashboard page tests to match redesigned UI (welcome heading, multiple New Project buttons, capitalized status labels)
 
 ### Added

@@ -118,6 +118,10 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 
 ## In Progress
 
+## Completed (deployment)
+
+- [x] Added `postinstall` script (`prisma generate`) to ensure Prisma client exists on Vercel before build
+
 ## Pending
 
 - [ ] Audio recording + Whisper transcription
