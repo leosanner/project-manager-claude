@@ -3,6 +3,9 @@ import { PrismaPg } from "@prisma/adapter-pg";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
+  options: {
+    ssl: process.env.NODE_ENV === "production",
+  },
 });
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };

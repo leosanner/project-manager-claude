@@ -121,6 +121,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 ## Completed (deployment)
 
 - [x] Added `postinstall` script (`prisma generate`) to ensure Prisma client exists on Vercel before build
+- [x] Enabled SSL on Prisma database adapter for production environments
 
 ## Pending
 
