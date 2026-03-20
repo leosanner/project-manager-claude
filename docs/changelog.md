@@ -9,9 +9,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Fixed
+- Fixed CI test workflow port conflict by using `test:ci` script that skips Docker Compose (service container already provides Postgres)
+- Added `DATABASE_URL` env var and `prisma migrate deploy` step to CI test workflow
 - Added `postinstall` script to run `prisma generate` after `npm install`, fixing Vercel deployment where generated Prisma client was missing
 - Enabled SSL on Prisma database adapter in production (`NODE_ENV === "production"`)
 - Moved SSL config from nested `options.ssl` to top-level `ssl` property on PrismaPg adapter
+
+### Added
+- `test:ci` npm script for CI environments (skips Docker Compose, uses existing DB)
 
 ### Changed
 - Extracted `db:wait` npm script for reuse across `dev` and `test` commands

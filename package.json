@@ -12,6 +12,7 @@
     "db:down": "docker compose down",
     "db:logs": "docker compose logs -f db",
     "test": "npm run db:up && npm run db:wait && npx jest",
+    "test:ci": "npm run db:wait && npx jest",
     "test:watch": "jest --watch",
     "postinstall": "prisma generate"
   },
