@@ -11,6 +11,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - Added `postinstall` script to run `prisma generate` after `npm install`, fixing Vercel deployment where generated Prisma client was missing
 - Enabled SSL on Prisma database adapter in production (`NODE_ENV === "production"`)
+- Moved SSL config from nested `options.ssl` to top-level `ssl` property on PrismaPg adapter
+
+### Changed
+- Extracted `db:wait` npm script for reuse across `dev` and `test` commands
+- `test` script now auto-starts and waits for the database before running Jest
+- `db:up` script now resets volumes before starting containers (consistent fresh state)
 - Updated dashboard page tests to match redesigned UI (welcome heading, multiple New Project buttons, capitalized status labels)
 
 ### Added
