@@ -158,6 +158,15 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Landing CSS utilities: `text-gradient-brand`, `dot-grid`, `shadow-ember`, `animate-float`
 - [x] Updated root metadata (title + description)
 
+## Completed (loading pages)
+
+- [x] Skeleton shimmer animation utilities (`skeleton`, `skeleton-text`) in `globals.css` with brand-tinted ember glow
+- [x] Loading page for dashboard (`src/app/(dashboard)/dashboard/loading.tsx`)
+- [x] Loading page for calendar (`src/app/(dashboard)/calendar/loading.tsx`)
+- [x] Loading page for project detail (`src/app/(dashboard)/projects/[id]/loading.tsx`)
+- [x] Loading page for feature editor (`src/app/(dashboard)/projects/[id]/features/[featureId]/loading.tsx`)
+- [x] Loading page for auth/sign-in (`src/app/(auth)/loading.tsx`)
+
 ## In Progress
 
 ## Completed (deployment)

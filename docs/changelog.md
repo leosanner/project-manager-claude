@@ -9,6 +9,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Skeleton loading pages for all async routes: dashboard, calendar, project detail, feature editor, and auth sign-in
+- `skeleton` and `skeleton-text` CSS utilities with brand-tinted ember shimmer animation and staggered delays
+- Loading skeletons match exact page layouts for seamless loading-to-loaded transitions
+
+### Added
 - Landing page with 8 sections: navbar, hero, features grid, how-it-works timeline, editor showcase, voice AI showcase, CTA, footer
 - 11 landing components in `src/app/components/landing/` (landing-navbar, hero-section, features-section, how-it-works-section, editor-showcase-section, voice-showcase-section, cta-section, landing-footer, mock-editor, mock-waveform, section-reveal)
 - Mock split-pane markdown editor component with toolbar, edit/preview panes

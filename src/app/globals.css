@@ -341,3 +341,38 @@ label[for], input[type="checkbox"], input[type="radio"] {
 @utility animate-float {
   animation: float 4s ease-in-out infinite;
 }
+
+/* ===== Skeleton Loading ===== */
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@utility skeleton {
+  background: linear-gradient(
+    105deg,
+    var(--bg-muted) 0%,
+    var(--bg-muted) 35%,
+    color-mix(in srgb, var(--accent-primary) 8%, var(--bg-subtle)) 50%,
+    var(--bg-muted) 65%,
+    var(--bg-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 2.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@utility skeleton-text {
+  background: linear-gradient(
+    105deg,
+    var(--bg-muted) 0%,
+    var(--bg-muted) 35%,
+    color-mix(in srgb, var(--accent-primary) 6%, var(--bg-subtle)) 50%,
+    var(--bg-muted) 65%,
+    var(--bg-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 2.4s ease-in-out infinite;
+  border-radius: 6px;
+}
