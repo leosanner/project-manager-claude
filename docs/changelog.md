@@ -19,6 +19,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Mobile hamburger menu with Motion slide-down animation on landing navbar
 
 ### Changed
+- Redesigned sign-in page with Google icon SVG, card layout, Motion stagger animations, ambient brand glow, and "Back to home" link
 - Replaced "Coming soon" placeholder at `/` with full landing page
 - Updated root layout metadata: title to "Project Manager — Ship Features Faster" with proper description
 - Redesigned feature detail page with viewport-filling layout: breadcrumb, header, and editor fill the screen

@@ -143,6 +143,10 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] MDEditor toolbar enlarged (32px buttons, 16px icons) with app-matched styling
 - [x] Dashboard layout padding reduced (`py-10` → `py-6`) for more content space
 
+## Completed (sign-in page redesign)
+
+- [x] Sign-in page redesigned with card layout, Google icon SVG, Motion stagger animations, and ambient brand glow
+
 ## Completed (landing page)
 
 - [x] Landing page with 8 sections: navbar, hero, features, how-it-works, editor showcase, voice AI showcase, CTA, footer
