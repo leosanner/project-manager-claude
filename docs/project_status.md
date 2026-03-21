@@ -122,6 +122,13 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Interactive importance/priority selector on feature cards (color-coded: emerald/amber/orange/red)
 - [x] `updateFeaturePriority` query + `updateFeaturePriorityAction` server action
 
+## Completed (calendar visual redesign)
+
+- [x] Redesigned calendar with dark sleek aesthetic (Stitch "Octo Slate Calendar" reference)
+- [x] Taller cells, pill-shaped priority-colored chips with borders, today accent bar
+- [x] Navigation grouped in contained pill, legend with uppercase tracking
+- [x] Removed separate page header; month/year is hero heading
+
 ## In Progress
 
 ## Completed (deployment)

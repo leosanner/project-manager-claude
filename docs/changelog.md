@@ -9,6 +9,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- Redesigned calendar with dark sleek aesthetic inspired by Stitch "Octo Slate Calendar" design
+- Taller calendar cells (`min-h-[140px]`), uppercase day headers with wide letter-spacing
+- Feature chips now pill-shaped (`rounded-full`) with colored borders matching priority
+- Today indicator changed from filled circle to brand-tinted cell background with bottom accent bar
+- Outside-month days use opacity instead of background tint
+- Navigation controls grouped in a contained pill element with prev/today/next
+- Legend moved outside calendar card with uppercase bold styling and wide tracking
+- Calendar container uses `rounded-xl` with deep shadow
+- Removed separate page header (icon + title); month/year is now the hero heading
 - Changed calendar feature chips to use priority-based colors (emerald/amber/orange/red) instead of status-based colors
 - Updated calendar legend to show importance levels (Low/Medium/High/Critical) instead of statuses
 - Added colored dot indicator to calendar feature chips for quick visual scanning
