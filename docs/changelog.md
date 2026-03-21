@@ -9,6 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Fixed
+- Fixed middleware cookie name mismatch in production: Better Auth uses `__Secure-` prefixed cookie names over HTTPS, but middleware was hardcoded to the non-prefixed name
 - Fixed CI test workflow port conflict by using `test:ci` script that skips Docker Compose (service container already provides Postgres)
 - Added `DATABASE_URL` env var and `prisma migrate deploy` step to CI test workflow
 - Added `postinstall` script to run `prisma generate` after `npm install`, fixing Vercel deployment where generated Prisma client was missing

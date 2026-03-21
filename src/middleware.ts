@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const SESSION_COOKIE = "better-auth.session_token";
+const SESSION_COOKIE =
+  process.env.NODE_ENV === "production"
+    ? "__Secure-better-auth.session_token"
+    : "better-auth.session_token";
 
 async function validateSession(request: NextRequest): Promise<boolean> {
   try {
