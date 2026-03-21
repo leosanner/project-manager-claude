@@ -117,6 +117,11 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] `CalendarFeature` type (`src/types/feature.ts`)
 - [x] Dashboard and Calendar nav links added to dashboard header
 
+## Completed (feature card enhancements)
+
+- [x] Interactive importance/priority selector on feature cards (color-coded: emerald/amber/orange/red)
+- [x] `updateFeaturePriority` query + `updateFeaturePriorityAction` server action
+
 ## In Progress
 
 ## Completed (deployment)

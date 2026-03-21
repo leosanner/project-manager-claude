@@ -8,6 +8,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Interactive importance/priority selector on feature cards with color-coded dropdown (emerald/amber/orange/red)
+- `updateFeaturePriority` data access query and `updateFeaturePriorityAction` server action
+
+### Changed
+- Removed `overflow-hidden` from Card component base styles to allow dropdowns to render outside card bounds
+- Replaced static priority and status badges on feature cards with interactive importance selector
+
 ### Fixed
 - Fixed Roboto font not loading: added explicit weights and moved font CSS variable classes from `<body>` to `<html>` so the `font-sans` rule on `html` can resolve them
 
