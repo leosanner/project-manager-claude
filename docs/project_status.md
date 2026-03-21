@@ -37,6 +37,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Jest config updated to transform Better Auth ESM dependencies
 - [x] Middleware switched to Edge-compatible cookie-based session check (fixes Edge Runtime crash with `pg` driver)
 - [x] Middleware validates sessions via fetch to `/api/auth/get-session`; stale cookies are auto-deleted
+- [x] Middleware uses `__Secure-` prefixed cookie name in production to match Better Auth's behavior
 - [x] Prisma migrations initialized and automated in `dev` and `build` scripts
 - [x] Security headers added to `next.config.ts` (X-Frame-Options, HSTS, nosniff, Referrer-Policy, Permissions-Policy)
 
