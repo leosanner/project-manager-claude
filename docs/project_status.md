@@ -143,6 +143,17 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] MDEditor toolbar enlarged (32px buttons, 16px icons) with app-matched styling
 - [x] Dashboard layout padding reduced (`py-10` → `py-6`) for more content space
 
+## Completed (landing page)
+
+- [x] Landing page with 8 sections: navbar, hero, features, how-it-works, editor showcase, voice AI showcase, CTA, footer
+- [x] 11 component files in `src/app/components/landing/`
+- [x] Mock editor and animated waveform components
+- [x] Motion scroll-triggered reveal animations
+- [x] Light/dark theme support via CSS design tokens
+- [x] Responsive layout with mobile hamburger menu
+- [x] Landing CSS utilities: `text-gradient-brand`, `dot-grid`, `shadow-ember`, `animate-float`
+- [x] Updated root metadata (title + description)
+
 ## In Progress
 
 ## Completed (deployment)

@@ -8,7 +8,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Landing page with 8 sections: navbar, hero, features grid, how-it-works timeline, editor showcase, voice AI showcase, CTA, footer
+- 11 landing components in `src/app/components/landing/` (landing-navbar, hero-section, features-section, how-it-works-section, editor-showcase-section, voice-showcase-section, cta-section, landing-footer, mock-editor, mock-waveform, section-reveal)
+- Mock split-pane markdown editor component with toolbar, edit/preview panes
+- Animated SVG waveform component with 24 oscillating bars using Motion
+- Scroll-triggered reveal animations via `SectionReveal` wrapper using `whileInView`
+- Landing CSS utilities: `text-gradient-brand`, `dot-grid`, `shadow-ember`, `animate-float`
+- Floating status cards with CSS bounce animation on hero and voice sections
+- Mobile hamburger menu with Motion slide-down animation on landing navbar
+
 ### Changed
+- Replaced "Coming soon" placeholder at `/` with full landing page
+- Updated root layout metadata: title to "Project Manager — Ship Features Faster" with proper description
 - Redesigned feature detail page with viewport-filling layout: breadcrumb, header, and editor fill the screen
 - Replaced feature header badges with custom status/priority pills (color-coded with icons: CircleDot, Flag, Calendar)
 - Feature editor now expands to fill all remaining viewport space instead of fixed 500px height

@@ -306,3 +306,31 @@
   margin: 0 6px !important;
   background-color: var(--border-subtle) !important;
 }
+
+/* ===== Landing Page Utilities ===== */
+
+@utility text-gradient-brand {
+  background: linear-gradient(135deg, var(--accent-primary), #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility dot-grid {
+  background-image: radial-gradient(circle, var(--border-default) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@utility shadow-ember {
+  box-shadow: 0 0 60px color-mix(in srgb, var(--accent-primary) 15%, transparent),
+              0 0 120px color-mix(in srgb, var(--accent-primary) 8%, transparent);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@utility animate-float {
+  animation: float 4s ease-in-out infinite;
+}
