@@ -217,6 +217,13 @@
   }
 }
 
+button, [type="button"], [type="reset"], [type="submit"],
+[role="button"], a, summary, select,
+label[for], input[type="checkbox"], input[type="radio"] {
+  cursor: pointer !important;
+}
+
+
 /* ===== Shadow Tokens ===== */
 :root {
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);

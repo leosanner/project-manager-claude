@@ -18,6 +18,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Floating status cards with CSS bounce animation on hero and voice sections
 - Mobile hamburger menu with Motion slide-down animation on landing navbar
 
+### Fixed
+- Added global `cursor: pointer` for all interactive elements (buttons, links, selects, checkboxes, radio inputs)
+
 ### Changed
 - Redesigned sign-in page with Google icon SVG, card layout, Motion stagger animations, ambient brand glow, and "Back to home" link
 - Replaced "Coming soon" placeholder at `/` with full landing page
