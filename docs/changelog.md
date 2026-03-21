@@ -8,6 +8,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Popup-style navbar component (`navbar.tsx`) with animated menu panel using Motion (framer-motion)
+- Pencil logo icon replacing the grid icon in the header
+- Staggered reveal animations for nav items, theme switcher, and sign-out in the popup panel
+- `motion` (framer-motion) dependency
+
+### Changed
+- Replaced inline header markup in dashboard layout with dedicated `Navbar` client component
+- Slimmed header height from `h-20` to `h-14` with frosted glass backdrop blur
+- Active page shown as a compact pill badge next to the menu button
+- Navigation, theme toggle, user info, and sign-out now live inside a popup panel (click to open)
+- Shifted brand accent color from navy blue (`#1e3a5f` / `#4a90d9`) to burnt orange (`#c2410c` / `#f97316`)
+- Updated chart color tokens from blue hues (~250°) to orange/amber hues (~30-55°)
+
 ### Changed
 - Redesigned calendar with dark sleek aesthetic inspired by Stitch "Octo Slate Calendar" design
 - Taller calendar cells (`min-h-[140px]`), uppercase day headers with wide letter-spacing

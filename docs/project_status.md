@@ -129,6 +129,13 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Navigation grouped in contained pill, legend with uppercase tracking
 - [x] Removed separate page header; month/year is hero heading
 
+## Completed (navbar redesign & orange brand)
+
+- [x] Popup-style navbar with pencil logo, animated menu panel (Motion/framer-motion)
+- [x] Navigation, theme toggle, user info, sign-out moved into popup panel
+- [x] Brand accent color shifted from navy blue to burnt orange (light: `#c2410c`, dark: `#f97316`)
+- [x] Chart color tokens updated to orange/amber hues
+
 ## In Progress
 
 ## Completed (deployment)
