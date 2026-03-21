@@ -112,10 +112,51 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 ## Completed (calendar view)
 
 - [x] Calendar page route (`/calendar`) with monthly grid showing features by due date
-- [x] `MonthCalendar` client component with month navigation, status-colored chips, overflow, and legend
+- [x] `MonthCalendar` client component with month navigation, priority-colored chips, overflow, and legend
 - [x] `getUserFeaturesWithDueDates` data access query (`src/lib/db/features.ts`)
 - [x] `CalendarFeature` type (`src/types/feature.ts`)
 - [x] Dashboard and Calendar nav links added to dashboard header
+
+## Completed (feature card enhancements)
+
+- [x] Interactive importance/priority selector on feature cards (color-coded: emerald/amber/orange/red)
+- [x] `updateFeaturePriority` query + `updateFeaturePriorityAction` server action
+
+## Completed (calendar visual redesign)
+
+- [x] Redesigned calendar with dark sleek aesthetic (Stitch "Octo Slate Calendar" reference)
+- [x] Taller cells, pill-shaped priority-colored chips with borders, today accent bar
+- [x] Navigation grouped in contained pill, legend with uppercase tracking
+- [x] Removed separate page header; month/year is hero heading
+
+## Completed (navbar redesign & orange brand)
+
+- [x] Popup-style navbar with pencil logo, animated menu panel (Motion/framer-motion)
+- [x] Navigation, theme toggle, user info, sign-out moved into popup panel
+- [x] Brand accent color shifted from navy blue to burnt orange (light: `#c2410c`, dark: `#f97316`)
+- [x] Chart color tokens updated to orange/amber hues
+
+## Completed (viewport-fit calendar & feature page redesign)
+
+- [x] Calendar fits entirely within viewport (dynamic 5/6 row grid, flexible cell heights)
+- [x] Feature detail page redesigned: viewport-filling markdown editor, modern header with status/priority pills, chevron breadcrumb
+- [x] MDEditor toolbar enlarged (32px buttons, 16px icons) with app-matched styling
+- [x] Dashboard layout padding reduced (`py-10` → `py-6`) for more content space
+
+## Completed (sign-in page redesign)
+
+- [x] Sign-in page redesigned with card layout, Google icon SVG, Motion stagger animations, and ambient brand glow
+
+## Completed (landing page)
+
+- [x] Landing page with 8 sections: navbar, hero, features, how-it-works, editor showcase, voice AI showcase, CTA, footer
+- [x] 11 component files in `src/app/components/landing/`
+- [x] Mock editor and animated waveform components
+- [x] Motion scroll-triggered reveal animations
+- [x] Light/dark theme support via CSS design tokens
+- [x] Responsive layout with mobile hamburger menu
+- [x] Landing CSS utilities: `text-gradient-brand`, `dot-grid`, `shadow-ember`, `animate-float`
+- [x] Updated root metadata (title + description)
 
 ## In Progress
 

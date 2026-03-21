@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogTrigger,
@@ -39,6 +38,7 @@ import {
 } from "lucide-react";
 import {
   updateFeatureTitleAction,
+  updateFeaturePriorityAction,
   deleteFeatureAction,
   type ActionState,
 } from "../actions";
@@ -56,25 +56,48 @@ function useIsMounted() {
   );
 }
 
-const statusConfig: Record<
-  FeatureSummary["status"],
-  { variant: "default" | "secondary" | "outline"; label: string; accent: string }
-> = {
-  PLANNED: { variant: "outline", label: "Planned", accent: "bg-fg-muted" },
-  IN_PROGRESS: { variant: "default", label: "In Progress", accent: "bg-brand" },
-  DONE: { variant: "secondary", label: "Done", accent: "bg-success" },
-  CANCELLED: { variant: "outline", label: "Cancelled", accent: "bg-danger" },
+const statusAccent: Record<FeatureSummary["status"], string> = {
+  PLANNED: "bg-fg-muted",
+  IN_PROGRESS: "bg-brand",
+  DONE: "bg-success",
+  CANCELLED: "bg-danger",
 };
 
-const priorityVariant: Record<
-  FeatureSummary["priority"],
-  "default" | "secondary" | "outline"
-> = {
-  LOW: "outline",
-  MEDIUM: "secondary",
-  HIGH: "default",
-  CRITICAL: "default",
-};
+const priorityConfig: {
+  key: FeatureSummary["priority"];
+  bg: string;
+  text: string;
+  label: string;
+}[] = [
+  {
+    key: "LOW",
+    bg: "bg-emerald-500",
+    text: "text-emerald-600 dark:text-emerald-400",
+    label: "Low",
+  },
+  {
+    key: "MEDIUM",
+    bg: "bg-amber-400",
+    text: "text-amber-600 dark:text-amber-400",
+    label: "Medium",
+  },
+  {
+    key: "HIGH",
+    bg: "bg-orange-500",
+    text: "text-orange-600 dark:text-orange-400",
+    label: "High",
+  },
+  {
+    key: "CRITICAL",
+    bg: "bg-red-500",
+    text: "text-red-600 dark:text-red-400",
+    label: "Critical",
+  },
+];
+
+const priorityByKey = Object.fromEntries(
+  priorityConfig.map((p) => [p.key, p])
+) as Record<FeatureSummary["priority"], (typeof priorityConfig)[number]>;
 
 function formatRelativeDate(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
@@ -113,8 +136,10 @@ export function FeatureCard({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [priorityOpen, setPriorityOpen] = useState(false);
   const mounted = useIsMounted();
   const inputRef = useRef<HTMLInputElement>(null);
+  const priorityRef = useRef<HTMLDivElement>(null);
 
   const [updateState, updateAction, isUpdating] = useActionState(
     async (prevState: ActionState, formData: FormData) => {
@@ -138,6 +163,15 @@ export function FeatureCard({
     initialState,
   );
 
+  const [, priorityAction, isPriorityUpdating] = useActionState(
+    async (prevState: ActionState, formData: FormData) => {
+      const result = await updateFeaturePriorityAction(prevState, formData);
+      if (result.success) setPriorityOpen(false);
+      return result;
+    },
+    initialState,
+  );
+
   useEffect(() => {
     if (isEditing) {
       inputRef.current?.focus();
@@ -145,11 +179,22 @@ export function FeatureCard({
     }
   }, [isEditing]);
 
-  const { variant, label, accent } = statusConfig[feature.status];
+  useEffect(() => {
+    if (!priorityOpen) return;
+    function handleClickOutside(e: MouseEvent) {
+      if (priorityRef.current && !priorityRef.current.contains(e.target as Node)) {
+        setPriorityOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [priorityOpen]);
+
+  const accent = statusAccent[feature.status];
   const due = feature.dueDate && mounted ? formatDueDate(feature.dueDate) : null;
 
   return (
-    <Card className="relative overflow-hidden">
+    <Card className="relative">
       <div className={`absolute left-0 top-0 h-full w-1 ${accent}`} />
       <CardHeader>
         {isEditing ? (
@@ -258,10 +303,57 @@ export function FeatureCard({
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant={variant}>{label}</Badge>
-          <Badge variant={priorityVariant[feature.priority]}>
-            {feature.priority.toLowerCase()}
-          </Badge>
+          <div ref={priorityRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setPriorityOpen(!priorityOpen)}
+              className="inline-flex items-center gap-1.5 rounded-md border border-transparent px-2 py-0.5 text-xs font-medium text-fg-secondary transition-all hover:border-border-muted hover:bg-muted"
+              aria-label={`Importance: ${priorityByKey[feature.priority].label}`}
+            >
+              <span className={`inline-block h-2 w-2 rounded-full ${priorityByKey[feature.priority].bg}`} />
+              {priorityByKey[feature.priority].label}
+              <svg width="10" height="10" viewBox="0 0 10 10" className={`transition-transform ${priorityOpen ? "rotate-180" : ""}`}>
+                <path d="M2.5 4L5 6.5L7.5 4" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            {priorityOpen && (
+              <div className="absolute left-0 top-full z-20 mt-1.5 w-52 rounded-lg border border-border-default bg-background shadow-lg">
+                <div className="border-b border-border-subtle px-3 py-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-fg-muted">
+                    Importance
+                  </p>
+                </div>
+                <div className="p-1">
+                  {priorityConfig.map((p) => {
+                    const isActive = feature.priority === p.key;
+                    return (
+                      <form key={p.key} action={priorityAction}>
+                        <input type="hidden" name="featureId" value={feature.id} />
+                        <input type="hidden" name="projectId" value={projectId} />
+                        <input type="hidden" name="priority" value={p.key} />
+                        <button
+                          type="submit"
+                          disabled={isPriorityUpdating}
+                          className={`flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-left transition-colors ${isActive ? "bg-muted" : "hover:bg-muted/60"}`}
+                        >
+                          <span className={`flex h-3 w-3 shrink-0 items-center justify-center rounded-full ${p.bg}`}>
+                            {isActive && (
+                              <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                <path d="M1.5 4L3.2 5.7L6.5 2.3" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            )}
+                          </span>
+                          <span className={`text-xs font-medium ${isActive ? p.text : "text-fg-primary"}`}>
+                            {p.label}
+                          </span>
+                        </button>
+                      </form>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
           {due && (
             <span
               className={`inline-flex items-center gap-1 text-xs ${due.overdue ? "font-medium text-danger" : "text-fg-muted"}`}

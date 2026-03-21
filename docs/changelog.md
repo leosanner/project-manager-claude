@@ -8,6 +8,73 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Landing page with 8 sections: navbar, hero, features grid, how-it-works timeline, editor showcase, voice AI showcase, CTA, footer
+- 11 landing components in `src/app/components/landing/` (landing-navbar, hero-section, features-section, how-it-works-section, editor-showcase-section, voice-showcase-section, cta-section, landing-footer, mock-editor, mock-waveform, section-reveal)
+- Mock split-pane markdown editor component with toolbar, edit/preview panes
+- Animated SVG waveform component with 24 oscillating bars using Motion
+- Scroll-triggered reveal animations via `SectionReveal` wrapper using `whileInView`
+- Landing CSS utilities: `text-gradient-brand`, `dot-grid`, `shadow-ember`, `animate-float`
+- Floating status cards with CSS bounce animation on hero and voice sections
+- Mobile hamburger menu with Motion slide-down animation on landing navbar
+
+### Fixed
+- Added global `cursor: pointer` for all interactive elements (buttons, links, selects, checkboxes, radio inputs)
+
+### Changed
+- Redesigned sign-in page with Google icon SVG, card layout, Motion stagger animations, ambient brand glow, and "Back to home" link
+- Replaced "Coming soon" placeholder at `/` with full landing page
+- Updated root layout metadata: title to "Project Manager — Ship Features Faster" with proper description
+- Redesigned feature detail page with viewport-filling layout: breadcrumb, header, and editor fill the screen
+- Replaced feature header badges with custom status/priority pills (color-coded with icons: CircleDot, Flag, Calendar)
+- Feature editor now expands to fill all remaining viewport space instead of fixed 500px height
+- Wrapped editor in rounded card container with custom toolbar (Document label, unsaved/saved indicators, save button with icon)
+- Replaced breadcrumb `/` separators with chevron icons and removed redundant "Back to Project" link
+- Moved delete button to right side of feature title row
+- Calendar grid now uses dynamic row count (5 or 6 rows) based on month, with flexible cell heights to fit viewport
+- Reduced dashboard layout padding from `py-10` to `py-6` for more vertical content space
+- Enlarged MDEditor toolbar buttons from 20px to 32px with 16px icons, 8px border-radius, and app-matched color tokens
+
+### Added
+- MDEditor CSS overrides in `globals.css` for full-height rendering and styled toolbar
+- Popup-style navbar component (`navbar.tsx`) with animated menu panel using Motion (framer-motion)
+- Pencil logo icon replacing the grid icon in the header
+- Staggered reveal animations for nav items, theme switcher, and sign-out in the popup panel
+- `motion` (framer-motion) dependency
+
+### Changed
+- Replaced inline header markup in dashboard layout with dedicated `Navbar` client component
+- Slimmed header height from `h-20` to `h-14` with frosted glass backdrop blur
+- Active page shown as a compact pill badge next to the menu button
+- Navigation, theme toggle, user info, and sign-out now live inside a popup panel (click to open)
+- Shifted brand accent color from navy blue (`#1e3a5f` / `#4a90d9`) to burnt orange (`#c2410c` / `#f97316`)
+- Updated chart color tokens from blue hues (~250°) to orange/amber hues (~30-55°)
+
+### Changed
+- Redesigned calendar with dark sleek aesthetic inspired by Stitch "Octo Slate Calendar" design
+- Taller calendar cells (`min-h-[140px]`), uppercase day headers with wide letter-spacing
+- Feature chips now pill-shaped (`rounded-full`) with colored borders matching priority
+- Today indicator changed from filled circle to brand-tinted cell background with bottom accent bar
+- Outside-month days use opacity instead of background tint
+- Navigation controls grouped in a contained pill element with prev/today/next
+- Legend moved outside calendar card with uppercase bold styling and wide tracking
+- Calendar container uses `rounded-xl` with deep shadow
+- Removed separate page header (icon + title); month/year is now the hero heading
+- Changed calendar feature chips to use priority-based colors (emerald/amber/orange/red) instead of status-based colors
+- Updated calendar legend to show importance levels (Low/Medium/High/Critical) instead of statuses
+- Added colored dot indicator to calendar feature chips for quick visual scanning
+
+### Added
+- Interactive importance/priority selector on feature cards with color-coded dropdown (emerald/amber/orange/red)
+- `updateFeaturePriority` data access query and `updateFeaturePriorityAction` server action
+
+### Changed
+- Removed `overflow-hidden` from Card component base styles to allow dropdowns to render outside card bounds
+- Replaced static priority and status badges on feature cards with interactive importance selector
+
+### Fixed
+- Fixed Roboto font not loading: added explicit weights and moved font CSS variable classes from `<body>` to `<html>` so the `font-sans` rule on `html` can resolve them
+
 ### Fixed
 - Fixed middleware cookie name mismatch in production: Better Auth uses `__Secure-` prefixed cookie names over HTTPS, but middleware was hardcoded to the non-prefixed name
 - Fixed CI test workflow port conflict by using `test:ci` script that skips Docker Compose (service container already provides Postgres)

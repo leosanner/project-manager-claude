@@ -64,6 +64,17 @@ export async function updateFeatureDocument(
   });
 }
 
+export async function updateFeaturePriority(
+  featureId: string,
+  userId: string,
+  priority: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"
+) {
+  return prisma.feature.update({
+    where: { id: featureId, project: { userId } },
+    data: { priority },
+  });
+}
+
 export async function deleteFeature(featureId: string, userId: string) {
   return prisma.feature.delete({
     where: { id: featureId, project: { userId } },

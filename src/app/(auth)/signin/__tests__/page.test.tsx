@@ -23,14 +23,14 @@ describe("SignInPage", () => {
   it("renders the sign-in page", () => {
     render(<SignInPage />);
     expect(
-      screen.getByRole("heading", { name: /sign in/i })
+      screen.getByRole("heading", { name: /welcome back/i })
     ).toBeInTheDocument();
   });
 
-  it("renders a sign in with Google button", () => {
+  it("renders a continue with Google button", () => {
     render(<SignInPage />);
     expect(
-      screen.getByRole("button", { name: /sign in with google/i })
+      screen.getByRole("button", { name: /continue with google/i })
     ).toBeInTheDocument();
   });
 
@@ -39,7 +39,7 @@ describe("SignInPage", () => {
     render(<SignInPage />);
 
     const button = screen.getByRole("button", {
-      name: /sign in with google/i,
+      name: /continue with google/i,
     });
     await user.click(button);
 

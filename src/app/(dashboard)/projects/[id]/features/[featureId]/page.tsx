@@ -5,7 +5,7 @@ import { getFeature, getProjectById } from "@/lib/db/features";
 import { FeatureHeader } from "./components/feature-header";
 import { FeatureEditor } from "./components/feature-editor";
 import type { FeatureDetail } from "@/types/feature";
-import { ArrowLeftIcon } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 
 export default async function FeaturePage({
   params,
@@ -38,26 +38,27 @@ export default async function FeaturePage({
   };
 
   return (
-    <div>
-      <nav className="mb-4 flex items-center gap-1 text-sm text-muted-foreground">
-        <Link href="/dashboard" className="hover:text-foreground">
+    <div className="flex h-[calc(100dvh-6.5rem)] flex-col">
+      {/* Breadcrumb */}
+      <nav className="mb-4 flex shrink-0 items-center gap-1.5 text-sm">
+        <Link
+          href="/dashboard"
+          className="text-fg-muted transition-colors hover:text-fg-primary"
+        >
           Dashboard
         </Link>
-        <span>/</span>
-        <Link href={`/projects/${id}`} className="hover:text-foreground">
+        <ChevronRightIcon className="h-3 w-3 text-fg-muted/50" />
+        <Link
+          href={`/projects/${id}`}
+          className="text-fg-muted transition-colors hover:text-fg-primary"
+        >
           {project.name}
         </Link>
-        <span>/</span>
-        <span className="text-foreground">{feature.title}</span>
+        <ChevronRightIcon className="h-3 w-3 text-fg-muted/50" />
+        <span className="truncate font-medium text-fg-primary">
+          {feature.title}
+        </span>
       </nav>
-
-      <Link
-        href={`/projects/${id}`}
-        className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeftIcon className="h-4 w-4" />
-        Back to Project
-      </Link>
 
       <FeatureHeader feature={serialized} projectId={id} />
 

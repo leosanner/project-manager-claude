@@ -6,6 +6,7 @@ import { getSessionOrThrow } from "@/lib/auth/session";
 import {
   createFeature,
   updateFeatureTitle,
+  updateFeaturePriority,
   updateFeatureDocument,
   deleteFeature,
 } from "@/lib/db/features";
@@ -61,6 +62,33 @@ export async function updateFeatureTitleAction(
     return { success: true };
   } catch {
     return { success: false, error: "Failed to update feature" };
+  }
+}
+
+const VALID_PRIORITIES = ["LOW", "MEDIUM", "HIGH", "CRITICAL"] as const;
+
+export async function updateFeaturePriorityAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const featureId = formData.get("featureId") as string;
+  const priority = formData.get("priority") as string;
+  const projectId = formData.get("projectId") as string;
+
+  if (!featureId || !priority) {
+    return { success: false, error: "Feature ID and priority are required" };
+  }
+  if (!VALID_PRIORITIES.includes(priority as (typeof VALID_PRIORITIES)[number])) {
+    return { success: false, error: "Invalid priority value" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await updateFeaturePriority(featureId, user.id, priority as (typeof VALID_PRIORITIES)[number]);
+    revalidatePath(`/projects/${projectId}`);
+    return { success: true };
+  } catch {
+    return { success: false, error: "Failed to update priority" };
   }
 }
 

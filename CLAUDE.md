@@ -64,6 +64,8 @@ OAuth     (ORM)               (Whisper + LangGraph)
 ```
 src/
   app/
+    page.tsx                # Landing page (public)
+    components/landing/     # Landing page section components
     (auth)/
     (dashboard)/
       calendar/             # Calendar page with monthly grid
@@ -89,8 +91,10 @@ prisma/
 
 ### Key files
 
+- `src/app/page.tsx` — landing page (composes section components from `components/landing/`)
 - `src/app/layout.tsx` — root layout, sets fonts and global metadata
-- `src/app/(dashboard)/layout.tsx` — dashboard layout with header, nav links, user info, sign-out
+- `src/app/(dashboard)/layout.tsx` — dashboard layout (server component, passes session to Navbar)
+- `src/app/(dashboard)/components/navbar.tsx` — popup-style navbar with pencil logo, nav links, theme toggle, sign-out (client component, uses Motion)
 - `src/app/(dashboard)/dashboard/page.tsx` — dashboard page (project list)
 - `src/app/(dashboard)/dashboard/actions.ts` — server actions for project CRUD
 - `src/lib/auth/session.ts` — server-side session helper (`getSessionOrThrow`)

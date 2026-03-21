@@ -1,11 +1,25 @@
-import { ThemeToggle } from "@/components/theme-toggle";
+import { LandingNavbar } from "./components/landing/landing-navbar";
+import { HeroSection } from "./components/landing/hero-section";
+import { FeaturesSection } from "./components/landing/features-section";
+import { HowItWorksSection } from "./components/landing/how-it-works-section";
+import { EditorShowcaseSection } from "./components/landing/editor-showcase-section";
+import { VoiceShowcaseSection } from "./components/landing/voice-showcase-section";
+import { CtaSection } from "./components/landing/cta-section";
+import { LandingFooter } from "./components/landing/landing-footer";
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-canvas text-fg-primary">
-      <h1 className="text-3xl font-semibold">Project Manager</h1>
-      <p className="text-fg-secondary">Coming soon</p>
-      <ThemeToggle />
+    <div className="min-h-screen scroll-smooth bg-canvas text-fg-primary">
+      <LandingNavbar />
+      <main>
+        <HeroSection />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <EditorShowcaseSection />
+        <VoiceShowcaseSection />
+        <CtaSection />
+      </main>
+      <LandingFooter />
     </div>
   );
 }

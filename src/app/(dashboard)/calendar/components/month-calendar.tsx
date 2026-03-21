@@ -20,11 +20,38 @@ function isSameDay(a: Date, b: Date): boolean {
   );
 }
 
-const STATUS_STYLES: Record<CalendarFeature["status"], string> = {
-  PLANNED: "bg-muted text-fg-muted",
-  IN_PROGRESS: "bg-brand/10 text-brand",
-  DONE: "bg-success/10 text-success",
-  CANCELLED: "bg-danger/10 text-danger",
+const PRIORITY_STYLES: Record<
+  CalendarFeature["priority"],
+  { chip: string; border: string; dot: string; text: string; label: string }
+> = {
+  LOW: {
+    chip: "bg-emerald-500/10",
+    border: "border-emerald-500/20",
+    dot: "bg-emerald-500",
+    text: "text-emerald-600 dark:text-emerald-400",
+    label: "Low",
+  },
+  MEDIUM: {
+    chip: "bg-amber-400/10",
+    border: "border-amber-400/20",
+    dot: "bg-amber-400",
+    text: "text-amber-600 dark:text-amber-400",
+    label: "Medium",
+  },
+  HIGH: {
+    chip: "bg-orange-500/10",
+    border: "border-orange-500/20",
+    dot: "bg-orange-500",
+    text: "text-orange-600 dark:text-orange-400",
+    label: "High",
+  },
+  CRITICAL: {
+    chip: "bg-red-500/10",
+    border: "border-red-500/20",
+    dot: "bg-red-500",
+    text: "text-red-600 dark:text-red-400",
+    label: "Critical",
+  },
 };
 
 type Props = {
@@ -74,14 +101,17 @@ export function MonthCalendar({ features }: Props) {
       days.push(new Date(year, month, d));
     }
 
-    // Trailing days to fill 6 rows
-    while (days.length < 42) {
+    // Trailing days to fill remaining row(s)
+    const targetLength = days.length <= 35 ? 35 : 42;
+    while (days.length < targetLength) {
       const next = days.length - startOffset - lastDay.getDate() + 1;
       days.push(new Date(year, month + 1, next));
     }
 
     return days;
   }, [currentMonth]);
+
+  const totalRows = calendarDays.length / 7;
 
   function goToPrevMonth() {
     setCurrentMonth(
@@ -106,27 +136,27 @@ export function MonthCalendar({ features }: Props) {
   });
 
   return (
-    <div className="rounded-2xl border border-border-subtle bg-elevated shadow-card">
-      {/* Navigation */}
-      <div className="flex items-center justify-between border-b border-border-subtle px-5 py-4">
-        <h2 className="text-lg font-semibold">{monthLabel}</h2>
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={goToToday}
-            className="rounded-lg px-3 py-1.5 text-sm font-medium text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
-          >
-            Today
-          </button>
+    <div className="flex min-h-0 flex-1 flex-col">
+      {/* Header / Navigation */}
+      <div className="mb-3 flex shrink-0 items-center justify-between">
+        <h2 className="text-3xl font-bold tracking-tight">{monthLabel}</h2>
+        <div className="flex items-center gap-0.5 rounded-lg border border-border-subtle bg-elevated p-1">
           <button
             onClick={goToPrevMonth}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
+            className="flex h-8 w-8 items-center justify-center rounded-md text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
             aria-label="Previous month"
           >
             <ChevronLeftIcon className="h-4 w-4" />
           </button>
           <button
+            onClick={goToToday}
+            className="px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-fg-secondary transition-colors hover:text-brand"
+          >
+            Today
+          </button>
+          <button
             onClick={goToNextMonth}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
+            className="flex h-8 w-8 items-center justify-center rounded-md text-fg-secondary transition-colors hover:bg-muted hover:text-fg-primary"
             aria-label="Next month"
           >
             <ChevronRightIcon className="h-4 w-4" />
@@ -134,92 +164,106 @@ export function MonthCalendar({ features }: Props) {
         </div>
       </div>
 
-      {/* Day headers */}
-      <div className="grid grid-cols-7 border-b border-border-subtle">
-        {DAYS_OF_WEEK.map((day) => (
-          <div
-            key={day}
-            className="px-2 py-2.5 text-center text-xs font-medium text-fg-muted"
-          >
-            {day}
-          </div>
-        ))}
-      </div>
-
-      {/* Calendar grid */}
-      <div className="grid grid-cols-7">
-        {calendarDays.map((day, i) => {
-          const isCurrentMonth = day.getMonth() === currentMonth.getMonth();
-          const isToday = isSameDay(day, today);
-          const key = dateKey(day);
-          const dayFeatures = featuresByDate.get(key) ?? [];
-          const overflow = dayFeatures.length - MAX_VISIBLE_CHIPS;
-
-          return (
+      {/* Calendar Container */}
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-border-subtle/50 bg-background shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
+        {/* Day headers */}
+        <div className="grid shrink-0 grid-cols-7 border-b border-border-subtle/30 bg-subtle/50">
+          {DAYS_OF_WEEK.map((day) => (
             <div
-              key={i}
-              className={`min-h-[100px] border-b border-r border-border-subtle p-1.5 ${
-                i % 7 === 0 ? "" : ""
-              } ${!isCurrentMonth ? "bg-subtle/50" : ""}`}
+              key={day}
+              className="px-2 py-2.5 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-fg-muted"
             >
-              {/* Day number */}
-              <div className="mb-1 flex items-center justify-end">
-                <span
-                  className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium ${
-                    isToday
-                      ? "bg-brand text-white"
-                      : isCurrentMonth
-                        ? "text-fg-primary"
-                        : "text-fg-muted"
-                  }`}
-                >
-                  {day.getDate()}
-                </span>
-              </div>
-
-              {/* Feature chips */}
-              <div className="flex flex-col gap-0.5">
-                {dayFeatures.slice(0, MAX_VISIBLE_CHIPS).map((f) => (
-                  <Link
-                    key={f.id}
-                    href={`/projects/${f.projectId}/features/${f.id}`}
-                    className={`block truncate rounded-md px-1.5 py-0.5 text-[11px] font-medium leading-tight transition-opacity hover:opacity-80 ${STATUS_STYLES[f.status]}`}
-                    title={`${f.title} — ${f.projectName}`}
-                  >
-                    {f.title}
-                  </Link>
-                ))}
-                {overflow > 0 && (
-                  <span className="px-1.5 text-[10px] font-medium text-fg-muted">
-                    +{overflow} more
-                  </span>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Empty state legend */}
-      {features.length > 0 && (
-        <div className="flex flex-wrap items-center gap-4 border-t border-border-subtle px-5 py-3">
-          {(
-            [
-              ["PLANNED", "Planned"],
-              ["IN_PROGRESS", "In Progress"],
-              ["DONE", "Done"],
-              ["CANCELLED", "Cancelled"],
-            ] as const
-          ).map(([status, label]) => (
-            <div key={status} className="flex items-center gap-1.5">
-              <span
-                className={`inline-block h-2.5 w-2.5 rounded-sm ${STATUS_STYLES[status]}`}
-              />
-              <span className="text-xs text-fg-muted">{label}</span>
+              {day}
             </div>
           ))}
         </div>
-      )}
+
+        {/* Calendar grid */}
+        <div className={`grid min-h-0 flex-1 grid-cols-7 ${totalRows === 5 ? "grid-rows-5" : "grid-rows-6"}`}>
+          {calendarDays.map((day, i) => {
+            const isCurrentMonth = day.getMonth() === currentMonth.getMonth();
+            const isToday = isSameDay(day, today);
+            const key = dateKey(day);
+            const dayFeatures = featuresByDate.get(key) ?? [];
+            const overflow = dayFeatures.length - MAX_VISIBLE_CHIPS;
+            const isLastRow = i >= (totalRows - 1) * 7;
+
+            return (
+              <div
+                key={i}
+                className={`group relative overflow-hidden p-1.5 transition-colors ${
+                  i % 7 !== 6 ? "border-r border-border-subtle/15" : ""
+                } ${!isLastRow ? "border-b border-border-subtle/15" : ""} ${
+                  !isCurrentMonth
+                    ? "opacity-30"
+                    : "hover:bg-subtle/50"
+                } ${isToday ? "bg-brand/5" : ""}`}
+              >
+                {/* Today bottom accent bar */}
+                {isToday && (
+                  <div className="absolute inset-x-0 bottom-0 h-0.5 bg-brand" />
+                )}
+
+                {/* Day number */}
+                <div className="mb-1 text-right text-xs">
+                  <span
+                    className={`${
+                      isToday
+                        ? "font-bold text-brand"
+                        : isCurrentMonth
+                          ? "text-fg-primary"
+                          : "text-fg-muted"
+                    }`}
+                  >
+                    {day.getDate()}
+                  </span>
+                </div>
+
+                {/* Feature chips */}
+                <div className="flex flex-col gap-1">
+                  {dayFeatures.slice(0, MAX_VISIBLE_CHIPS).map((f) => {
+                    const style = PRIORITY_STYLES[f.priority];
+                    return (
+                      <Link
+                        key={f.id}
+                        href={`/projects/${f.projectId}/features/${f.id}`}
+                        className={`flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-medium transition-opacity hover:opacity-80 ${style.chip} ${style.border} ${style.text}`}
+                        title={`${f.title} — ${f.projectName} (${style.label})`}
+                      >
+                        <span
+                          className={`inline-block h-1 w-1 shrink-0 rounded-full ${style.dot}`}
+                        />
+                        <span className="truncate">{f.title}</span>
+                      </Link>
+                    );
+                  })}
+                  {overflow > 0 && (
+                    <span className="px-2 text-[10px] font-medium text-fg-muted">
+                      +{overflow} more
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Legend Footer */}
+      <div className="mt-3 flex shrink-0 items-center justify-between border-t border-border-subtle/30 pt-3">
+        <div className="flex items-center gap-6">
+          {(["LOW", "MEDIUM", "HIGH", "CRITICAL"] as const).map((priority) => (
+            <div key={priority} className="flex items-center gap-2">
+              <span
+                className={`inline-block h-2 w-2 rounded-full ${PRIORITY_STYLES[priority].dot}`}
+              />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-fg-muted">
+                {PRIORITY_STYLES[priority].label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
