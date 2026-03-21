@@ -9,6 +9,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Voice-to-markdown AI pipeline: record audio, transcribe via OpenAI Whisper, structure into organized markdown via LangChain
+- Audio recording dialog component with animated pipeline states (idle, recording, processing, done, error) using Motion
+- `useAudioRecorder` custom hook wrapping browser MediaRecorder API with timer, permissions handling, and cleanup
+- `transcribeAudio` function in `src/lib/ai/transcription.ts` using OpenAI Whisper API
+- `structureTranscription` function in `src/lib/ai/structuring.ts` using LangChain (ChatOpenAI + prompt template)
+- `POST /api/ai/transcribe-and-structure` API route with auth, file validation, and pipeline orchestration
+- Mic button in feature editor toolbar that appends AI-generated markdown to existing document content
+- `openai`, `@langchain/core`, `@langchain/openai` dependencies
+- Tests for transcription, structuring, and API route (11 new tests)
+
+### Added
 - Skeleton loading pages for all async routes: dashboard, calendar, project detail, feature editor, and auth sign-in
 - `skeleton` and `skeleton-text` CSS utilities with brand-tinted ember shimmer animation and staggered delays
 - Loading skeletons match exact page layouts for seamless loading-to-loaded transitions

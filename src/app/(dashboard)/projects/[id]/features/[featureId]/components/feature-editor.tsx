@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { SaveIcon, CheckCircleIcon } from "lucide-react";
 import { saveDocumentAction, type ActionState } from "../../../actions";
+import { AudioRecordDialog } from "./audio-record-dialog";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -45,6 +46,15 @@ export function FeatureEditor({
       <div className="flex shrink-0 items-center justify-between border-b border-border-subtle/30 bg-subtle/30 px-4 py-2">
         <div className="flex items-center gap-2">
           <h2 className="text-sm font-semibold text-fg-primary">Document</h2>
+          <AudioRecordDialog
+            onMarkdownReady={(markdown) => {
+              const newContent = content
+                ? `${content}\n\n---\n\n${markdown}`
+                : markdown;
+              setContent(newContent);
+              setIsDirty(true);
+            }}
+          />
           {isDirty && (
             <span className="rounded-full bg-warning/10 px-2 py-0.5 text-[10px] font-medium text-warning">
               Unsaved changes
