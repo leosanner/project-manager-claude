@@ -9,6 +9,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Fixed
+- Fixed Roboto font not loading: added explicit weights and moved font CSS variable classes from `<body>` to `<html>` so the `font-sans` rule on `html` can resolve them
+
+### Fixed
 - Fixed middleware cookie name mismatch in production: Better Auth uses `__Secure-` prefixed cookie names over HTTPS, but middleware was hardcoded to the non-prefixed name
 - Fixed CI test workflow port conflict by using `test:ci` script that skips Docker Compose (service container already provides Postgres)
 - Added `DATABASE_URL` env var and `prisma migrate deploy` step to CI test workflow
