@@ -20,11 +20,11 @@ function isSameDay(a: Date, b: Date): boolean {
   );
 }
 
-const STATUS_STYLES: Record<CalendarFeature["status"], string> = {
-  PLANNED: "bg-muted text-fg-muted",
-  IN_PROGRESS: "bg-brand/10 text-brand",
-  DONE: "bg-success/10 text-success",
-  CANCELLED: "bg-danger/10 text-danger",
+const PRIORITY_STYLES: Record<CalendarFeature["priority"], { chip: string; dot: string; label: string }> = {
+  LOW: { chip: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400", dot: "bg-emerald-500", label: "Low" },
+  MEDIUM: { chip: "bg-amber-400/10 text-amber-700 dark:text-amber-400", dot: "bg-amber-400", label: "Medium" },
+  HIGH: { chip: "bg-orange-500/10 text-orange-700 dark:text-orange-400", dot: "bg-orange-500", label: "High" },
+  CRITICAL: { chip: "bg-red-500/10 text-red-700 dark:text-red-400", dot: "bg-red-500", label: "Critical" },
 };
 
 type Props = {
@@ -183,10 +183,11 @@ export function MonthCalendar({ features }: Props) {
                   <Link
                     key={f.id}
                     href={`/projects/${f.projectId}/features/${f.id}`}
-                    className={`block truncate rounded-md px-1.5 py-0.5 text-[11px] font-medium leading-tight transition-opacity hover:opacity-80 ${STATUS_STYLES[f.status]}`}
-                    title={`${f.title} — ${f.projectName}`}
+                    className={`flex items-center gap-1 truncate rounded-md px-1.5 py-0.5 text-[11px] font-medium leading-tight transition-opacity hover:opacity-80 ${PRIORITY_STYLES[f.priority].chip}`}
+                    title={`${f.title} — ${f.projectName} (${PRIORITY_STYLES[f.priority].label})`}
                   >
-                    {f.title}
+                    <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${PRIORITY_STYLES[f.priority].dot}`} />
+                    <span className="truncate">{f.title}</span>
                   </Link>
                 ))}
                 {overflow > 0 && (
@@ -200,22 +201,15 @@ export function MonthCalendar({ features }: Props) {
         })}
       </div>
 
-      {/* Empty state legend */}
+      {/* Legend */}
       {features.length > 0 && (
         <div className="flex flex-wrap items-center gap-4 border-t border-border-subtle px-5 py-3">
-          {(
-            [
-              ["PLANNED", "Planned"],
-              ["IN_PROGRESS", "In Progress"],
-              ["DONE", "Done"],
-              ["CANCELLED", "Cancelled"],
-            ] as const
-          ).map(([status, label]) => (
-            <div key={status} className="flex items-center gap-1.5">
+          {(["LOW", "MEDIUM", "HIGH", "CRITICAL"] as const).map((priority) => (
+            <div key={priority} className="flex items-center gap-1.5">
               <span
-                className={`inline-block h-2.5 w-2.5 rounded-sm ${STATUS_STYLES[status]}`}
+                className={`inline-block h-2.5 w-2.5 rounded-full ${PRIORITY_STYLES[priority].dot}`}
               />
-              <span className="text-xs text-fg-muted">{label}</span>
+              <span className="text-xs text-fg-muted">{PRIORITY_STYLES[priority].label}</span>
             </div>
           ))}
         </div>

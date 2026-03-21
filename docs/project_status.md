@@ -112,7 +112,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 ## Completed (calendar view)
 
 - [x] Calendar page route (`/calendar`) with monthly grid showing features by due date
-- [x] `MonthCalendar` client component with month navigation, status-colored chips, overflow, and legend
+- [x] `MonthCalendar` client component with month navigation, priority-colored chips, overflow, and legend
 - [x] `getUserFeaturesWithDueDates` data access query (`src/lib/db/features.ts`)
 - [x] `CalendarFeature` type (`src/types/feature.ts`)
 - [x] Dashboard and Calendar nav links added to dashboard header

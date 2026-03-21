@@ -8,6 +8,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+- Changed calendar feature chips to use priority-based colors (emerald/amber/orange/red) instead of status-based colors
+- Updated calendar legend to show importance levels (Low/Medium/High/Critical) instead of statuses
+- Added colored dot indicator to calendar feature chips for quick visual scanning
+
 ### Added
 - Interactive importance/priority selector on feature cards with color-coded dropdown (emerald/amber/orange/red)
 - `updateFeaturePriority` data access query and `updateFeaturePriorityAction` server action
