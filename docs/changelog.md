@@ -8,6 +8,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- Fixed microphone not recording: `Permissions-Policy` header blocked microphone access site-wide; changed `microphone=()` to `microphone=(self)` in `next.config.ts`
+- Fixed recording dialog showing "Recording" state even when microphone access failed; `handleStartRecording` now checks `startRecording()` return value before transitioning pipeline state
+- Added explicit `navigator.mediaDevices` availability check with clear error message for non-secure contexts
+- Improved audio recorder error messages: specific feedback for permission denied, no microphone found, and other errors
+
 ### Added
 - Voice-to-markdown AI pipeline: record audio, transcribe via OpenAI Whisper, structure into organized markdown via LangChain
 - Audio recording dialog component with animated pipeline states (idle, recording, processing, done, error) using Motion

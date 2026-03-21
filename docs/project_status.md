@@ -177,6 +177,9 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Integration into feature editor toolbar — mic button appends generated markdown to document
 - [x] Tests for transcription, structuring, and API route (11 new tests, 71 total)
 - [x] Dependencies: `openai`, `@langchain/core`, `@langchain/openai`
+- [x] Fixed `Permissions-Policy` header blocking microphone (`microphone=()` → `microphone=(self)`)
+- [x] Fixed recording state race condition (pipeline state now gated on actual recording success)
+- [x] Added `navigator.mediaDevices` availability check and specific error messages for common failures
 
 ## In Progress
 

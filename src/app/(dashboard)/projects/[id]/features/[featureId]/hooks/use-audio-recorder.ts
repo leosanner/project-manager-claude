@@ -27,11 +27,19 @@ export function useAudioRecorder() {
     streamRef.current = null;
   }, []);
 
-  const startRecording = useCallback(async () => {
+  const startRecording = useCallback(async (): Promise<boolean> => {
     try {
       setError(null);
       setAudioBlob(null);
       chunksRef.current = [];
+
+      if (!navigator.mediaDevices?.getUserMedia) {
+        setError(
+          "Microphone API is not available. Please use HTTPS or localhost."
+        );
+        setState("idle");
+        return false;
+      }
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
@@ -61,11 +69,18 @@ export function useAudioRecorder() {
       timerRef.current = setInterval(() => {
         setDuration((d) => d + 1);
       }, 1000);
-    } catch {
-      setError(
-        "Microphone access denied. Please allow microphone permissions."
-      );
+
+      return true;
+    } catch (err) {
+      const message =
+        err instanceof DOMException && err.name === "NotAllowedError"
+          ? "Microphone access denied. Please allow microphone permissions in your browser settings."
+          : err instanceof DOMException && err.name === "NotFoundError"
+            ? "No microphone found. Please connect a microphone and try again."
+            : `Microphone error: ${err instanceof Error ? err.message : "Unknown error"}`;
+      setError(message);
       setState("idle");
+      return false;
     }
   }, [stopTracks]);
 

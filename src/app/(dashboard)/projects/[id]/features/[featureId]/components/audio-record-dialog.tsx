@@ -121,8 +121,10 @@ export function AudioRecordDialog({ onMarkdownReady }: AudioRecordDialogProps) {
   }, [resetRecorder]);
 
   const handleStartRecording = useCallback(async () => {
-    await startRecording();
-    setPipelineState("recording");
+    const started = await startRecording();
+    if (started) {
+      setPipelineState("recording");
+    }
   }, [startRecording]);
 
   return (
