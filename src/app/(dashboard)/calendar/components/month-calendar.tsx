@@ -101,14 +101,17 @@ export function MonthCalendar({ features }: Props) {
       days.push(new Date(year, month, d));
     }
 
-    // Trailing days to fill 6 rows
-    while (days.length < 42) {
+    // Trailing days to fill remaining row(s)
+    const targetLength = days.length <= 35 ? 35 : 42;
+    while (days.length < targetLength) {
       const next = days.length - startOffset - lastDay.getDate() + 1;
       days.push(new Date(year, month + 1, next));
     }
 
     return days;
   }, [currentMonth]);
+
+  const totalRows = calendarDays.length / 7;
 
   function goToPrevMonth() {
     setCurrentMonth(
@@ -133,9 +136,9 @@ export function MonthCalendar({ features }: Props) {
   });
 
   return (
-    <div>
+    <div className="flex min-h-0 flex-1 flex-col">
       {/* Header / Navigation */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-3 flex shrink-0 items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">{monthLabel}</h2>
         <div className="flex items-center gap-0.5 rounded-lg border border-border-subtle bg-elevated p-1">
           <button
@@ -162,13 +165,13 @@ export function MonthCalendar({ features }: Props) {
       </div>
 
       {/* Calendar Container */}
-      <div className="overflow-hidden rounded-xl border border-border-subtle/50 bg-background shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-border-subtle/50 bg-background shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
         {/* Day headers */}
-        <div className="grid grid-cols-7 border-b border-border-subtle/30 bg-subtle/50">
+        <div className="grid shrink-0 grid-cols-7 border-b border-border-subtle/30 bg-subtle/50">
           {DAYS_OF_WEEK.map((day) => (
             <div
               key={day}
-              className="px-2 py-3.5 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-fg-muted"
+              className="px-2 py-2.5 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-fg-muted"
             >
               {day}
             </div>
@@ -176,19 +179,19 @@ export function MonthCalendar({ features }: Props) {
         </div>
 
         {/* Calendar grid */}
-        <div className="grid grid-cols-7">
+        <div className={`grid min-h-0 flex-1 grid-cols-7 ${totalRows === 5 ? "grid-rows-5" : "grid-rows-6"}`}>
           {calendarDays.map((day, i) => {
             const isCurrentMonth = day.getMonth() === currentMonth.getMonth();
             const isToday = isSameDay(day, today);
             const key = dateKey(day);
             const dayFeatures = featuresByDate.get(key) ?? [];
             const overflow = dayFeatures.length - MAX_VISIBLE_CHIPS;
-            const isLastRow = i >= 35;
+            const isLastRow = i >= (totalRows - 1) * 7;
 
             return (
               <div
                 key={i}
-                className={`group relative min-h-[140px] p-2 transition-colors ${
+                className={`group relative overflow-hidden p-1.5 transition-colors ${
                   i % 7 !== 6 ? "border-r border-border-subtle/15" : ""
                 } ${!isLastRow ? "border-b border-border-subtle/15" : ""} ${
                   !isCurrentMonth
@@ -202,7 +205,7 @@ export function MonthCalendar({ features }: Props) {
                 )}
 
                 {/* Day number */}
-                <div className="mb-2 text-right text-xs">
+                <div className="mb-1 text-right text-xs">
                   <span
                     className={`${
                       isToday
@@ -247,7 +250,7 @@ export function MonthCalendar({ features }: Props) {
       </div>
 
       {/* Legend Footer */}
-      <div className="mt-8 flex items-center justify-between border-t border-border-subtle/30 pt-6">
+      <div className="mt-3 flex shrink-0 items-center justify-between border-t border-border-subtle/30 pt-3">
         <div className="flex items-center gap-6">
           {(["LOW", "MEDIUM", "HIGH", "CRITICAL"] as const).map((priority) => (
             <div key={priority} className="flex items-center gap-2">

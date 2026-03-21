@@ -19,7 +19,7 @@ export default async function CalendarPage() {
   }));
 
   return (
-    <div>
+    <div className="flex h-[calc(100dvh-6.5rem)] flex-col">
       <MonthCalendar features={serialized} />
     </div>
   );

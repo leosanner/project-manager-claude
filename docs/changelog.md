@@ -8,7 +8,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+- Redesigned feature detail page with viewport-filling layout: breadcrumb, header, and editor fill the screen
+- Replaced feature header badges with custom status/priority pills (color-coded with icons: CircleDot, Flag, Calendar)
+- Feature editor now expands to fill all remaining viewport space instead of fixed 500px height
+- Wrapped editor in rounded card container with custom toolbar (Document label, unsaved/saved indicators, save button with icon)
+- Replaced breadcrumb `/` separators with chevron icons and removed redundant "Back to Project" link
+- Moved delete button to right side of feature title row
+- Calendar grid now uses dynamic row count (5 or 6 rows) based on month, with flexible cell heights to fit viewport
+- Reduced dashboard layout padding from `py-10` to `py-6` for more vertical content space
+- Enlarged MDEditor toolbar buttons from 20px to 32px with 16px icons, 8px border-radius, and app-matched color tokens
+
 ### Added
+- MDEditor CSS overrides in `globals.css` for full-height rendering and styled toolbar
 - Popup-style navbar component (`navbar.tsx`) with animated menu panel using Motion (framer-motion)
 - Pencil logo icon replacing the grid icon in the header
 - Staggered reveal animations for nav items, theme switcher, and sign-out in the popup panel

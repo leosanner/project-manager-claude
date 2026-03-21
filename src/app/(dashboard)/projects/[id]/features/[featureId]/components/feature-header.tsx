@@ -3,7 +3,6 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogTrigger,
@@ -14,7 +13,15 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { PencilIcon, Trash2Icon, CheckIcon, XIcon } from "lucide-react";
+import {
+  PencilIcon,
+  Trash2Icon,
+  CheckIcon,
+  XIcon,
+  CalendarIcon,
+  CircleDotIcon,
+  FlagIcon,
+} from "lucide-react";
 import {
   updateFeatureTitleAction,
   deleteFeatureAction,
@@ -24,25 +31,69 @@ import type { FeatureDetail } from "@/types/feature";
 
 const initialState: ActionState = { success: false };
 
-const statusVariant: Record<
+const statusConfig: Record<
   FeatureDetail["status"],
-  "default" | "secondary" | "outline"
+  { color: string; bg: string; label: string }
 > = {
-  PLANNED: "outline",
-  IN_PROGRESS: "default",
-  DONE: "secondary",
-  CANCELLED: "outline",
+  PLANNED: {
+    color: "text-fg-muted",
+    bg: "bg-fg-muted/10",
+    label: "Planned",
+  },
+  IN_PROGRESS: {
+    color: "text-brand",
+    bg: "bg-brand/10",
+    label: "In Progress",
+  },
+  DONE: {
+    color: "text-success",
+    bg: "bg-success/10",
+    label: "Done",
+  },
+  CANCELLED: {
+    color: "text-danger",
+    bg: "bg-danger/10",
+    label: "Cancelled",
+  },
 };
 
-const priorityVariant: Record<
+const priorityConfig: Record<
   FeatureDetail["priority"],
-  "default" | "secondary" | "outline"
+  { color: string; bg: string; dot: string; label: string }
 > = {
-  LOW: "outline",
-  MEDIUM: "secondary",
-  HIGH: "default",
-  CRITICAL: "default",
+  LOW: {
+    color: "text-emerald-600 dark:text-emerald-400",
+    bg: "bg-emerald-500/10",
+    dot: "bg-emerald-500",
+    label: "Low",
+  },
+  MEDIUM: {
+    color: "text-amber-600 dark:text-amber-400",
+    bg: "bg-amber-400/10",
+    dot: "bg-amber-400",
+    label: "Medium",
+  },
+  HIGH: {
+    color: "text-orange-600 dark:text-orange-400",
+    bg: "bg-orange-500/10",
+    dot: "bg-orange-500",
+    label: "High",
+  },
+  CRITICAL: {
+    color: "text-red-600 dark:text-red-400",
+    bg: "bg-red-500/10",
+    dot: "bg-red-500",
+    label: "Critical",
+  },
 };
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 export function FeatureHeader({
   feature,
@@ -80,11 +131,18 @@ export function FeatureHeader({
     }
   }, [isEditing]);
 
+  const status = statusConfig[feature.status];
+  const priority = priorityConfig[feature.priority];
+
   return (
-    <div className="mb-6">
-      <div className="flex items-center gap-3">
+    <div className="mb-4 shrink-0">
+      {/* Title row */}
+      <div className="flex items-center gap-2">
         {isEditing ? (
-          <form action={updateAction} className="flex items-center gap-2">
+          <form
+            action={updateAction}
+            className="flex flex-1 items-center gap-2"
+          >
             <input type="hidden" name="featureId" value={feature.id} />
             <input type="hidden" name="projectId" value={projectId} />
             <Input
@@ -92,7 +150,7 @@ export function FeatureHeader({
               name="title"
               defaultValue={feature.title}
               required
-              className="h-10 text-xl font-bold"
+              className="h-10 flex-1 text-xl font-bold"
             />
             <Button
               type="submit"
@@ -113,65 +171,72 @@ export function FeatureHeader({
           </form>
         ) : (
           <>
-            <h1 className="text-2xl font-bold">{feature.title}</h1>
+            <h1 className="text-2xl font-bold tracking-tight">
+              {feature.title}
+            </h1>
             <Button
               variant="ghost"
               size="icon-sm"
               onClick={() => setIsEditing(true)}
               aria-label="Edit feature title"
+              className="opacity-0 transition-opacity hover:opacity-100 group-hover:opacity-100 [div:hover>&]:opacity-70"
             >
               <PencilIcon />
             </Button>
-            <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-              <DialogTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    aria-label="Delete feature"
-                  />
-                }
-              >
-                <Trash2Icon />
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Delete Feature</DialogTitle>
-                  <DialogDescription>
-                    Are you sure you want to delete &ldquo;{feature.title}
-                    &rdquo;? This will remove the feature and its document.
-                    This action cannot be undone.
-                  </DialogDescription>
-                </DialogHeader>
-                {deleteState.error && (
-                  <p className="text-sm text-danger">{deleteState.error}</p>
-                )}
-                <DialogFooter>
-                  <DialogClose render={<Button variant="outline" />}>
-                    Cancel
-                  </DialogClose>
-                  <form action={deleteAction}>
-                    <input
-                      type="hidden"
-                      name="featureId"
-                      value={feature.id}
-                    />
-                    <input
-                      type="hidden"
-                      name="projectId"
-                      value={projectId}
-                    />
+
+            <div className="ml-auto flex items-center gap-1">
+              <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+                <DialogTrigger
+                  render={
                     <Button
-                      type="submit"
-                      variant="destructive"
-                      disabled={isDeleting}
-                    >
-                      {isDeleting ? "Deleting..." : "Delete"}
-                    </Button>
-                  </form>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+                      variant="ghost"
+                      size="icon-sm"
+                      aria-label="Delete feature"
+                      className="text-fg-muted hover:text-danger"
+                    />
+                  }
+                >
+                  <Trash2Icon />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Delete Feature</DialogTitle>
+                    <DialogDescription>
+                      Are you sure you want to delete &ldquo;{feature.title}
+                      &rdquo;? This will remove the feature and its document.
+                      This action cannot be undone.
+                    </DialogDescription>
+                  </DialogHeader>
+                  {deleteState.error && (
+                    <p className="text-sm text-danger">{deleteState.error}</p>
+                  )}
+                  <DialogFooter>
+                    <DialogClose render={<Button variant="outline" />}>
+                      Cancel
+                    </DialogClose>
+                    <form action={deleteAction}>
+                      <input
+                        type="hidden"
+                        name="featureId"
+                        value={feature.id}
+                      />
+                      <input
+                        type="hidden"
+                        name="projectId"
+                        value={projectId}
+                      />
+                      <Button
+                        type="submit"
+                        variant="destructive"
+                        disabled={isDeleting}
+                      >
+                        {isDeleting ? "Deleting..." : "Delete"}
+                      </Button>
+                    </form>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
           </>
         )}
       </div>
@@ -180,13 +245,39 @@ export function FeatureHeader({
         <p className="mt-1 text-sm text-danger">{updateState.error}</p>
       )}
 
-      <div className="mt-3 flex items-center gap-3">
-        <Badge variant={statusVariant[feature.status]}>
-          {feature.status.toLowerCase().replace("_", " ")}
-        </Badge>
-        <Badge variant={priorityVariant[feature.priority]}>
-          {feature.priority.toLowerCase()}
-        </Badge>
+      {/* Metadata pills row */}
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        {/* Status pill */}
+        <div
+          className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium ${status.bg} ${status.color}`}
+        >
+          <CircleDotIcon className="h-3 w-3" />
+          {status.label}
+        </div>
+
+        {/* Priority pill */}
+        <div
+          className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium ${priority.bg} ${priority.color}`}
+        >
+          <FlagIcon className="h-3 w-3" />
+          {priority.label}
+        </div>
+
+        {/* Separator */}
+        <div className="h-4 w-px bg-border-subtle" />
+
+        {/* Due date */}
+        {feature.dueDate && (
+          <div className="inline-flex items-center gap-1.5 text-xs text-fg-muted">
+            <CalendarIcon className="h-3 w-3" />
+            Due {formatDate(feature.dueDate)}
+          </div>
+        )}
+
+        {/* Updated at */}
+        <div className="inline-flex items-center gap-1.5 text-xs text-fg-muted">
+          Updated {formatDate(feature.updatedAt)}
+        </div>
       </div>
     </div>
   );

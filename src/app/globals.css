@@ -238,3 +238,71 @@
 @utility shadow-header {
   box-shadow: var(--shadow-header);
 }
+
+/* ===== MDEditor overrides ===== */
+
+/* Fill parent container */
+.w-md-editor {
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.w-md-editor-content {
+  flex: 1;
+  min-height: 0;
+}
+.w-md-editor-content .w-md-editor-input,
+.w-md-editor-content .w-md-editor-preview {
+  height: 100% !important;
+}
+.w-md-editor-content .w-md-editor-input > textarea {
+  min-height: 100% !important;
+}
+
+/* Toolbar: bigger buttons, refined spacing */
+.w-md-editor-toolbar {
+  padding: 6px 8px !important;
+  gap: 2px;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  background-color: transparent !important;
+}
+.w-md-editor-toolbar li {
+  font-size: 16px !important;
+}
+.w-md-editor-toolbar li > button {
+  height: 32px !important;
+  width: 32px !important;
+  padding: 0 !important;
+  margin: 0 1px !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary) !important;
+  transition: all 0.15s ease !important;
+}
+.w-md-editor-toolbar li > button:hover,
+.w-md-editor-toolbar li > button:focus {
+  background-color: var(--bg-muted) !important;
+  color: var(--text-primary) !important;
+}
+.w-md-editor-toolbar li > button:active {
+  background-color: var(--bg-muted) !important;
+  color: var(--accent-primary) !important;
+}
+.w-md-editor-toolbar li.active > button {
+  color: var(--accent-primary) !important;
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent) !important;
+}
+.w-md-editor-toolbar li > button svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+.w-md-editor-toolbar-divider {
+  height: 20px !important;
+  margin: 0 6px !important;
+  background-color: var(--border-subtle) !important;
+}

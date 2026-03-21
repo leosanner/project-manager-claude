@@ -136,6 +136,13 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Brand accent color shifted from navy blue to burnt orange (light: `#c2410c`, dark: `#f97316`)
 - [x] Chart color tokens updated to orange/amber hues
 
+## Completed (viewport-fit calendar & feature page redesign)
+
+- [x] Calendar fits entirely within viewport (dynamic 5/6 row grid, flexible cell heights)
+- [x] Feature detail page redesigned: viewport-filling markdown editor, modern header with status/priority pills, chevron breadcrumb
+- [x] MDEditor toolbar enlarged (32px buttons, 16px icons) with app-matched styling
+- [x] Dashboard layout padding reduced (`py-10` → `py-6`) for more content space
+
 ## In Progress
 
 ## Completed (deployment)
