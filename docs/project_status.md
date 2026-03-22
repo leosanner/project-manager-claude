@@ -196,6 +196,8 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 
 ## In Progress
 
+- [ ] Better markdown experience: split feature page into view + edit, interactive checkboxes
+
 ## Completed (deployment)
 
 - [x] Added `postinstall` script (`prisma generate`) to ensure Prisma client exists on Vercel before build

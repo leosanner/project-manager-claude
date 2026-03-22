@@ -9,6 +9,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Added `react-markdown`, `remark-gfm`, `rehype-raw` dependencies for structured markdown rendering
+- Added `@tailwindcss/typography` plugin for prose-styled markdown views
 - Per-user OpenAI API key management: users provide their own key instead of a shared server-side key
 - Settings page (`/settings`) with encrypted API key save, update, and remove
 - AES-256-GCM encryption utility (`src/lib/crypto.ts`) for secure API key storage
