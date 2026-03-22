@@ -196,7 +196,13 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 
 ## In Progress
 
-- [ ] Better markdown experience: split feature page into view + edit, interactive checkboxes
+## Completed (better markdown experience)
+
+- [x] Split feature detail into View page (default) and Edit page (`/edit` subroute)
+- [x] Markdown viewer with `react-markdown`, `remark-gfm`, prose typography (`@tailwindcss/typography`)
+- [x] Interactive checkboxes on view page — optimistic toggle with `toggleCheckboxAction` server action
+- [x] View/Edit tab navigation component (pill-style toggle)
+- [x] Edit page preserves existing editor experience unchanged
 
 ## Completed (deployment)
 
