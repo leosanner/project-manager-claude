@@ -134,3 +134,22 @@ export async function saveDocumentAction(
     return { success: false, error: "Failed to save document" };
   }
 }
+
+export async function toggleCheckboxAction(
+  featureId: string,
+  projectId: string,
+  updatedContent: string
+): Promise<ActionState> {
+  if (!featureId) {
+    return { success: false, error: "Feature ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await updateFeatureDocument(featureId, user.id, updatedContent);
+    revalidatePath(`/projects/${projectId}/features/${featureId}`);
+    return { success: true };
+  } catch {
+    return { success: false, error: "Failed to toggle checkbox" };
+  }
+}
