@@ -47,7 +47,7 @@ OAuth     (ORM)               (Whisper + LangGraph)
 | Frontend | Next.js 16 (App Router), React 19, Tailwind CSS v4, TypeScript |
 | Auth | Better Auth + Google OAuth |
 | Database | Neon (PostgreSQL) + Prisma ORM |
-| AI / Audio | OpenAI Whisper (transcription), LangGraph (Markdown structuring) |
+| AI / Audio | OpenAI Whisper (transcription), LangChain (Markdown structuring) |
 | Testing | Jest (TDD) |
 
 ### Layers
@@ -72,13 +72,14 @@ src/
       projects/[id]/features/[featureId]/
     api/
       auth/         # Better Auth handler
+      ai/           # Audio transcription + structuring endpoint
       projects/
       features/
       calendar/
   lib/
     db/             # Prisma client
     auth/           # Better Auth config
-    ai/             # LangGraph pipelines
+    ai/             # Whisper transcription + LangChain structuring
     calendar/       # Google Calendar client
   components/
     ui/
@@ -105,6 +106,11 @@ prisma/
 - `src/app/(dashboard)/projects/[id]/page.tsx` — project detail page (feature list)
 - `src/app/(dashboard)/projects/[id]/actions.ts` — server actions for feature CRUD + document save
 - `src/app/(dashboard)/projects/[id]/features/[featureId]/page.tsx` — feature detail page with markdown editor
+- `src/app/(dashboard)/projects/[id]/features/[featureId]/components/audio-record-dialog.tsx` — voice recording dialog with pipeline states
+- `src/app/(dashboard)/projects/[id]/features/[featureId]/hooks/use-audio-recorder.ts` — MediaRecorder hook
+- `src/lib/ai/transcription.ts` — OpenAI Whisper integration
+- `src/lib/ai/structuring.ts` — LangChain text-to-structured-markdown pipeline
+- `src/app/api/ai/transcribe-and-structure/route.ts` — audio processing API endpoint
 - `src/app/globals.css` — global styles
 - `next.config.ts` — Next.js config
 

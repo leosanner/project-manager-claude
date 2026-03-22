@@ -167,6 +167,20 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Loading page for feature editor (`src/app/(dashboard)/projects/[id]/features/[featureId]/loading.tsx`)
 - [x] Loading page for auth/sign-in (`src/app/(auth)/loading.tsx`)
 
+## Completed (voice-to-markdown AI pipeline)
+
+- [x] Audio recording via browser MediaRecorder API (`use-audio-recorder.ts` hook)
+- [x] OpenAI Whisper transcription integration (`src/lib/ai/transcription.ts`)
+- [x] LangChain structuring pipeline — raw text → organized markdown with sections (`src/lib/ai/structuring.ts`)
+- [x] API route `POST /api/ai/transcribe-and-structure` with auth, validation, and pipeline orchestration
+- [x] Recording dialog component with animated pipeline states (idle → recording → processing → done/error)
+- [x] Integration into feature editor toolbar — mic button appends generated markdown to document
+- [x] Tests for transcription, structuring, and API route (11 new tests, 71 total)
+- [x] Dependencies: `openai`, `@langchain/core`, `@langchain/openai`
+- [x] Fixed `Permissions-Policy` header blocking microphone (`microphone=()` → `microphone=(self)`)
+- [x] Fixed recording state race condition (pipeline state now gated on actual recording success)
+- [x] Added `navigator.mediaDevices` availability check and specific error messages for common failures
+
 ## In Progress
 
 ## Completed (deployment)
@@ -179,8 +193,6 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 
 ## Pending
 
-- [ ] Audio recording + Whisper transcription
-- [ ] LangGraph AI pipeline
 - [ ] Google Calendar sync
 
 ## Open Questions

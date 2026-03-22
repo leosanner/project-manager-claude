@@ -17,7 +17,7 @@ Full-stack Next.js application with server-side API routes, a PostgreSQL databas
    │         │                      │
    ▼         ▼                      ▼
 Google    Prisma                AI Service
-OAuth     (ORM)               (Whisper + LangGraph)
+OAuth     (ORM)               (Whisper + LangChain)
           │
           ▼
        Neon DB
@@ -42,7 +42,7 @@ OAuth     (ORM)               (Whisper + LangGraph)
 | `features` | CRUD for features within projects |
 | `markdown-documents` | Markdown content per feature |
 | `audio-transcription` | Audio capture and Whisper transcription |
-| `ai-generation` | LangGraph pipeline — transcription → structured Markdown |
+| `ai-generation` | LangChain pipeline — transcription → structured Markdown |
 | `calendar` | Feature-to-event mapping and UI |
 | `google-sync` | Google Calendar API sync |
 
@@ -60,13 +60,14 @@ src/
             [featureId]/
     api/
       auth/
+      ai/             # Audio transcription + structuring endpoint
       projects/
       features/
       calendar/
   lib/
     db/           # Prisma client
     auth/         # Better Auth config
-    ai/           # LangGraph pipelines
+    ai/           # Whisper transcription + LangChain structuring
     calendar/     # Google Calendar client
   components/
     ui/
@@ -117,28 +118,28 @@ prisma/
 ## 6. Data Flow — Audio to Markdown
 
 ```
-User records audio
+User records audio (MediaRecorder API → webm blob)
       │
       ▼
-POST /api/features/:id/generate
+POST /api/ai/transcribe-and-structure (FormData with audio file)
       │
       ▼
-Upload audio buffer
+Auth check (getSessionOrThrow) + file validation (≤25MB)
       │
       ▼
-OpenAI Whisper API → raw transcription text
+OpenAI Whisper API (whisper-1) → raw transcription text
       │
       ▼
-LangGraph pipeline:
-  - Node 1: parse transcription intent
-  - Node 2: extract title, summary, requirements
-  - Node 3: format structured Markdown
+LangChain chain (ChatOpenAI gpt-4o-mini):
+  - Prompt template analyzes content
+  - Structures into sections: Overview, Key Points,
+    Tasks/Action Items, Technical Notes, Questions
       │
       ▼
-Save to FeatureDocument (markdownContent)
+Return { transcription, markdown } to client
       │
       ▼
-Return generated Markdown to client
+Client appends markdown to editor (user reviews/edits/saves)
 ```
 
 ## 7. Authentication Flow
