@@ -69,6 +69,7 @@ src/
     (auth)/
     (dashboard)/
       calendar/             # Calendar page with monthly grid
+      settings/             # Settings page (API keys)
       projects/[id]/features/[featureId]/
     api/
       auth/         # Better Auth handler
@@ -108,9 +109,13 @@ prisma/
 - `src/app/(dashboard)/projects/[id]/features/[featureId]/page.tsx` — feature detail page with markdown editor
 - `src/app/(dashboard)/projects/[id]/features/[featureId]/components/audio-record-dialog.tsx` — voice recording dialog with pipeline states
 - `src/app/(dashboard)/projects/[id]/features/[featureId]/hooks/use-audio-recorder.ts` — MediaRecorder hook
-- `src/lib/ai/transcription.ts` — OpenAI Whisper integration
-- `src/lib/ai/structuring.ts` — LangChain text-to-structured-markdown pipeline
-- `src/app/api/ai/transcribe-and-structure/route.ts` — audio processing API endpoint
+- `src/lib/ai/transcription.ts` — OpenAI Whisper integration (accepts per-user API key)
+- `src/lib/ai/structuring.ts` — LangChain text-to-structured-markdown pipeline (accepts per-user API key)
+- `src/app/api/ai/transcribe-and-structure/route.ts` — audio processing API endpoint (fetches user's encrypted key)
+- `src/lib/crypto.ts` — AES-256-GCM encryption/decryption for user API keys
+- `src/lib/db/user-settings.ts` — user settings data access (OpenAI key CRUD)
+- `src/app/(dashboard)/settings/page.tsx` — settings page (API key management)
+- `src/app/(dashboard)/settings/actions.ts` — server actions for API key save/remove
 - `src/app/globals.css` — global styles
 - `next.config.ts` — Next.js config
 

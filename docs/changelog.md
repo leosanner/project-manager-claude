@@ -8,6 +8,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Per-user OpenAI API key management: users provide their own key instead of a shared server-side key
+- Settings page (`/settings`) with encrypted API key save, update, and remove
+- AES-256-GCM encryption utility (`src/lib/crypto.ts`) for secure API key storage
+- User settings data access layer (`src/lib/db/user-settings.ts`)
+- Warning in audio recording dialog when no API key is configured, with link to Settings
+- Settings link in navbar navigation
+- Skeleton loading page for settings route
+- `API_KEY_ENCRYPTION_SECRET` environment variable for key encryption
+
+### Changed
+- AI modules (`transcription.ts`, `structuring.ts`) now accept per-user API key parameter instead of reading from environment
+- API route `/api/ai/transcribe-and-structure` fetches user's encrypted key and returns clear error if missing or invalid
+- Removed server-side `OPENAI_API_KEY` environment variable (each user provides their own)
+
 ### Fixed
 - Fixed microphone not recording: `Permissions-Policy` header blocked microphone access site-wide; changed `microphone=()` to `microphone=(self)` in `next.config.ts`
 - Fixed recording dialog showing "Recording" state even when microphone access failed; `handleStartRecording` now checks `startRecording()` return value before transitioning pipeline state

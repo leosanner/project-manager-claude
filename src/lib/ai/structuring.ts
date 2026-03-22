@@ -26,11 +26,13 @@ Raw transcription:
 {transcription}`;
 
 export async function structureTranscription(
-  transcription: string
+  transcription: string,
+  apiKey: string
 ): Promise<string> {
   const model = new ChatOpenAI({
     modelName: "gpt-4o-mini",
     temperature: 0.3,
+    apiKey,
   });
 
   const prompt = ChatPromptTemplate.fromTemplate(STRUCTURING_PROMPT);

@@ -9,6 +9,7 @@ import { useSyncExternalStore } from "react";
 import {
   LayoutGridIcon,
   CalendarDaysIcon,
+  SettingsIcon,
   PencilLineIcon,
   MenuIcon,
   XIcon,
@@ -37,6 +38,12 @@ const navItems = [
     label: "Calendar",
     icon: CalendarDaysIcon,
     description: "Schedule & deadlines",
+  },
+  {
+    href: "/settings",
+    label: "Settings",
+    icon: SettingsIcon,
+    description: "API keys & preferences",
   },
 ];
 

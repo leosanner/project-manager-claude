@@ -13,6 +13,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   MicIcon,
   SquareIcon,
@@ -20,6 +21,7 @@ import {
   CheckCircleIcon,
   AlertCircleIcon,
   SparklesIcon,
+  KeyIcon,
 } from "lucide-react";
 import { useAudioRecorder } from "../hooks/use-audio-recorder";
 
@@ -27,6 +29,7 @@ type PipelineState = "idle" | "recording" | "processing" | "done" | "error";
 
 interface AudioRecordDialogProps {
   onMarkdownReady: (markdown: string) => void;
+  hasApiKey: boolean;
 }
 
 function formatDuration(seconds: number) {
@@ -37,7 +40,7 @@ function formatDuration(seconds: number) {
   return `${m}:${s}`;
 }
 
-export function AudioRecordDialog({ onMarkdownReady }: AudioRecordDialogProps) {
+export function AudioRecordDialog({ onMarkdownReady, hasApiKey }: AudioRecordDialogProps) {
   const [open, setOpen] = useState(false);
   const [pipelineState, setPipelineState] = useState<PipelineState>("idle");
   const [resultMarkdown, setResultMarkdown] = useState<string | null>(null);
@@ -164,20 +167,39 @@ export function AudioRecordDialog({ onMarkdownReady }: AudioRecordDialogProps) {
                 transition={{ duration: 0.15 }}
                 className="flex flex-col items-center gap-3"
               >
-                {recorderError && (
-                  <p className="text-center text-xs text-danger">
-                    {recorderError}
-                  </p>
+                {!hasApiKey ? (
+                  <>
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-warning/10">
+                      <KeyIcon className="h-7 w-7 text-warning" />
+                    </div>
+                    <p className="text-center text-sm text-fg-secondary">
+                      OpenAI API key required
+                    </p>
+                    <Link
+                      href="/settings"
+                      className="text-sm font-medium text-brand underline underline-offset-2 hover:text-brand/80"
+                    >
+                      Add your key in Settings
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    {recorderError && (
+                      <p className="text-center text-xs text-danger">
+                        {recorderError}
+                      </p>
+                    )}
+                    <button
+                      onClick={handleStartRecording}
+                      className="group flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 transition-all hover:bg-brand/20 hover:scale-105 active:scale-95"
+                    >
+                      <MicIcon className="h-7 w-7 text-brand transition-transform group-hover:scale-110" />
+                    </button>
+                    <p className="text-sm text-fg-secondary">
+                      Click to start recording
+                    </p>
+                  </>
                 )}
-                <button
-                  onClick={handleStartRecording}
-                  className="group flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 transition-all hover:bg-brand/20 hover:scale-105 active:scale-95"
-                >
-                  <MicIcon className="h-7 w-7 text-brand transition-transform group-hover:scale-110" />
-                </button>
-                <p className="text-sm text-fg-secondary">
-                  Click to start recording
-                </p>
               </motion.div>
             )}
 
