@@ -181,6 +181,19 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Fixed recording state race condition (pipeline state now gated on actual recording success)
 - [x] Added `navigator.mediaDevices` availability check and specific error messages for common failures
 
+## Completed (per-user OpenAI API key)
+
+- [x] `encryptedOpenAIKey` column added to User model with Prisma migration
+- [x] AES-256-GCM encryption utility for API key storage (`src/lib/crypto.ts`)
+- [x] User settings data access layer (`src/lib/db/user-settings.ts`)
+- [x] AI modules refactored to accept per-user API key parameter
+- [x] API route fetches user's decrypted key; returns error if missing/invalid
+- [x] Settings page (`/settings`) with save, update, remove API key
+- [x] Settings nav item added to navbar
+- [x] Audio recording dialog shows warning + link to Settings when no key configured
+- [x] Skeleton loading page for settings
+- [x] `API_KEY_ENCRYPTION_SECRET` env var added to `.env.example`
+
 ## In Progress
 
 ## Completed (deployment)

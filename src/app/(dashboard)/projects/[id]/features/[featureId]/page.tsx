@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSessionOrThrow } from "@/lib/auth/session";
 import { getFeature, getProjectById } from "@/lib/db/features";
+import { hasOpenAIKey } from "@/lib/db/user-settings";
 import { FeatureHeader } from "./components/feature-header";
 import { FeatureEditor } from "./components/feature-editor";
 import type { FeatureDetail } from "@/types/feature";
@@ -18,7 +19,10 @@ export default async function FeaturePage({
   const project = await getProjectById(id, user.id);
   if (!project) notFound();
 
-  const feature = await getFeature(featureId, user.id);
+  const [feature, hasKey] = await Promise.all([
+    getFeature(featureId, user.id),
+    hasOpenAIKey(user.id),
+  ]);
   if (!feature) notFound();
 
   const serialized: FeatureDetail = {
@@ -66,6 +70,7 @@ export default async function FeaturePage({
         featureId={featureId}
         projectId={id}
         initialContent={serialized.document?.markdownContent ?? ""}
+        hasApiKey={hasKey}
       />
     </div>
   );

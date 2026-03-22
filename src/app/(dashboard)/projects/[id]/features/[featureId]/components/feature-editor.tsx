@@ -15,10 +15,12 @@ export function FeatureEditor({
   featureId,
   projectId,
   initialContent,
+  hasApiKey,
 }: {
   featureId: string;
   projectId: string;
   initialContent: string;
+  hasApiKey: boolean;
 }) {
   const [content, setContent] = useState(initialContent);
   const [isDirty, setIsDirty] = useState(false);
@@ -47,6 +49,7 @@ export function FeatureEditor({
         <div className="flex items-center gap-2">
           <h2 className="text-sm font-semibold text-fg-primary">Document</h2>
           <AudioRecordDialog
+            hasApiKey={hasApiKey}
             onMarkdownReady={(markdown) => {
               const newContent = content
                 ? `${content}\n\n---\n\n${markdown}`

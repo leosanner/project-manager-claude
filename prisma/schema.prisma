@@ -46,6 +46,8 @@ model User {
   createdAt     DateTime
   updatedAt     DateTime
 
+  encryptedOpenAIKey String?
+
   sessions Session[]
   accounts Account[]
 

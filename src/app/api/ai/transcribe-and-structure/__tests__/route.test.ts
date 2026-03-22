@@ -7,10 +7,15 @@ import { NextRequest } from "next/server";
 var mockGetSession = jest.fn();
 var mockTranscribe = jest.fn();
 var mockStructure = jest.fn();
+var mockGetUserOpenAIKey = jest.fn();
 /* eslint-enable no-var */
 
 jest.mock("@/lib/auth/session", () => ({
   getSessionOrThrow: (...args: unknown[]) => mockGetSession(...args),
+}));
+
+jest.mock("@/lib/db/user-settings", () => ({
+  getUserOpenAIKey: (...args: unknown[]) => mockGetUserOpenAIKey(...args),
 }));
 
 jest.mock("@/lib/ai/transcription", () => ({
@@ -38,6 +43,7 @@ function createAudioRequest(audioData = "fake-audio") {
 beforeEach(() => {
   jest.clearAllMocks();
   mockGetSession.mockResolvedValue({ user: { id: "user-1" } });
+  mockGetUserOpenAIKey.mockResolvedValue("sk-test-key-123");
   mockTranscribe.mockResolvedValue("transcribed text");
   mockStructure.mockResolvedValue("## Overview\n\nStructured");
 });
@@ -51,6 +57,16 @@ describe("POST /api/ai/transcribe-and-structure", () => {
     expect(response.status).toBe(401);
     const data = await response.json();
     expect(data.error).toBe("Unauthorized");
+  });
+
+  it("returns 400 when no API key is configured", async () => {
+    mockGetUserOpenAIKey.mockResolvedValueOnce(null);
+    const request = createAudioRequest();
+    const response = await POST(request);
+
+    expect(response.status).toBe(400);
+    const data = await response.json();
+    expect(data.error).toContain("OpenAI API key not configured");
   });
 
   it("returns 400 when no audio file is provided", async () => {
