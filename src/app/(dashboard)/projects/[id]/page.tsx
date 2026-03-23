@@ -6,6 +6,7 @@ import { CreateFeatureButton } from "./components/create-feature-button";
 import { FeatureCard } from "./components/feature-card";
 import type { FeatureSummary } from "@/types/feature";
 import { ArrowLeftIcon, LayoutListIcon } from "lucide-react";
+import { DeleteProjectButton } from "./components/delete-project-button";
 
 export default async function ProjectPage({
   params,
@@ -43,9 +44,12 @@ export default async function ProjectPage({
       <div className="mb-10">
         <div className="mb-6 flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              {project.name}
-            </h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl font-bold tracking-tight">
+                {project.name}
+              </h1>
+              <DeleteProjectButton projectId={id} projectName={project.name} />
+            </div>
             <p className="mt-2 text-base text-fg-secondary">
               {serialized.length > 0
                 ? `${serialized.length} feature${serialized.length !== 1 ? "s" : ""}`

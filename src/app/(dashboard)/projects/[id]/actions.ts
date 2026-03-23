@@ -10,6 +10,7 @@ import {
   updateFeatureDocument,
   deleteFeature,
 } from "@/lib/db/features";
+import { deleteProject } from "@/lib/db/projects";
 
 export type ActionState = {
   success: boolean;
@@ -158,4 +159,24 @@ export async function toggleCheckboxAction(
   } catch {
     return { success: false, error: "Failed to toggle checkbox" };
   }
+}
+
+export async function deleteProjectFromPageAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const projectId = formData.get("projectId") as string;
+
+  if (!projectId) {
+    return { success: false, error: "Project ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await deleteProject(projectId, user.id);
+  } catch {
+    return { success: false, error: "Failed to delete project" };
+  }
+
+  redirect("/dashboard");
 }

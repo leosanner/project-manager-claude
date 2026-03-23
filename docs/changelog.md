@@ -9,6 +9,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Delete project button on project detail page with confirmation dialog and redirect to dashboard
+- `deleteProjectFromPageAction` server action in project actions with post-delete redirect
+- `DeleteProjectButton` client component (`projects/[id]/components/delete-project-button.tsx`)
 - Enforced 30-character max length on project names and feature titles (client-side `maxLength` + server-side validation)
 - Text truncation with ellipsis on project/feature card titles and feature header to handle long names gracefully
 - `shrink-0` on card action buttons and feature header delete container to prevent buttons disappearing with long names
