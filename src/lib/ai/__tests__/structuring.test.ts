@@ -39,6 +39,7 @@ describe("structureTranscription", () => {
     await structureTranscription("Build a dashboard with charts");
     expect(mockInvoke).toHaveBeenCalledWith({
       transcription: "Build a dashboard with charts",
+      language: "English",
     });
   });
 

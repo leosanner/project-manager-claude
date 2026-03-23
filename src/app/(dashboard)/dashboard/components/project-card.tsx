@@ -125,6 +125,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
               name="name"
               defaultValue={project.name}
               required
+              maxLength={30}
               className="h-8"
             />
             <Button
@@ -146,16 +147,16 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
           </form>
         ) : (
           <>
-            <CardTitle>
+            <CardTitle className="min-w-0">
               <Link
                 href={`/projects/${project.id}`}
-                className="inline-flex items-center gap-1.5 transition-colors hover:text-brand"
+                className="inline-flex items-center gap-1.5 truncate transition-colors hover:text-brand"
               >
                 {project.name}
                 <ArrowRightIcon className="h-3.5 w-3.5 opacity-0 transition-all group-hover/card:translate-x-0.5 group-hover/card:opacity-60" />
               </Link>
             </CardTitle>
-            <CardAction>
+            <CardAction className="shrink-0">
               <Button
                 variant="ghost"
                 size="icon-sm"
@@ -172,7 +173,7 @@ export function ProjectCard({ project }: { project: ProjectSummary }) {
                       variant="ghost"
                       size="icon-sm"
                       aria-label="Delete project"
-                      className="opacity-0 transition-opacity group-hover/card:opacity-100"
+                      className="text-fg-muted opacity-0 transition-opacity hover:text-danger group-hover/card:opacity-100"
                     />
                   }
                 >

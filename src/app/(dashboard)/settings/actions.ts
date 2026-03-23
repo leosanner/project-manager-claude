@@ -28,7 +28,8 @@ export async function saveApiKeyAction(
     await setUserOpenAIKey(user.id, apiKey);
     revalidatePath("/settings");
     return { success: true };
-  } catch {
+  } catch (error) {
+    console.error("Failed to save API key:", error);
     return { success: false, error: "Failed to save API key" };
   }
 }

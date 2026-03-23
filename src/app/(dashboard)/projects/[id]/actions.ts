@@ -10,6 +10,7 @@ import {
   updateFeatureDocument,
   deleteFeature,
 } from "@/lib/db/features";
+import { deleteProject } from "@/lib/db/projects";
 
 export type ActionState = {
   success: boolean;
@@ -26,6 +27,9 @@ export async function createFeatureAction(
 
   if (!title) {
     return { success: false, error: "Feature title is required" };
+  }
+  if (title.length > 30) {
+    return { success: false, error: "Feature title must be 30 characters or less" };
   }
   if (!projectId) {
     return { success: false, error: "Project ID is required" };
@@ -53,6 +57,9 @@ export async function updateFeatureTitleAction(
 
   if (!featureId || !title) {
     return { success: false, error: "Feature ID and title are required" };
+  }
+  if (title.length > 30) {
+    return { success: false, error: "Feature title must be 30 characters or less" };
   }
 
   try {
@@ -152,4 +159,24 @@ export async function toggleCheckboxAction(
   } catch {
     return { success: false, error: "Failed to toggle checkbox" };
   }
+}
+
+export async function deleteProjectFromPageAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const projectId = formData.get("projectId") as string;
+
+  if (!projectId) {
+    return { success: false, error: "Project ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await deleteProject(projectId, user.id);
+  } catch {
+    return { success: false, error: "Failed to delete project" };
+  }
+
+  redirect("/dashboard");
 }

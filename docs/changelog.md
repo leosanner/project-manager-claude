@@ -9,6 +9,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Delete project button on project detail page with confirmation dialog and redirect to dashboard
+- `deleteProjectFromPageAction` server action in project actions with post-delete redirect
+- `DeleteProjectButton` client component (`projects/[id]/components/delete-project-button.tsx`)
+- Enforced 30-character max length on project names and feature titles (client-side `maxLength` + server-side validation)
+- Text truncation with ellipsis on project/feature card titles and feature header to handle long names gracefully
+- `shrink-0` on card action buttons and feature header delete container to prevent buttons disappearing with long names
+
+### Changed
+- Structured markdown output now matches the spoken language instead of always defaulting to English
+- Whisper transcription uses `verbose_json` response format to detect spoken language (ISO-639-1 code)
+- Structuring prompt instructs LLM to write and translate section headers in the detected language
+
+### Added
 - Added `react-markdown`, `remark-gfm`, `rehype-raw` dependencies for structured markdown rendering
 - Added `@tailwindcss/typography` plugin for prose-styled markdown views
 - Added View/Edit tab navigation component (`feature-page-nav.tsx`) for switching between markdown view and edit pages

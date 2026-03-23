@@ -21,6 +21,9 @@ export async function createProjectAction(
   if (!name) {
     return { success: false, error: "Project name is required" };
   }
+  if (name.length > 30) {
+    return { success: false, error: "Project name must be 30 characters or less" };
+  }
 
   try {
     const { user } = await getSessionOrThrow();
@@ -41,6 +44,9 @@ export async function updateProjectNameAction(
 
   if (!projectId || !name) {
     return { success: false, error: "Project ID and name are required" };
+  }
+  if (name.length > 30) {
+    return { success: false, error: "Project name must be 30 characters or less" };
   }
 
   try {

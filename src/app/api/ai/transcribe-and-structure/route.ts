@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const audioBuffer = Buffer.from(await audioFile.arrayBuffer());
-    const transcription = await transcribeAudio(
+    const { text: transcription, language } = await transcribeAudio(
       audioBuffer,
       audioFile.name || "recording.webm",
       apiKey
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const markdown = await structureTranscription(transcription, apiKey);
+    const markdown = await structureTranscription(transcription, apiKey, language);
 
     return NextResponse.json({ transcription, markdown });
   } catch (error) {

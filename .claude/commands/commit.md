@@ -26,7 +26,7 @@ Run `git diff HEAD` to understand all pending changes, then update documentation
 Rules:
 - Keep changelog entries concise and in past tense (e.g. "Added X", "Fixed Y")
 - Only edit sections that are actually affected by the changes
-- Today's date: check `currentDate` in CLAUDE.md if needed
+- Use today's date (`currentDate` from context) when adding or updating changelog entries, version headers, or any date-stamped documentation
 
 ### Step 2 — Run lint and tests
 

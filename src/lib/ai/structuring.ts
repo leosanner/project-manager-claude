@@ -21,13 +21,15 @@ Rules:
 5. If the transcription mentions specific people, features, deadlines, or priorities, highlight them.
 6. Keep the language professional but concise.
 7. Output ONLY the markdown content, no preamble or explanation.
+8. Write the ENTIRE output in {language}, including all section headers. Translate the suggested section names above into {language}.
 
 Raw transcription:
 {transcription}`;
 
 export async function structureTranscription(
   transcription: string,
-  apiKey: string
+  apiKey: string,
+  language: string = "English"
 ): Promise<string> {
   const model = new ChatOpenAI({
     modelName: "gpt-4o-mini",
@@ -38,5 +40,5 @@ export async function structureTranscription(
   const prompt = ChatPromptTemplate.fromTemplate(STRUCTURING_PROMPT);
   const chain = prompt.pipe(model).pipe(new StringOutputParser());
 
-  return chain.invoke({ transcription });
+  return chain.invoke({ transcription, language });
 }

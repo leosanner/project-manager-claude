@@ -60,7 +60,7 @@ export function CreateProjectButton({
         </DialogHeader>
         <form ref={formRef} action={formAction}>
           <div className="grid gap-4">
-            <Input name="name" placeholder="Project name" required autoFocus />
+            <Input name="name" placeholder="Project name" required autoFocus maxLength={30} />
             {state.error && (
               <p className="text-sm text-danger">{state.error}</p>
             )}
