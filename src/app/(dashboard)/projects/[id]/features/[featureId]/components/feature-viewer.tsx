@@ -52,13 +52,11 @@ export function FeatureViewer({
 
   const handleCheckboxToggle = useCallback(
     (index: number) => {
-      setContent((prev) => {
-        const updated = toggleCheckbox(prev, index);
-        toggleCheckboxAction(featureId, projectId, updated);
-        return updated;
-      });
+      const updated = toggleCheckbox(content, index);
+      setContent(updated);
+      toggleCheckboxAction(featureId, projectId, updated);
     },
-    [featureId, projectId]
+    [content, featureId, projectId]
   );
 
   const components: ComponentProps<typeof ReactMarkdown>["components"] =
