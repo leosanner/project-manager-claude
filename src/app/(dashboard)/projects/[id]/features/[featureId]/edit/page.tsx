@@ -2,13 +2,14 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSessionOrThrow } from "@/lib/auth/session";
 import { getFeature, getProjectById } from "@/lib/db/features";
-import { FeatureHeader } from "./components/feature-header";
-import { FeatureViewer } from "./components/feature-viewer";
-import { FeaturePageNav } from "./components/feature-page-nav";
+import { hasOpenAIKey } from "@/lib/db/user-settings";
+import { FeatureHeader } from "../components/feature-header";
+import { FeatureEditor } from "../components/feature-editor";
+import { FeaturePageNav } from "../components/feature-page-nav";
 import type { FeatureDetail } from "@/types/feature";
 import { ChevronRightIcon } from "lucide-react";
 
-export default async function FeaturePage({
+export default async function FeatureEditPage({
   params,
 }: {
   params: Promise<{ id: string; featureId: string }>;
@@ -19,7 +20,10 @@ export default async function FeaturePage({
   const project = await getProjectById(id, user.id);
   if (!project) notFound();
 
-  const feature = await getFeature(featureId, user.id);
+  const [feature, hasKey] = await Promise.all([
+    getFeature(featureId, user.id),
+    hasOpenAIKey(user.id),
+  ]);
   if (!feature) notFound();
 
   const serialized: FeatureDetail = {
@@ -56,23 +60,29 @@ export default async function FeaturePage({
           {project.name}
         </Link>
         <ChevronRightIcon className="h-3 w-3 text-fg-muted/50" />
-        <span className="truncate font-medium text-fg-primary">
+        <Link
+          href={`/projects/${id}/features/${featureId}`}
+          className="text-fg-muted transition-colors hover:text-fg-primary"
+        >
           {feature.title}
-        </span>
+        </Link>
+        <ChevronRightIcon className="h-3 w-3 text-fg-muted/50" />
+        <span className="font-medium text-fg-primary">Edit</span>
       </nav>
 
       <FeaturePageNav
         projectId={id}
         featureId={featureId}
-        activeTab="view"
+        activeTab="edit"
       />
 
       <FeatureHeader feature={serialized} projectId={id} />
 
-      <FeatureViewer
+      <FeatureEditor
         featureId={featureId}
         projectId={id}
         initialContent={serialized.document?.markdownContent ?? ""}
+        hasApiKey={hasKey}
       />
     </div>
   );

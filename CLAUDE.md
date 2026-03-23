@@ -70,7 +70,8 @@ src/
     (dashboard)/
       calendar/             # Calendar page with monthly grid
       settings/             # Settings page (API keys)
-      projects/[id]/features/[featureId]/
+      projects/[id]/features/[featureId]/       # View page (default)
+      projects/[id]/features/[featureId]/edit/  # Edit page
     api/
       auth/         # Better Auth handler
       ai/           # Audio transcription + structuring endpoint
@@ -105,8 +106,11 @@ prisma/
 - `src/app/(dashboard)/calendar/page.tsx` — calendar page (server component)
 - `src/app/(dashboard)/calendar/components/month-calendar.tsx` — month grid calendar (client component)
 - `src/app/(dashboard)/projects/[id]/page.tsx` — project detail page (feature list)
-- `src/app/(dashboard)/projects/[id]/actions.ts` — server actions for feature CRUD + document save
-- `src/app/(dashboard)/projects/[id]/features/[featureId]/page.tsx` — feature detail page with markdown editor
+- `src/app/(dashboard)/projects/[id]/actions.ts` — server actions for feature CRUD + document save + checkbox toggle
+- `src/app/(dashboard)/projects/[id]/features/[featureId]/page.tsx` — feature view page (rendered markdown with interactive checkboxes)
+- `src/app/(dashboard)/projects/[id]/features/[featureId]/edit/page.tsx` — feature edit page (markdown editor)
+- `src/app/(dashboard)/projects/[id]/features/[featureId]/components/feature-viewer.tsx` — markdown renderer with interactive checkboxes (client component)
+- `src/app/(dashboard)/projects/[id]/features/[featureId]/components/feature-page-nav.tsx` — View/Edit tab navigation
 - `src/app/(dashboard)/projects/[id]/features/[featureId]/components/audio-record-dialog.tsx` — voice recording dialog with pipeline states
 - `src/app/(dashboard)/projects/[id]/features/[featureId]/hooks/use-audio-recorder.ts` — MediaRecorder hook
 - `src/lib/ai/transcription.ts` — OpenAI Whisper integration (accepts per-user API key)

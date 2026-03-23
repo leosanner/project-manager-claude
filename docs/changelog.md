@@ -9,6 +9,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Added `react-markdown`, `remark-gfm`, `rehype-raw` dependencies for structured markdown rendering
+- Added `@tailwindcss/typography` plugin for prose-styled markdown views
+- Added View/Edit tab navigation component (`feature-page-nav.tsx`) for switching between markdown view and edit pages
+- Added markdown viewer component (`feature-viewer.tsx`) with `react-markdown` rendering, prose typography, and interactive checkboxes
+- Added `toggleCheckboxAction` server action for persisting checkbox state from the view page
+- Split feature detail into View page (default at `/features/[featureId]`) and Edit page (`/features/[featureId]/edit`)
+
+### Fixed
+- Fixed checkbox toggle not working: replaced index counter with hast node line position to avoid React Strict Mode double-render counter corruption
+- Fixed checkbox toggle crashing with "Cannot update component while rendering" by moving server action call outside React state updater
+
+### Added
 - Per-user OpenAI API key management: users provide their own key instead of a shared server-side key
 - Settings page (`/settings`) with encrypted API key save, update, and remove
 - AES-256-GCM encryption utility (`src/lib/crypto.ts`) for secure API key storage
