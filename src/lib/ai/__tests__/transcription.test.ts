@@ -1,7 +1,7 @@
 import { transcribeAudio } from "../transcription";
 
 jest.mock("openai", () => {
-  const mockCreate = jest.fn().mockResolvedValue({ text: "Hello world" });
+  const mockCreate = jest.fn().mockResolvedValue({ text: "Hello world", language: "english" });
   return jest.fn().mockImplementation(() => ({
     audio: {
       transcriptions: {
@@ -29,13 +29,14 @@ describe("transcribeAudio", () => {
     expect(mockCreate).toHaveBeenCalledTimes(1);
     const callArgs = mockCreate.mock.calls[0][0];
     expect(callArgs.model).toBe("whisper-1");
+    expect(callArgs.response_format).toBe("verbose_json");
     expect(callArgs.file).toBeInstanceOf(File);
     expect(callArgs.file.name).toBe("recording.webm");
   });
 
-  it("returns the transcribed text", async () => {
+  it("returns the transcribed text and detected language", async () => {
     const result = await transcribeAudio(Buffer.from("audio"), "test.webm");
-    expect(result).toBe("Hello world");
+    expect(result).toEqual({ text: "Hello world", language: "english" });
   });
 
   it("propagates API errors", async () => {

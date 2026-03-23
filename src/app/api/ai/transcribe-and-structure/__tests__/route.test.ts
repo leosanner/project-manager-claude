@@ -44,7 +44,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockGetSession.mockResolvedValue({ user: { id: "user-1" } });
   mockGetUserOpenAIKey.mockResolvedValue("sk-test-key-123");
-  mockTranscribe.mockResolvedValue("transcribed text");
+  mockTranscribe.mockResolvedValue({ text: "transcribed text", language: "english" });
   mockStructure.mockResolvedValue("## Overview\n\nStructured");
 });
 
@@ -95,7 +95,7 @@ describe("POST /api/ai/transcribe-and-structure", () => {
   });
 
   it("returns 422 when no speech is detected", async () => {
-    mockTranscribe.mockResolvedValueOnce("   ");
+    mockTranscribe.mockResolvedValueOnce({ text: "   ", language: "english" });
     const request = createAudioRequest();
     const response = await POST(request);
 

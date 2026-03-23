@@ -27,5 +27,5 @@ Review the staged changes (via `git diff --staged`) and update the documentation
 
 - Do not commit anything — only prepare the docs for the user to commit alongside their changes
 - Keep changelog entries concise and in past tense (e.g. "Added X", "Fixed Y")
-- Today's date is available via the `currentDate` context in CLAUDE.md
+- Use today's date (`currentDate` from context) when adding or updating changelog entries, version headers, or any date-stamped documentation
 - Do not touch `docs/architecture.md` unless the architecture actually changed

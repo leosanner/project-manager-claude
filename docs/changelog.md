@@ -8,6 +8,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+- Structured markdown output now matches the spoken language instead of always defaulting to English
+- Whisper transcription uses `verbose_json` response format to detect spoken language (ISO-639-1 code)
+- Structuring prompt instructs LLM to write and translate section headers in the detected language
+
 ### Added
 - Added `react-markdown`, `remark-gfm`, `rehype-raw` dependencies for structured markdown rendering
 - Added `@tailwindcss/typography` plugin for prose-styled markdown views

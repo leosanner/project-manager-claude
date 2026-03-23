@@ -196,6 +196,8 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 
 ## In Progress
 
+- [x] STT language recognition: structured markdown output now preserves the spoken language (detected via Whisper `verbose_json`)
+
 ## Completed (better markdown experience)
 
 - [x] Split feature detail into View page (default) and Edit page (`/edit` subroute)
