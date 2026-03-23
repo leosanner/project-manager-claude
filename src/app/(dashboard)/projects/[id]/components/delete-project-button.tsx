@@ -37,7 +37,7 @@ export function DeleteProjectButton({
         render={
           <Button
             variant="ghost"
-            size="icon-sm"
+            size="icon-lg"
             aria-label="Delete project"
             className="text-fg-muted hover:text-danger"
           />

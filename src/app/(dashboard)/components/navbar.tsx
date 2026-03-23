@@ -105,14 +105,14 @@ export function Navbar({ userName }: { userName: string }) {
     <header className="sticky top-0 z-50">
       {/* Main bar */}
       <div className="bg-background/70 backdrop-blur-xl">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           {/* Logo */}
           <Link href="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="relative flex h-8 w-8 items-center justify-center">
+            <div className="relative flex h-9 w-9 items-center justify-center">
               <div className="absolute inset-0 rounded-lg bg-brand/10 transition-all duration-300 group-hover:bg-brand/15 group-hover:scale-110" />
-              <PencilLineIcon className="relative h-[18px] w-[18px] text-brand transition-transform duration-300 group-hover:rotate-[-8deg]" />
+              <PencilLineIcon className="relative h-5 w-5 text-brand transition-transform duration-300 group-hover:rotate-[-8deg]" />
             </div>
-            <span className="text-[15px] font-semibold tracking-[-0.01em] text-fg-primary">
+            <span className="text-base font-semibold tracking-[-0.01em] text-fg-primary">
               Project Manager
             </span>
           </Link>
@@ -137,7 +137,7 @@ export function Navbar({ userName }: { userName: string }) {
             <button
               ref={buttonRef}
               onClick={() => setOpen(!open)}
-              className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-transparent transition-all duration-200 hover:border-border-muted hover:bg-subtle active:scale-95"
+              className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-transparent transition-all duration-200 hover:border-border-muted hover:bg-subtle active:scale-95"
               aria-label="Toggle menu"
               aria-expanded={open}
             >
@@ -193,7 +193,7 @@ export function Navbar({ userName }: { userName: string }) {
                 duration: 0.2,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="absolute right-4 sm:right-[calc((100vw-72rem)/2+1.5rem)] top-[calc(3.5rem+0.5rem)] z-50 w-[300px] origin-top-right"
+              className="absolute right-4 sm:right-[calc((100vw-72rem)/2+1.5rem)] top-[calc(4rem+0.5rem)] z-50 w-[300px] origin-top-right"
             >
               <div className="overflow-hidden rounded-2xl border border-border-subtle bg-background/95 backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.06)]">
                 {/* User section */}

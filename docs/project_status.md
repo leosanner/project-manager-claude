@@ -205,6 +205,10 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] `getTotalFeatureCount` and `getNextUpcomingFeature` queries added to features data access
 - [x] User name in welcome greeting styled with brand color
 - [x] Dashboard stats enlarged with bigger icons and bolder typography
+- [x] Feature stats bar on project page with total count and per-status breakdown
+- [x] Enlarged navbar (taller bar, bigger logo/title/menu button)
+- [x] Button-style "Back to Dashboard" link on project page
+- [x] Enlarged delete project button
 
 ## In Progress
 
