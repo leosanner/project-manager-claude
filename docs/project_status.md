@@ -194,11 +194,15 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Skeleton loading page for settings
 - [x] `API_KEY_ENCRYPTION_SECRET` env var added to `.env.example`
 
-## In Progress
+## Completed (misc polish)
 
 - [x] STT language recognition: structured markdown output now preserves the spoken language (detected via Whisper `verbose_json`)
 - [x] Enforced 30-char max length on project/feature names (client + server validation, display truncation, action buttons always visible)
 - [x] Delete project button on project detail page with confirmation dialog and redirect to dashboard
+- [x] Removed navbar bottom border for cleaner page separation
+- [x] Enlarged navbar popup menu items (larger padding, icons, panel width) for better usability
+
+## In Progress
 
 ## Completed (better markdown experience)
 

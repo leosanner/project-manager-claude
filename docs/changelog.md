@@ -8,6 +8,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+- Removed bottom border line between navbar and page content for cleaner visual flow
+- Enlarged navbar popup menu buttons with increased padding and icon sizes for better touch targets
+- Widened navbar popup panel from 280px to 300px to accommodate larger button sizing
+- Increased theme switcher button padding for consistency with other menu items
+
 ### Added
 - Delete project button on project detail page with confirmation dialog and redirect to dashboard
 - `deleteProjectFromPageAction` server action in project actions with post-delete redirect
