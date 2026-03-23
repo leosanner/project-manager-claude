@@ -254,7 +254,7 @@ export function FeatureCard({
                       variant="ghost"
                       size="icon-sm"
                       aria-label="Delete feature"
-                      className="opacity-0 transition-opacity group-hover/card:opacity-100"
+                      className="text-fg-muted opacity-0 transition-opacity hover:text-danger group-hover/card:opacity-100"
                     />
                   }
                 >
