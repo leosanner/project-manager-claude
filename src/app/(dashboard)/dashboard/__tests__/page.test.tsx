@@ -11,6 +11,11 @@ jest.mock("@/lib/db/projects", () => ({
   getUserProjects: jest.fn(),
 }));
 
+jest.mock("@/lib/db/features", () => ({
+  getTotalFeatureCount: jest.fn().mockResolvedValue(0),
+  getNextUpcomingFeature: jest.fn().mockResolvedValue(null),
+}));
+
 jest.mock("../components/create-project-button", () => ({
   CreateProjectButton: () => <button>New Project</button>,
 }));

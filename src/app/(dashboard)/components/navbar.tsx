@@ -104,15 +104,15 @@ export function Navbar({ userName }: { userName: string }) {
   return (
     <header className="sticky top-0 z-50">
       {/* Main bar */}
-      <div className="bg-background/70 backdrop-blur-xl border-b border-border-subtle">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+      <div className="bg-background/70 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           {/* Logo */}
           <Link href="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="relative flex h-8 w-8 items-center justify-center">
+            <div className="relative flex h-9 w-9 items-center justify-center">
               <div className="absolute inset-0 rounded-lg bg-brand/10 transition-all duration-300 group-hover:bg-brand/15 group-hover:scale-110" />
-              <PencilLineIcon className="relative h-[18px] w-[18px] text-brand transition-transform duration-300 group-hover:rotate-[-8deg]" />
+              <PencilLineIcon className="relative h-5 w-5 text-brand transition-transform duration-300 group-hover:rotate-[-8deg]" />
             </div>
-            <span className="text-[15px] font-semibold tracking-[-0.01em] text-fg-primary">
+            <span className="text-base font-semibold tracking-[-0.01em] text-fg-primary">
               Project Manager
             </span>
           </Link>
@@ -137,7 +137,7 @@ export function Navbar({ userName }: { userName: string }) {
             <button
               ref={buttonRef}
               onClick={() => setOpen(!open)}
-              className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-transparent transition-all duration-200 hover:border-border-muted hover:bg-subtle active:scale-95"
+              className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-transparent transition-all duration-200 hover:border-border-muted hover:bg-subtle active:scale-95"
               aria-label="Toggle menu"
               aria-expanded={open}
             >
@@ -193,7 +193,7 @@ export function Navbar({ userName }: { userName: string }) {
                 duration: 0.2,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="absolute right-4 sm:right-[calc((100vw-72rem)/2+1.5rem)] top-[calc(3.5rem+0.5rem)] z-50 w-[280px] origin-top-right"
+              className="absolute right-4 sm:right-[calc((100vw-72rem)/2+1.5rem)] top-[calc(4rem+0.5rem)] z-50 w-[300px] origin-top-right"
             >
               <div className="overflow-hidden rounded-2xl border border-border-subtle bg-background/95 backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.06)]">
                 {/* User section */}
@@ -228,14 +228,14 @@ export function Navbar({ userName }: { userName: string }) {
                         <Link
                           href={item.href}
                           onClick={closeMenu}
-                          className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-150 ${
+                          className={`group flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-150 ${
                             isActive
                               ? "bg-brand/8 text-brand"
                               : "text-fg-secondary hover:bg-subtle hover:text-fg-primary"
                           }`}
                         >
                           <div
-                            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+                            className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${
                               isActive
                                 ? "bg-brand/15"
                                 : "bg-muted group-hover:bg-border-subtle"
@@ -278,7 +278,7 @@ export function Navbar({ userName }: { userName: string }) {
                         <button
                           key={value}
                           onClick={() => setTheme(value)}
-                          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-medium transition-all duration-200 ${
+                          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium transition-all duration-200 ${
                             theme === value
                               ? "bg-background text-fg-primary shadow-sm"
                               : "text-fg-muted hover:text-fg-secondary"
@@ -300,9 +300,9 @@ export function Navbar({ userName }: { userName: string }) {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                     onClick={handleSignOut}
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-fg-secondary transition-all duration-150 hover:bg-danger/8 hover:text-danger"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-fg-secondary transition-all duration-150 hover:bg-danger/8 hover:text-danger"
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
                       <LogOutIcon className="h-4 w-4" />
                     </div>
                     Sign out

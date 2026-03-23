@@ -81,6 +81,29 @@ export async function deleteFeature(featureId: string, userId: string) {
   });
 }
 
+export async function getTotalFeatureCount(userId: string) {
+  return prisma.feature.count({
+    where: { project: { userId } },
+  });
+}
+
+export async function getNextUpcomingFeature(userId: string) {
+  return prisma.feature.findFirst({
+    where: {
+      project: { userId },
+      endDate: { gte: new Date() },
+    },
+    select: {
+      id: true,
+      title: true,
+      endDate: true,
+      projectId: true,
+      project: { select: { name: true } },
+    },
+    orderBy: { endDate: "asc" },
+  });
+}
+
 export async function getUserFeaturesWithDueDates(userId: string) {
   return prisma.feature.findMany({
     where: {

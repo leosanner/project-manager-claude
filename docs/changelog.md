@@ -9,6 +9,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- `getTotalFeatureCount` and `getNextUpcomingFeature` data access queries in `src/lib/db/features.ts`
+- Dashboard stats bar now shows total features count and next upcoming feature with relative due date
+- Next upcoming feature title links directly to its feature page
+- `formatRelativeDate` helper for friendly date labels (Today, Tomorrow, in X days/weeks)
+- Feature stats bar on project detail page showing total count and per-status breakdown (Planned, In Progress, Done, Cancelled)
+
+### Changed
+- Removed bottom border line between navbar and page content for cleaner visual flow
+- Enlarged navbar popup menu buttons with increased padding and icon sizes for better touch targets
+- Widened navbar popup panel from 280px to 300px to accommodate larger button sizing
+- Increased theme switcher button padding for consistency with other menu items
+- Enlarged dashboard stats bar with bigger icons, bolder numbers, and more spacing
+- User's first name in welcome greeting now displays in brand color
+- Dashboard data fetching now uses `Promise.all` for parallel queries
+- Replaced active project count stat with total features and next upcoming feature stats
+- Enlarged navbar height, logo icon, title text, and menu button for better visual presence
+- Upgraded "Back to Dashboard" link on project page to a button-style element with border and hover effects
+- Enlarged delete project button from `icon-sm` to `icon-lg` size
+
+### Added
 - Delete project button on project detail page with confirmation dialog and redirect to dashboard
 - `deleteProjectFromPageAction` server action in project actions with post-delete redirect
 - `DeleteProjectButton` client component (`projects/[id]/components/delete-project-button.tsx`)
