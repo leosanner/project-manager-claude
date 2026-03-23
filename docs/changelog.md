@@ -8,6 +8,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Enforced 30-character max length on project names and feature titles (client-side `maxLength` + server-side validation)
+- Text truncation with ellipsis on project/feature card titles and feature header to handle long names gracefully
+- `shrink-0` on card action buttons and feature header delete container to prevent buttons disappearing with long names
+
 ### Changed
 - Structured markdown output now matches the spoken language instead of always defaulting to English
 - Whisper transcription uses `verbose_json` response format to detect spoken language (ISO-639-1 code)

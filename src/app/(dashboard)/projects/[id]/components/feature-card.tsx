@@ -206,6 +206,7 @@ export function FeatureCard({
               name="title"
               defaultValue={feature.title}
               required
+              maxLength={30}
               className="h-8"
             />
             <Button
@@ -227,16 +228,16 @@ export function FeatureCard({
           </form>
         ) : (
           <>
-            <CardTitle>
+            <CardTitle className="min-w-0">
               <Link
                 href={`/projects/${projectId}/features/${feature.id}`}
-                className="inline-flex items-center gap-1.5 transition-colors hover:text-brand"
+                className="inline-flex items-center gap-1.5 truncate transition-colors hover:text-brand"
               >
                 {feature.title}
                 <ArrowRightIcon className="h-3.5 w-3.5 opacity-0 transition-all group-hover/card:translate-x-0.5 group-hover/card:opacity-60" />
               </Link>
             </CardTitle>
-            <CardAction>
+            <CardAction className="shrink-0">
               <Button
                 variant="ghost"
                 size="icon-sm"

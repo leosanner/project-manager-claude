@@ -197,6 +197,7 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 ## In Progress
 
 - [x] STT language recognition: structured markdown output now preserves the spoken language (detected via Whisper `verbose_json`)
+- [x] Enforced 30-char max length on project/feature names (client + server validation, display truncation, action buttons always visible)
 
 ## Completed (better markdown experience)
 

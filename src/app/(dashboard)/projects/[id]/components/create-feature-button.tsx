@@ -62,6 +62,7 @@ export function CreateFeatureButton({ projectId }: { projectId: string }) {
                 placeholder="Feature title"
                 required
                 autoFocus
+                maxLength={30}
               />
             </div>
             <div>

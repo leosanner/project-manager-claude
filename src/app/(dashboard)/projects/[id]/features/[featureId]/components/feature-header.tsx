@@ -150,6 +150,7 @@ export function FeatureHeader({
               name="title"
               defaultValue={feature.title}
               required
+              maxLength={30}
               className="h-10 flex-1 text-xl font-bold"
             />
             <Button
@@ -171,7 +172,7 @@ export function FeatureHeader({
           </form>
         ) : (
           <>
-            <h1 className="text-2xl font-bold tracking-tight">
+            <h1 className="min-w-0 truncate text-2xl font-bold tracking-tight">
               {feature.title}
             </h1>
             <Button
@@ -184,7 +185,7 @@ export function FeatureHeader({
               <PencilIcon />
             </Button>
 
-            <div className="ml-auto flex items-center gap-1">
+            <div className="ml-auto flex shrink-0 items-center gap-1">
               <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
                 <DialogTrigger
                   render={

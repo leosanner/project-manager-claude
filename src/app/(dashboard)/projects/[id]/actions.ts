@@ -27,6 +27,9 @@ export async function createFeatureAction(
   if (!title) {
     return { success: false, error: "Feature title is required" };
   }
+  if (title.length > 30) {
+    return { success: false, error: "Feature title must be 30 characters or less" };
+  }
   if (!projectId) {
     return { success: false, error: "Project ID is required" };
   }
@@ -53,6 +56,9 @@ export async function updateFeatureTitleAction(
 
   if (!featureId || !title) {
     return { success: false, error: "Feature ID and title are required" };
+  }
+  if (title.length > 30) {
+    return { success: false, error: "Feature title must be 30 characters or less" };
   }
 
   try {
