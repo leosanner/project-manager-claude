@@ -201,6 +201,10 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Delete project button on project detail page with confirmation dialog and redirect to dashboard
 - [x] Removed navbar bottom border for cleaner page separation
 - [x] Enlarged navbar popup menu items (larger padding, icons, panel width) for better usability
+- [x] Dashboard stats bar shows total projects, total features, and next upcoming feature
+- [x] `getTotalFeatureCount` and `getNextUpcomingFeature` queries added to features data access
+- [x] User name in welcome greeting styled with brand color
+- [x] Dashboard stats enlarged with bigger icons and bolder typography
 
 ## In Progress
 
