@@ -17,6 +17,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Split feature detail into View page (default at `/features/[featureId]`) and Edit page (`/features/[featureId]/edit`)
 
 ### Fixed
+- Fixed checkbox toggle not working: replaced index counter with hast node line position to avoid React Strict Mode double-render counter corruption
 - Fixed checkbox toggle crashing with "Cannot update component while rendering" by moving server action call outside React state updater
 
 ### Added

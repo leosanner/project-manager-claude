@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, type ComponentProps } from "react";
+import { useState, type ComponentProps } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -8,35 +8,18 @@ import { EyeIcon, FileTextIcon } from "lucide-react";
 import { toggleCheckboxAction } from "../../../actions";
 
 /**
- * Toggle the Nth checkbox in a markdown string.
- * Skips checkboxes inside fenced code blocks.
+ * Toggle a checkbox at a specific line number (1-based) in a markdown string.
  */
-function toggleCheckbox(markdown: string, targetIndex: number): string {
-  let index = 0;
-  let inCodeBlock = false;
+function toggleCheckboxAtLine(markdown: string, lineNumber: number): string {
+  const lines = markdown.split("\n");
+  const idx = lineNumber - 1;
+  if (idx < 0 || idx >= lines.length) return markdown;
 
-  return markdown
-    .split("\n")
-    .map((line) => {
-      if (line.trimStart().startsWith("```")) {
-        inCodeBlock = !inCodeBlock;
-        return line;
-      }
-      if (inCodeBlock) return line;
-
-      return line.replace(
-        /^(\s*- \[)([ x])(\].*)$/,
-        (match, prefix, check, suffix) => {
-          if (index === targetIndex) {
-            index++;
-            return `${prefix}${check === "x" ? " " : "x"}${suffix}`;
-          }
-          index++;
-          return match;
-        }
-      );
-    })
-    .join("\n");
+  lines[idx] = lines[idx].replace(
+    /^(\s*[-*+] \[)([ xX])(\].*)$/,
+    (_, prefix, check, suffix) => `${prefix}${check === " " ? "x" : " "}${suffix}`
+  );
+  return lines.join("\n");
 }
 
 export function FeatureViewer({
@@ -50,41 +33,35 @@ export function FeatureViewer({
 }) {
   const [content, setContent] = useState(initialContent);
 
-  const handleCheckboxToggle = useCallback(
-    (index: number) => {
-      const updated = toggleCheckbox(content, index);
-      setContent(updated);
-      toggleCheckboxAction(featureId, projectId, updated);
+  function handleCheckboxToggle(lineNumber: number) {
+    const updated = toggleCheckboxAtLine(content, lineNumber);
+    if (updated === content) return;
+    setContent(updated);
+    toggleCheckboxAction(featureId, projectId, updated);
+  }
+
+  const components: ComponentProps<typeof ReactMarkdown>["components"] = {
+    input: ({ node, ...props }: React.ComponentProps<"input"> & { node?: { position?: { start?: { line?: number } } } }) => {
+      if (props.type !== "checkbox") {
+        return <input {...props} />;
+      }
+      const lineNumber = node?.position?.start?.line;
+      if (!lineNumber) return <input {...props} />;
+      const checked = props.checked ?? false;
+
+      return (
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={() => handleCheckboxToggle(lineNumber)}
+          className="mr-1.5 h-4 w-4 appearance-none rounded border-2 border-border-default bg-background transition-all duration-150 checked:border-brand checked:bg-brand relative
+            before:absolute before:inset-0 before:flex before:items-center before:justify-center
+            checked:before:content-['✓'] before:text-[11px] before:font-bold before:text-white before:leading-none before:pt-px before:pl-[1px]
+            hover:border-brand/60 hover:shadow-[0_0_0_3px] hover:shadow-brand/10"
+        />
+      );
     },
-    [content, featureId, projectId]
-  );
-
-  const components: ComponentProps<typeof ReactMarkdown>["components"] =
-    useMemo(() => {
-      let checkboxIndex = 0;
-      return {
-        input: (props: React.ComponentProps<"input">) => {
-          if (props.type !== "checkbox") {
-            return <input {...props} />;
-          }
-          const index = checkboxIndex++;
-          const checked = props.checked ?? false;
-
-          return (
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={() => handleCheckboxToggle(index)}
-              className="mr-1.5 h-4 w-4 appearance-none rounded border-2 border-border-default bg-background transition-all duration-150 checked:border-brand checked:bg-brand relative
-                before:absolute before:inset-0 before:flex before:items-center before:justify-center
-                checked:before:content-['✓'] before:text-[11px] before:font-bold before:text-white before:leading-none before:pt-px before:pl-[1px]
-                hover:border-brand/60 hover:shadow-[0_0_0_3px] hover:shadow-brand/10"
-            />
-          );
-        },
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [content, handleCheckboxToggle]);
+  };
 
   if (!content) {
     return (
