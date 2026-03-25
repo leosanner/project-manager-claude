@@ -23,15 +23,70 @@ type HistoryEvent = {
   createdAt: string;
 };
 
+const PAGE_SIZE = 10;
+
+const EVENT_CONFIG = {
+  FEATURE_CREATED: {
+    icon: PlusCircleIcon,
+    iconColor: "text-sky-500",
+    iconBg: "bg-sky-500/10",
+    iconBorder: "border-sky-500/30",
+    pillBg: "bg-sky-500/10",
+    pillText: "text-sky-600 dark:text-sky-400",
+    leftBorder: "border-l-sky-500/50",
+    rowHover: "hover:bg-sky-500/[0.03]",
+    label: "Created",
+    titleColor: "text-fg-primary",
+    strikethrough: false,
+  },
+  FEATURE_CONCLUDED: {
+    icon: CheckCircle2Icon,
+    iconColor: "text-emerald-500",
+    iconBg: "bg-emerald-500/10",
+    iconBorder: "border-emerald-500/30",
+    pillBg: "bg-emerald-500/10",
+    pillText: "text-emerald-600 dark:text-emerald-400",
+    leftBorder: "border-l-emerald-500/50",
+    rowHover: "hover:bg-emerald-500/[0.03]",
+    label: "Completed",
+    titleColor: "text-fg-primary",
+    strikethrough: false,
+  },
+  FEATURE_DELETED: {
+    icon: Trash2Icon,
+    iconColor: "text-danger",
+    iconBg: "bg-danger/10",
+    iconBorder: "border-danger/30",
+    pillBg: "bg-danger/10",
+    pillText: "text-danger",
+    leftBorder: "border-l-danger/50",
+    rowHover: "hover:bg-danger/[0.03]",
+    label: "Deleted",
+    titleColor: "text-fg-muted",
+    strikethrough: true,
+  },
+} as const;
+
+type EventType = keyof typeof EVENT_CONFIG;
+
 export function ProjectHistoryDialog({
   history,
 }: {
   history: HistoryEvent[];
 }) {
   const [open, setOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  function handleOpenChange(next: boolean) {
+    if (!next) setVisibleCount(PAGE_SIZE);
+    setOpen(next);
+  }
+
+  const visible = history.slice(0, visibleCount);
+  const hasMore = visibleCount < history.length;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger
         render={
           <Button
@@ -50,75 +105,70 @@ export function ProjectHistoryDialog({
           </span>
         )}
       </DialogTrigger>
-      <DialogContent className="max-h-[80vh] overflow-y-auto sm:max-w-md">
+      <DialogContent className="flex max-h-[80vh] flex-col sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Project History</DialogTitle>
         </DialogHeader>
         {history.length === 0 ? (
-          <p className="py-6 text-center text-sm text-fg-muted">
+          <p className="py-8 text-center text-sm text-fg-muted">
             No history yet.
           </p>
         ) : (
-          <div className="relative flex flex-col gap-0 pt-2">
-            <div className="absolute left-[18px] top-4 h-[calc(100%-1.5rem)] w-px bg-border-subtle" />
-            {history.map((event) => {
-              const isCreated = event.eventType === "FEATURE_CREATED";
-              const isConcluded = event.eventType === "FEATURE_CONCLUDED";
-              const isDeleted = event.eventType === "FEATURE_DELETED";
+          <div className="flex min-h-0 flex-col overflow-y-auto">
+            <div className="flex flex-col gap-1.5 pt-1 pb-2">
+              {visible.map((event) => {
+                const type = (event.eventType in EVENT_CONFIG
+                  ? event.eventType
+                  : "FEATURE_CREATED") as EventType;
+                const cfg = EVENT_CONFIG[type];
+                const Icon = cfg.icon;
 
-              const icon = isCreated ? (
-                <PlusCircleIcon className="h-3.5 w-3.5 text-fg-muted" />
-              ) : isConcluded ? (
-                <CheckCircle2Icon className="h-3.5 w-3.5 text-emerald-500" />
-              ) : (
-                <Trash2Icon className="h-3.5 w-3.5 text-danger" />
-              );
+                const date = new Date(event.createdAt).toLocaleDateString(
+                  "en-US",
+                  { month: "short", day: "numeric", year: "numeric" }
+                );
 
-              const iconBg = isCreated
-                ? "bg-muted"
-                : isConcluded
-                  ? "bg-emerald-500/10"
-                  : "bg-danger/10";
-
-              const label = isCreated
-                ? "Feature created"
-                : isConcluded
-                  ? "Marked as complete"
-                  : "Feature deleted";
-
-              const titleColor = isDeleted
-                ? "text-fg-muted line-through"
-                : "text-fg-primary";
-
-              const date = new Date(event.createdAt).toLocaleDateString(
-                "en-US",
-                { month: "short", day: "numeric", year: "numeric" }
-              );
-
-              return (
-                <div
-                  key={event.id}
-                  className="relative flex items-start gap-4 py-3"
-                >
+                return (
                   <div
-                    className={`relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border-subtle ${iconBg}`}
+                    key={event.id}
+                    className={`group flex items-center gap-4 rounded-lg border border-transparent border-l-2 ${cfg.leftBorder} px-4 py-3.5 transition-colors ${cfg.rowHover}`}
                   >
-                    {icon}
+                    {/* Icon */}
+                    <div
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${cfg.iconBorder} ${cfg.iconBg}`}
+                    >
+                      <Icon className={`h-3.5 w-3.5 ${cfg.iconColor}`} />
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${cfg.pillBg} ${cfg.pillText}`}
+                        >
+                          {cfg.label}
+                        </span>
+                        <time className="text-[11px] text-fg-muted">{date}</time>
+                      </div>
+                      <p
+                        className={`truncate text-sm font-medium ${cfg.titleColor} ${cfg.strikethrough ? "line-through opacity-60" : ""}`}
+                      >
+                        {event.featureTitle}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex min-w-0 flex-1 items-center gap-3 pt-1.5">
-                    <p className="min-w-0 flex-1 text-sm">
-                      <span className="text-fg-secondary">{label}: </span>
-                      <span className={`font-medium ${titleColor}`}>
-                        &ldquo;{event.featureTitle}&rdquo;
-                      </span>
-                    </p>
-                    <time className="shrink-0 text-xs text-fg-muted">
-                      {date}
-                    </time>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+            {hasMore && (
+              <button
+                type="button"
+                onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                className="mx-1 mb-1 rounded-lg border border-border-subtle py-2.5 text-xs font-medium text-fg-secondary transition-colors hover:border-border-muted hover:bg-muted hover:text-fg-primary"
+              >
+                Show more ({history.length - visibleCount} remaining)
+              </button>
+            )}
           </div>
         )}
       </DialogContent>
