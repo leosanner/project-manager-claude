@@ -11,6 +11,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - Fixed `ProjectHistoryEventType` import in `src/lib/db/history.ts` — changed path from `@/generated/prisma` to `@/generated/prisma/client` to resolve Vercel build error
 - Wired `createHistoryEvent` into `createFeatureAction` so feature creation events are now recorded in project history
+- Fixed duplicate history event on feature creation — `FEATURE_CREATED` event was being recorded twice (once inside `createFeature` transaction, once explicitly in `createFeatureAction`); removed the redundant call from the action
 
 ### Changed
 - Project History moved from inline timeline section to a popup dialog — "History" button with event count badge appears in the project page header next to "Create Feature"; same timeline content, now in a scrollable modal
