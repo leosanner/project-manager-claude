@@ -212,6 +212,8 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 
 ## In Progress
 
+- [ ] Conclude feature UI (green checkmark button on feature card) and project history section on project page
+
 ## Completed (better markdown experience)
 
 - [x] Split feature detail into View page (default) and Edit page (`/edit` subroute)

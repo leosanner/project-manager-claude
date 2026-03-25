@@ -25,13 +25,19 @@ export async function createFeature(
   userId: string,
   data: { title: string; dueDate?: Date | null }
 ) {
-  return prisma.feature.create({
-    data: {
-      title: data.title,
-      endDate: data.dueDate ?? null,
-      project: { connect: { id: projectId, userId } },
-      document: { create: {} },
-    },
+  return prisma.$transaction(async (tx) => {
+    const feature = await tx.feature.create({
+      data: {
+        title: data.title,
+        endDate: data.dueDate ?? null,
+        project: { connect: { id: projectId, userId } },
+        document: { create: {} },
+      },
+    });
+    await tx.projectHistoryEvent.create({
+      data: { projectId, eventType: "FEATURE_CREATED", featureTitle: data.title },
+    });
+    return feature;
   });
 }
 
@@ -76,8 +82,38 @@ export async function updateFeaturePriority(
 }
 
 export async function deleteFeature(featureId: string, userId: string) {
-  return prisma.feature.delete({
-    where: { id: featureId, project: { userId } },
+  return prisma.$transaction(async (tx) => {
+    const feature = await tx.feature.findFirst({
+      where: { id: featureId, project: { userId } },
+      select: { title: true, projectId: true },
+    });
+    if (!feature) throw new Error("Feature not found");
+    await tx.feature.delete({ where: { id: featureId } });
+    await tx.projectHistoryEvent.create({
+      data: {
+        projectId: feature.projectId,
+        eventType: "FEATURE_DELETED",
+        featureTitle: feature.title,
+      },
+    });
+  });
+}
+
+export async function concludeFeature(featureId: string, userId: string) {
+  return prisma.$transaction(async (tx) => {
+    const feature = await tx.feature.findFirst({
+      where: { id: featureId, project: { userId } },
+      select: { title: true, projectId: true },
+    });
+    if (!feature) throw new Error("Feature not found");
+    await tx.feature.delete({ where: { id: featureId } });
+    await tx.projectHistoryEvent.create({
+      data: {
+        projectId: feature.projectId,
+        eventType: "FEATURE_CONCLUDED",
+        featureTitle: feature.title,
+      },
+    });
   });
 }
 

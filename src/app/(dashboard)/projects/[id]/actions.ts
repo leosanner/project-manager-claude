@@ -9,6 +9,7 @@ import {
   updateFeaturePriority,
   updateFeatureDocument,
   deleteFeature,
+  concludeFeature,
 } from "@/lib/db/features";
 import { deleteProject } from "@/lib/db/projects";
 
@@ -115,6 +116,27 @@ export async function deleteFeatureAction(
     await deleteFeature(featureId, user.id);
   } catch {
     return { success: false, error: "Failed to delete feature" };
+  }
+
+  redirect(`/projects/${projectId}`);
+}
+
+export async function concludeFeatureAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const featureId = formData.get("featureId") as string;
+  const projectId = formData.get("projectId") as string;
+
+  if (!featureId) {
+    return { success: false, error: "Feature ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await concludeFeature(featureId, user.id);
+  } catch {
+    return { success: false, error: "Failed to conclude feature" };
   }
 
   redirect(`/projects/${projectId}`);

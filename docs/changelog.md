@@ -9,6 +9,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- `ProjectHistoryEventType` enum and `ProjectHistoryEvent` model to Prisma schema; migration `20260325170728_add_project_history`
+- `src/lib/db/history.ts` with `createHistoryEvent` and `getProjectHistory` data access functions
+- `concludeFeature` DB function in `src/lib/db/features.ts` — hard-deletes a feature and logs a `FEATURE_CONCLUDED` history event in a single transaction
+- `concludeFeatureAction` server action in project actions file
+- History logging on `createFeature` (`FEATURE_CREATED`) and `deleteFeature` (`FEATURE_DELETED`) using Prisma `$transaction`
+
+### Changed
+- `createFeature` and `deleteFeature` now run inside `prisma.$transaction` to atomically write history events alongside the main operation
+
+### Added (previous)
 - `getTotalFeatureCount` and `getNextUpcomingFeature` data access queries in `src/lib/db/features.ts`
 - Dashboard stats bar now shows total features count and next upcoming feature with relative due date
 - Next upcoming feature title links directly to its feature page
