@@ -9,6 +9,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- Conclude button (green `CheckCircle2Icon`) on feature cards — appears on hover between edit and delete, opens a confirmation dialog with emerald-styled submit button
+- `concludeFeatureAction` server action wired to the conclude dialog form
+- Project History timeline section on the project detail page — vertical timeline with event icons, labels, and dates; shows FEATURE_CREATED (neutral), FEATURE_CONCLUDED (emerald), and FEATURE_DELETED (red) events; only visible when history exists
+- `getProjectHistory` fetched in parallel with features on the project page using `Promise.all`
+
+### Added (previous)
 - `ProjectHistoryEventType` enum and `ProjectHistoryEvent` model to Prisma schema; migration `20260325170728_add_project_history`
 - `src/lib/db/history.ts` with `createHistoryEvent` and `getProjectHistory` data access functions
 - `concludeFeature` DB function in `src/lib/db/features.ts` — hard-deletes a feature and logs a `FEATURE_CONCLUDED` history event in a single transaction

@@ -35,11 +35,13 @@ import {
   XIcon,
   ArrowRightIcon,
   CalendarIcon,
+  CheckCircle2Icon,
 } from "lucide-react";
 import {
   updateFeatureTitleAction,
   updateFeaturePriorityAction,
   deleteFeatureAction,
+  concludeFeatureAction,
   type ActionState,
 } from "../actions";
 import type { FeatureSummary } from "@/types/feature";
@@ -136,6 +138,7 @@ export function FeatureCard({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [concludeOpen, setConcludeOpen] = useState(false);
   const [priorityOpen, setPriorityOpen] = useState(false);
   const mounted = useIsMounted();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -157,6 +160,17 @@ export function FeatureCard({
       const result = await deleteFeatureAction(prevState, formData);
       if (result.success) {
         setDeleteOpen(false);
+      }
+      return result;
+    },
+    initialState,
+  );
+
+  const [concludeState, concludeAction, isConcluding] = useActionState(
+    async (prevState: ActionState, formData: FormData) => {
+      const result = await concludeFeatureAction(prevState, formData);
+      if (result.success) {
+        setConcludeOpen(false);
       }
       return result;
     },
@@ -247,6 +261,57 @@ export function FeatureCard({
               >
                 <PencilIcon />
               </Button>
+              <Dialog open={concludeOpen} onOpenChange={setConcludeOpen}>
+                <DialogTrigger
+                  render={
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      aria-label="Mark feature as complete"
+                      className="text-fg-muted opacity-0 transition-opacity hover:text-emerald-500 group-hover/card:opacity-100"
+                    />
+                  }
+                >
+                  <CheckCircle2Icon />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Mark as Complete</DialogTitle>
+                    <DialogDescription>
+                      Mark &ldquo;{feature.title}&rdquo; as complete? This will
+                      remove the feature and record it in the project history.
+                      This action cannot be undone.
+                    </DialogDescription>
+                  </DialogHeader>
+                  {concludeState.error && (
+                    <p className="text-sm text-danger">{concludeState.error}</p>
+                  )}
+                  <DialogFooter>
+                    <DialogClose render={<Button variant="outline" />}>
+                      Cancel
+                    </DialogClose>
+                    <form action={concludeAction}>
+                      <input
+                        type="hidden"
+                        name="featureId"
+                        value={feature.id}
+                      />
+                      <input
+                        type="hidden"
+                        name="projectId"
+                        value={projectId}
+                      />
+                      <Button
+                        type="submit"
+                        disabled={isConcluding}
+                        className="bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:ring-emerald-500"
+                      >
+                        {isConcluding ? "Completing..." : "Mark as Complete"}
+                      </Button>
+                    </form>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
               <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
                 <DialogTrigger
                   render={

@@ -210,9 +210,14 @@ Core infrastructure is being established: local DB, testing, and auth/ORM config
 - [x] Button-style "Back to Dashboard" link on project page
 - [x] Enlarged delete project button
 
-## In Progress
+## Completed (conclude feature + project history)
 
-- [ ] Conclude feature UI (green checkmark button on feature card) and project history section on project page
+- [x] Conclude button on feature cards (green checkmark, hover-reveal, confirmation dialog with emerald styling)
+- [x] `concludeFeatureAction` server action
+- [x] Project History timeline on project detail page (vertical timeline, event icons, created/concluded/deleted labels)
+- [x] History fetched in parallel with features via `Promise.all`
+
+## In Progress
 
 ## Completed (better markdown experience)
 
