@@ -8,6 +8,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- Fixed `ProjectHistoryEventType` import in `src/lib/db/history.ts` — changed path from `@/generated/prisma` to `@/generated/prisma/client` to resolve Vercel build error
+- Wired `createHistoryEvent` into `createFeatureAction` so feature creation events are now recorded in project history
+
 ### Changed
 - Project History moved from inline timeline section to a popup dialog — "History" button with event count badge appears in the project page header next to "Create Feature"; same timeline content, now in a scrollable modal
 - Redesigned history dialog rows with distinct per-event-type color system (sky blue for created, emerald for completed, red for deleted), colored left border accent, icon ring, pill badge label, and more padding; dialog widened to `sm:max-w-lg`; "load more" pagination added (10 events per page, resets on close)

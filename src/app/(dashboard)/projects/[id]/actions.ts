@@ -12,6 +12,7 @@ import {
   concludeFeature,
 } from "@/lib/db/features";
 import { deleteProject } from "@/lib/db/projects";
+import { createHistoryEvent } from "@/lib/db/history";
 
 export type ActionState = {
   success: boolean;
@@ -41,6 +42,7 @@ export async function createFeatureAction(
   try {
     const { user } = await getSessionOrThrow();
     await createFeature(projectId, user.id, { title, dueDate });
+    await createHistoryEvent(projectId, "FEATURE_CREATED", title);
     revalidatePath(`/projects/${projectId}`);
     return { success: true };
   } catch {

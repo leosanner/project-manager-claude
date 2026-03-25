@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import type { ProjectHistoryEventType } from "@/generated/prisma";
+import type { ProjectHistoryEventType } from "@/generated/prisma/client";
 
 export async function createHistoryEvent(
   projectId: string,
