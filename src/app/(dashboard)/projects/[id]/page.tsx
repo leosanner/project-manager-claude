@@ -78,7 +78,7 @@ export default async function ProjectPage({
           </div>
           <div className="flex items-center gap-2">
             {serializedHistory.length > 0 && (
-              <ProjectHistoryDialog history={serializedHistory} />
+              <ProjectHistoryDialog history={serializedHistory} projectId={id} />
             )}
             <CreateFeatureButton projectId={id} />
           </div>

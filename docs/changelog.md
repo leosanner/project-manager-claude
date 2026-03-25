@@ -11,12 +11,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - Fixed `ProjectHistoryEventType` import in `src/lib/db/history.ts` — changed path from `@/generated/prisma` to `@/generated/prisma/client` to resolve Vercel build error
 - Wired `createHistoryEvent` into `createFeatureAction` so feature creation events are now recorded in project history
+- Fixed duplicate history event on feature creation — `FEATURE_CREATED` event was being recorded twice (once inside `createFeature` transaction, once explicitly in `createFeatureAction`); removed the redundant call from the action
 
 ### Changed
 - Project History moved from inline timeline section to a popup dialog — "History" button with event count badge appears in the project page header next to "Create Feature"; same timeline content, now in a scrollable modal
 - Redesigned history dialog rows with distinct per-event-type color system (sky blue for created, emerald for completed, red for deleted), colored left border accent, icon ring, pill badge label, and more padding; dialog widened to `sm:max-w-lg`; "load more" pagination added (10 events per page, resets on close)
 
 ### Added
+- Delete button (X icon) on each history event row — appears on hover, removes the event via `deleteHistoryEventAction` server action with `useTransition` for non-blocking UI
+- `deleteHistoryEvent` data access function in `src/lib/db/history.ts`
+- `deleteHistoryEventAction` server action in project actions
+
+### Added (conclude & history)
 - Conclude button (green `CheckCircle2Icon`) on feature cards — appears on hover between edit and delete, opens a confirmation dialog with emerald-styled submit button
 - `concludeFeatureAction` server action wired to the conclude dialog form
 - Project History timeline section on the project detail page — vertical timeline with event icons, labels, and dates; shows FEATURE_CREATED (neutral), FEATURE_CONCLUDED (emerald), and FEATURE_DELETED (red) events; only visible when history exists
