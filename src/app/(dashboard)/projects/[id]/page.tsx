@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSessionOrThrow } from "@/lib/auth/session";
 import { getProjectById, getProjectFeatures } from "@/lib/db/features";
+import { getProjectHistory } from "@/lib/db/history";
 import { CreateFeatureButton } from "./components/create-feature-button";
 import { FeatureCard } from "./components/feature-card";
+import { ProjectHistoryDialog } from "./components/project-history-dialog";
 import type { FeatureSummary } from "@/types/feature";
 import {
   ArrowLeftIcon,
@@ -27,7 +29,17 @@ export default async function ProjectPage({
   const project = await getProjectById(id, user.id);
   if (!project) notFound();
 
-  const features = await getProjectFeatures(id, user.id);
+  const [features, history] = await Promise.all([
+    getProjectFeatures(id, user.id),
+    getProjectHistory(id, user.id),
+  ]);
+
+  const serializedHistory = history.map((h) => ({
+    id: h.id,
+    eventType: h.eventType,
+    featureTitle: h.featureTitle,
+    createdAt: h.createdAt.toISOString(),
+  }));
 
   const serialized: FeatureSummary[] = features.map((f) => ({
     id: f.id,
@@ -64,7 +76,12 @@ export default async function ProjectPage({
               <DeleteProjectButton projectId={id} projectName={project.name} />
             </div>
           </div>
-          <CreateFeatureButton projectId={id} />
+          <div className="flex items-center gap-2">
+            {serializedHistory.length > 0 && (
+              <ProjectHistoryDialog history={serializedHistory} />
+            )}
+            <CreateFeatureButton projectId={id} />
+          </div>
         </div>
 
         {/* Feature stats */}
@@ -150,6 +167,7 @@ export default async function ProjectPage({
           </p>
         </div>
       )}
+
     </div>
   );
 }

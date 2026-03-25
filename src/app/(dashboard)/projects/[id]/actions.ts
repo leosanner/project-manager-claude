@@ -9,8 +9,10 @@ import {
   updateFeaturePriority,
   updateFeatureDocument,
   deleteFeature,
+  concludeFeature,
 } from "@/lib/db/features";
 import { deleteProject } from "@/lib/db/projects";
+import { createHistoryEvent } from "@/lib/db/history";
 
 export type ActionState = {
   success: boolean;
@@ -40,6 +42,7 @@ export async function createFeatureAction(
   try {
     const { user } = await getSessionOrThrow();
     await createFeature(projectId, user.id, { title, dueDate });
+    await createHistoryEvent(projectId, "FEATURE_CREATED", title);
     revalidatePath(`/projects/${projectId}`);
     return { success: true };
   } catch {
@@ -115,6 +118,27 @@ export async function deleteFeatureAction(
     await deleteFeature(featureId, user.id);
   } catch {
     return { success: false, error: "Failed to delete feature" };
+  }
+
+  redirect(`/projects/${projectId}`);
+}
+
+export async function concludeFeatureAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const featureId = formData.get("featureId") as string;
+  const projectId = formData.get("projectId") as string;
+
+  if (!featureId) {
+    return { success: false, error: "Feature ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await concludeFeature(featureId, user.id);
+  } catch {
+    return { success: false, error: "Failed to conclude feature" };
   }
 
   redirect(`/projects/${projectId}`);
