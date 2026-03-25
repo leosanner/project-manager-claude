@@ -12,6 +12,7 @@ import {
   concludeFeature,
 } from "@/lib/db/features";
 import { deleteProject } from "@/lib/db/projects";
+import { deleteHistoryEvent } from "@/lib/db/history";
 
 export type ActionState = {
   success: boolean;
@@ -180,6 +181,24 @@ export async function toggleCheckboxAction(
     return { success: true };
   } catch {
     return { success: false, error: "Failed to toggle checkbox" };
+  }
+}
+
+export async function deleteHistoryEventAction(
+  eventId: string,
+  projectId: string
+): Promise<ActionState> {
+  if (!eventId) {
+    return { success: false, error: "Event ID is required" };
+  }
+
+  try {
+    const { user } = await getSessionOrThrow();
+    await deleteHistoryEvent(eventId, user.id);
+    revalidatePath(`/projects/${projectId}`);
+    return { success: true };
+  } catch {
+    return { success: false, error: "Failed to delete history event" };
   }
 }
 

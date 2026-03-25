@@ -11,6 +11,12 @@ export async function createHistoryEvent(
   });
 }
 
+export async function deleteHistoryEvent(eventId: string, userId: string) {
+  return prisma.projectHistoryEvent.delete({
+    where: { id: eventId, project: { userId } },
+  });
+}
+
 export async function getProjectHistory(projectId: string, userId: string) {
   return prisma.projectHistoryEvent.findMany({
     where: { projectId, project: { userId } },

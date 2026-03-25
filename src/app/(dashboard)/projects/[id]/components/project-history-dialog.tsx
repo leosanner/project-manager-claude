@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,7 +14,9 @@ import {
   PlusCircleIcon,
   CheckCircle2Icon,
   Trash2Icon,
+  XIcon,
 } from "lucide-react";
+import { deleteHistoryEventAction } from "../actions";
 
 type HistoryEvent = {
   id: string;
@@ -71,11 +73,14 @@ type EventType = keyof typeof EVENT_CONFIG;
 
 export function ProjectHistoryDialog({
   history,
+  projectId,
 }: {
   history: HistoryEvent[];
+  projectId: string;
 }) {
   const [open, setOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [isPending, startTransition] = useTransition();
 
   function handleOpenChange(next: boolean) {
     if (!next) setVisibleCount(PAGE_SIZE);
@@ -156,6 +161,21 @@ export function ProjectHistoryDialog({
                         {event.featureTitle}
                       </p>
                     </div>
+
+                    {/* Delete button */}
+                    <button
+                      type="button"
+                      disabled={isPending}
+                      onClick={() => {
+                        startTransition(async () => {
+                          await deleteHistoryEventAction(event.id, projectId);
+                        });
+                      }}
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-fg-muted opacity-0 transition-all hover:bg-danger/10 hover:text-danger group-hover:opacity-100 disabled:opacity-50"
+                      aria-label={`Remove history event: ${event.featureTitle}`}
+                    >
+                      <XIcon className="h-3.5 w-3.5" />
+                    </button>
                   </div>
                 );
               })}
