@@ -5,6 +5,7 @@ import { getProjectById, getProjectFeatures } from "@/lib/db/features";
 import { getProjectHistory } from "@/lib/db/history";
 import { CreateFeatureButton } from "./components/create-feature-button";
 import { FeatureCard } from "./components/feature-card";
+import { ProjectHistoryDialog } from "./components/project-history-dialog";
 import type { FeatureSummary } from "@/types/feature";
 import {
   ArrowLeftIcon,
@@ -14,8 +15,6 @@ import {
   CheckCircle2Icon,
   CircleSlashIcon,
   CircleDashedIcon,
-  PlusCircleIcon,
-  Trash2Icon,
 } from "lucide-react";
 import { DeleteProjectButton } from "./components/delete-project-button";
 
@@ -77,7 +76,12 @@ export default async function ProjectPage({
               <DeleteProjectButton projectId={id} projectName={project.name} />
             </div>
           </div>
-          <CreateFeatureButton projectId={id} />
+          <div className="flex items-center gap-2">
+            {serializedHistory.length > 0 && (
+              <ProjectHistoryDialog history={serializedHistory} />
+            )}
+            <CreateFeatureButton projectId={id} />
+          </div>
         </div>
 
         {/* Feature stats */}
@@ -164,73 +168,6 @@ export default async function ProjectPage({
         </div>
       )}
 
-      {serializedHistory.length > 0 && (
-        <div className="mt-16">
-          <div className="mb-5 flex items-center gap-3">
-            <h2 className="text-sm font-semibold uppercase tracking-widest text-fg-muted">
-              Project History
-            </h2>
-            <div className="h-px flex-1 bg-border-subtle" />
-          </div>
-          <div className="relative flex flex-col gap-0">
-            <div className="absolute left-[18px] top-2 h-[calc(100%-1rem)] w-px bg-border-subtle" />
-            {serializedHistory.map((event) => {
-              const isCreated = event.eventType === "FEATURE_CREATED";
-              const isConcluded = event.eventType === "FEATURE_CONCLUDED";
-              const isDeleted = event.eventType === "FEATURE_DELETED";
-
-              const icon = isCreated ? (
-                <PlusCircleIcon className="h-3.5 w-3.5 text-fg-muted" />
-              ) : isConcluded ? (
-                <CheckCircle2Icon className="h-3.5 w-3.5 text-emerald-500" />
-              ) : (
-                <Trash2Icon className="h-3.5 w-3.5 text-danger" />
-              );
-
-              const iconBg = isCreated
-                ? "bg-muted"
-                : isConcluded
-                  ? "bg-emerald-500/10"
-                  : "bg-danger/10";
-
-              const label = isCreated
-                ? "Feature created"
-                : isConcluded
-                  ? "Marked as complete"
-                  : "Feature deleted";
-
-              const titleColor = isDeleted ? "text-fg-muted line-through" : "text-fg-primary";
-
-              const date = new Date(event.createdAt).toLocaleDateString(
-                "en-US",
-                { month: "short", day: "numeric", year: "numeric" }
-              );
-
-              return (
-                <div
-                  key={event.id}
-                  className="relative flex items-start gap-4 py-3"
-                >
-                  <div
-                    className={`relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border-subtle ${iconBg}`}
-                  >
-                    {icon}
-                  </div>
-                  <div className="flex min-w-0 flex-1 items-center gap-3 pt-1.5">
-                    <p className="min-w-0 flex-1 text-sm">
-                      <span className="text-fg-secondary">{label}: </span>
-                      <span className={`font-medium ${titleColor}`}>
-                        &ldquo;{event.featureTitle}&rdquo;
-                      </span>
-                    </p>
-                    <time className="shrink-0 text-xs text-fg-muted">{date}</time>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
